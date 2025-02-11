@@ -14,7 +14,7 @@ import java.sql.SQLException;
  * @author Sanduni
  */
 public class DBUtil {
-    private static final String URL = "jdbc:mysql://localhost:3306/smartlibrarydb";
+    private static final String URL = "jdbc:mysql://localhost:3306/cabservicedb";
     private static final String user = "root";
     private static final String password = "";
     
