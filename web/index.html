@@ -1,21 +1,55 @@
 <!DOCTYPE html>
-<!--
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit this template
--->
-<html>
-    <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <body>
-        <div>TODO write content</div>
-        <form action="DriverListJSP.jsp" method="get">
-    <button type="submit">View Driver List</button>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Management</title>
+    <style>
+        /* Basic style for the navigation bar */
+        nav {
+            background-color: #333;
+            padding: 10px;
+        }
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            padding: 8px 16px;
+            background-color: #555;
+            border-radius: 5px;
+        }
+        nav ul li a:hover {
+            background-color: #777;
+        }
+    </style>
+</head>
+<body>
 
+    <!-- Navigation Bar -->
+    <nav>
+        <ul>
+            <li><a href="DriverListJSP.jsp">View Driver List</a></li>
+            <li><a href="vehicle-registration.jsp">Vehicle Registration</a></li>
+            <li><a href="driver_vehicle_registration.jsp">Driver Vehicle Registration</a></li>
+            <li><a href="driver_registration.jsp">Driver Registration</a></li>
+            <li><a href="vehicleListJSP.jsp">Vehicle List</a></li>
+        </ul>
+    </nav>
 
-</form>
+    <div>
+        <h2>Welcome to the Vehicle Management System</h2>
+        <p>Select an option from the menu above to get started.</p>
+    </div>
 
-    </body>
+</body>
 </html>
