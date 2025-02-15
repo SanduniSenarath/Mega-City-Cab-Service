@@ -38,7 +38,7 @@
         </tr>
         <%
             try {
-                URL url = new URL("http://localhost:8080/Mega_City_Cab_Service/api/books/getAllBooks");
+                URL url = new URL("http://localhost:8080/Mega_City_Cab_Service/api/drivers/getAll");
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestMethod("GET");
                 conn.setRequestProperty("Accept", "application/json");
