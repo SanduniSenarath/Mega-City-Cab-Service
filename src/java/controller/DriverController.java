@@ -1,6 +1,8 @@
 package controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -25,11 +27,17 @@ public class DriverController {
     @Path("/add")
     public Response addDriver(Driver driver) {
         boolean success = driverService.addDriver(driver);
-        if (success) {
-            return Response.status(Response.Status.CREATED).entity("Driver added successfully").build();
-        } else {
-            return Response.status(Response.Status.BAD_REQUEST).entity("Failed to add driver").build();
-        }
+         Map<String, Object> response = new HashMap<>();
+
+    if (success) {
+        response.put("success", true);
+        response.put("message", "Driver added successfully");
+        return Response.status(Response.Status.CREATED).entity(response).build();
+    } else {
+        response.put("success", false);
+        response.put("message", "Failed to add driver");
+        return Response.status(Response.Status.BAD_REQUEST).entity(response).build();
+    }
     }
 
     @GET

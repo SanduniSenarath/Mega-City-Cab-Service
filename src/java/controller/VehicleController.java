@@ -1,6 +1,8 @@
 package controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -25,11 +27,17 @@ public class VehicleController {
     @Path("/add")
     public Response addVehicle(Vehicle vehicle) {
         boolean success = vehicleService.addVehicle(vehicle);
-        if (success) {
-            return Response.status(Response.Status.CREATED).entity("Vehicle added successfully").build();
-        } else {
-            return Response.status(Response.Status.BAD_REQUEST).entity("Failed to add vehicle").build();
-        }
+        Map<String, Object> response = new HashMap<>();
+
+    if (success) {
+        response.put("success", true);
+        response.put("message", "Vehicle added successfully");
+        return Response.status(Response.Status.CREATED).entity(response).build();
+    } else {
+        response.put("success", false);
+        response.put("message", "Failed to add vehicle");
+        return Response.status(Response.Status.BAD_REQUEST).entity(response).build();
+    }
     }
 
     @GET
@@ -47,23 +55,36 @@ public class VehicleController {
     @Path("/update/{id}")
     public Response updateVehicle(@PathParam("id") int id, Vehicle vehicle) {
         vehicle.setId(id);
-        boolean success = vehicleService.updateVehicle(vehicle);
-        if (success) {
-            return Response.ok("Vehicle updated successfully").build();
-        } else {
-            return Response.status(Response.Status.BAD_REQUEST).entity("Failed to update vehicle").build();
-        }
+boolean success = vehicleService.updateVehicle(vehicle);
+
+Map<String, Object> response = new HashMap<>();
+if (success) {
+    response.put("success", true);
+    response.put("message", "Vehicle updated successfully");
+    return Response.ok(response).build();
+} else {
+    response.put("success", false);
+    response.put("message", "Failed to update vehicle");
+    return Response.status(Response.Status.BAD_REQUEST).entity(response).build();
+}
+
     }
 
     @DELETE
     @Path("/delete/{id}")
     public Response deleteVehicle(@PathParam("id") int id) {
         boolean success = vehicleService.deleteVehicle(id);
-        if (success) {
-            return Response.ok("Vehicle deleted successfully (soft delete)").build();
-        } else {
-            return Response.status(Response.Status.BAD_REQUEST).entity("Failed to delete vehicle").build();
-        }
+         Map<String, Object> response = new HashMap<>();
+
+    if (success) {
+        response.put("success", true);
+        response.put("message", "Vehicle added successfully");
+        return Response.status(Response.Status.CREATED).entity(response).build();
+    } else {
+        response.put("success", false);
+        response.put("message", "Failed to add vehicle");
+        return Response.status(Response.Status.BAD_REQUEST).entity(response).build();
+    }
     }
     
     
