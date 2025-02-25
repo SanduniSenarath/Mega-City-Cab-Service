@@ -12,7 +12,6 @@
 
     <div id="message" class="message"></div>
 
-    <!-- Driver Registration Form -->
     <form id="driverForm" class="form">
         <h2>Driver Details</h2>
         <div>
@@ -60,172 +59,42 @@
     </form>
 
     <script>
-        // Real-time validation functions
-        document.getElementById("nic").addEventListener("input", function() {
-            validateNIC(this.value);
-        });
-        document.getElementById("driverName").addEventListener("input", function() {
-            validateDriverName(this.value);
-        });
-        document.getElementById("phoneNo").addEventListener("input", function() {
-            validatePhoneNumber(this.value);
-        });
-        document.getElementById("addressNo").addEventListener("input", function() {
-            validateAddressNo(this.value);
-        });
-        document.getElementById("addressLine1").addEventListener("input", function() {
-            validateAddressLine1(this.value);
-        });
-        document.getElementById("addressLine2").addEventListener("input", function() {
-            validateAddressLine2(this.value);
-        });
-
-        // NIC Validation
-        function validateNIC(nic) {
-            const nicError = document.getElementById("nicError");
-            const nicInput = document.getElementById("nic");
-            const regex = /^[0-9]{9}[VvXx]$/;
-            if (!regex.test(nic)) {
-                nicInput.classList.remove("valid");
-                nicInput.classList.add("invalid");
-                nicError.textContent = "Invalid NIC format.";
-                return false;
-            } else {
-                nicInput.classList.remove("invalid");
-                nicInput.classList.add("valid");
-                nicError.textContent = "";
-                return true;
-            }
-        }
-
-        // Driver Name Validation
-        function validateDriverName(driverName) {
-            const driverNameError = document.getElementById("driverNameError");
-            const driverNameInput = document.getElementById("driverName");
-            if (driverName.length < 3) {
-                driverNameInput.classList.remove("valid");
-                driverNameInput.classList.add("invalid");
-                driverNameError.textContent = "Name must be at least 3 characters.";
-                return false;
-            } else {
-                driverNameInput.classList.remove("invalid");
-                driverNameInput.classList.add("valid");
-                driverNameError.textContent = "";
-                return true;
-            }
-        }
-
-        // Phone Number Validation
-        function validatePhoneNumber(phoneNo) {
-            const phoneNoError = document.getElementById("phoneNoError");
-            const phoneNoInput = document.getElementById("phoneNo");
-            const regex = /^[0-9]{10}$/;
-            if (!regex.test(phoneNo)) {
-                phoneNoInput.classList.remove("valid");
-                phoneNoInput.classList.add("invalid");
-                phoneNoError.textContent = "Phone number must be 10 digits.";
-                return false;
-            } else {
-                phoneNoInput.classList.remove("invalid");
-                phoneNoInput.classList.add("valid");
-                phoneNoError.textContent = "";
-                return true;
-            }
-        }
-
-        // Address No Validation
-        function validateAddressNo(addressNo) {
-            const addressNoError = document.getElementById("addressNoError");
-            const addressNoInput = document.getElementById("addressNo");
-            if (addressNo.trim() === "") {
-                addressNoInput.classList.remove("valid");
-                addressNoInput.classList.add("invalid");
-                addressNoError.textContent = "Address number is required.";
-                return false;
-            } else {
-                addressNoInput.classList.remove("invalid");
-                addressNoInput.classList.add("valid");
-                addressNoError.textContent = "";
-                return true;
-            }
-        }
-
-        // Address Line 1 Validation
-        function validateAddressLine1(addressLine1) {
-            const addressLine1Error = document.getElementById("addressLine1Error");
-            const addressLine1Input = document.getElementById("addressLine1");
-            if (addressLine1.trim() === "") {
-                addressLine1Input.classList.remove("valid");
-                addressLine1Input.classList.add("invalid");
-                addressLine1Error.textContent = "Address Line 1 is required.";
-                return false;
-            } else {
-                addressLine1Input.classList.remove("invalid");
-                addressLine1Input.classList.add("valid");
-                addressLine1Error.textContent = "";
-                return true;
-            }
-        }
-
-        // Address Line 2 Validation
-        function validateAddressLine2(addressLine2) {
-            const addressLine2Error = document.getElementById("addressLine2Error");
-            const addressLine2Input = document.getElementById("addressLine2");
-            if (addressLine2.trim() === "") {
-                addressLine2Input.classList.remove("valid");
-                addressLine2Input.classList.add("invalid");
-                addressLine2Error.textContent = "Address Line 2 is required.";
-                return false;
-            } else {
-                addressLine2Input.classList.remove("invalid");
-                addressLine2Input.classList.add("valid");
-                addressLine2Error.textContent = "";
-                return true;
-            }
-        }
-
-        // Form submission handler
-        document.getElementById("driverForm").addEventListener("submit", function(e) {
+        document.getElementById("driverForm").addEventListener("submit", async function(e) {
             e.preventDefault();
-            if (
-                validateNIC(document.getElementById("nic").value) &&
-                validateDriverName(document.getElementById("driverName").value) &&
-                validatePhoneNumber(document.getElementById("phoneNo").value) &&
-                validateAddressNo(document.getElementById("addressNo").value) &&
-                validateAddressLine1(document.getElementById("addressLine1").value) &&
-                validateAddressLine2(document.getElementById("addressLine2").value)
-            ) {
-                // Display success message
-                document.getElementById("message").className = "message success show";
-                document.getElementById("message").textContent = "Driver registered successfully!";
+            
+            const driverData = {
+                nic: document.getElementById("nic").value,
+                name: document.getElementById("driverName").value,
+                phoneNo: document.getElementById("phoneNo").value,
+                addressNo: document.getElementById("addressNo").value,
+                addressLine1: document.getElementById("addressLine1").value,
+                addressLine2: document.getElementById("addressLine2").value,
+                gender: document.getElementById("gender").value
+            };
+            
+            try {
+                const response = await fetch("http://localhost:8080/Mega_City_Cab_Service/api/drivers/add", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(driverData)
+                });
 
-                // Clear form fields after 3 seconds
-                setTimeout(() => {
-                    document.getElementById("driverForm").reset();
-                    clearValidationClasses();
-                    document.getElementById("message").className = "message"; // Hide the message
-                }, 3000); // 3 seconds delay to keep the message visible
-            } else {
+                const result = await response.json();
+                document.getElementById("message").textContent = result.message;
+                document.getElementById("message").className = response.ok ? "message success show" : "message error show";
+                
+                if (response.ok) {
+                    setTimeout(() => {
+                        document.getElementById("driverForm").reset();
+                    }, 2000);
+                }
+            } catch (error) {
+                document.getElementById("message").textContent = "Error connecting to the server.";
                 document.getElementById("message").className = "message error show";
-                document.getElementById("message").textContent = "Please correct the errors in the form.";
             }
         });
-
-        // Clear button functionality
-        document.getElementById("clearButton").addEventListener("click", function() {
-            document.getElementById("driverForm").reset();
-            clearValidationClasses();
-            document.getElementById("message").className = "message"; // Hide the message
-        });
-
-        // Clear all validation classes
-        function clearValidationClasses() {
-            const inputs = document.querySelectorAll(".form input, .form select");
-            inputs.forEach(input => {
-                input.classList.remove("valid", "invalid");
-                input.nextElementSibling.textContent = "";
-            });
-        }
     </script>
 </body>
 </html>
