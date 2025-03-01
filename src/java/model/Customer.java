@@ -4,10 +4,77 @@
  */
 package model;
 
+import java.util.Date;
+
 /**
  *
  * @author Sanduni
  */
+
+
 public class Customer {
-    
+    private int id;
+    private String name;
+    private String nic;
+    private String email;
+    private String address;
+    private boolean isBook;
+    private boolean isDelete;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getNic() {
+        return nic;
+    }
+
+    public void setNic(String nic) {
+        this.nic = nic;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public boolean isBook() {
+        return isBook;
+    }
+
+    public void setBook(boolean isBook) {
+        this.isBook = isBook;
+    }
+
+    public boolean isDelete() {
+        return isDelete;
+    }
+
+    public void setDelete(boolean isDelete) {
+        this.isDelete = isDelete;
+    }
+
 }
