@@ -2,10 +2,32 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Driver Registration</title>
     <link rel="stylesheet" href="CSS/styles.css">
+    <style>
+        .error-message {
+            color: red;
+            font-size: 12px;
+            display: none;
+        }
+        .message {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            display: none;
+        }
+        .message.success {
+            background-color: #d4edda;
+            color: #155724;
+            display: block;
+        }
+        .message.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            display: block;
+        }
+    </style>
 </head>
 <body>
     <h1>Register a New Driver</h1>
@@ -22,27 +44,22 @@
         <div>
             <label for="driverName">Driver Name:</label>
             <input type="text" id="driverName" name="driverName" required />
-            <small id="driverNameError" class="error-message"></small>
         </div>
         <div>
             <label for="phoneNo">Phone Number:</label>
             <input type="text" id="phoneNo" name="phoneNo" required />
-            <small id="phoneNoError" class="error-message"></small>
         </div>
         <div>
             <label for="addressNo">Address No:</label>
             <input type="text" id="addressNo" name="addressNo" required />
-            <small id="addressNoError" class="error-message"></small>
         </div>
         <div>
             <label for="addressLine1">Address Line 1:</label>
             <input type="text" id="addressLine1" name="addressLine1" required />
-            <small id="addressLine1Error" class="error-message"></small>
         </div>
         <div>
             <label for="addressLine2">Address Line 2:</label>
             <input type="text" id="addressLine2" name="addressLine2" required />
-            <small id="addressLine2Error" class="error-message"></small>
         </div>
         <div>
             <label for="gender">Gender:</label>
@@ -51,7 +68,20 @@
                 <option value="Female">Female</option>
             </select>
         </div>
-
+        <h2>User Credentials</h2>
+        <div>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required />
+        </div>
+        <div>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required />
+        </div>
+        <div>
+            <label for="confirmPassword">Confirm Password:</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" required />
+            <small id="passwordError" class="error-message"></small>
+        </div>
         <div>
             <button type="submit">Register Driver</button>
             <button type="button" id="clearButton">Clear</button>
@@ -62,6 +92,17 @@
         document.getElementById("driverForm").addEventListener("submit", async function(e) {
             e.preventDefault();
             
+            const password = document.getElementById("password").value;
+            const confirmPassword = document.getElementById("confirmPassword").value;
+            
+            if (password !== confirmPassword) {
+                document.getElementById("passwordError").textContent = "Passwords do not match.";
+                document.getElementById("passwordError").style.display = "block";
+                return;
+            } else {
+                document.getElementById("passwordError").style.display = "none";
+            }
+
             const driverData = {
                 nic: document.getElementById("nic").value,
                 name: document.getElementById("driverName").value,
@@ -71,29 +112,47 @@
                 addressLine2: document.getElementById("addressLine2").value,
                 gender: document.getElementById("gender").value
             };
+
+            const userData = {
+                username: document.getElementById("username").value,
+                password: password,
+                role: "driver"
+            };
             
             try {
-                const response = await fetch("http://localhost:8080/Mega_City_Cab_Service/api/drivers/add", {
+                const driverResponse = await fetch("http://localhost:8080/Mega_City_Cab_Service/api/drivers/add", {
                     method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
+                    headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(driverData)
                 });
-
-                const result = await response.json();
-                document.getElementById("message").textContent = result.message;
-                document.getElementById("message").className = response.ok ? "message success show" : "message error show";
                 
-                if (response.ok) {
-                    setTimeout(() => {
-                        document.getElementById("driverForm").reset();
-                    }, 2000);
-                }
+                if (!driverResponse.ok) throw new Error("Driver registration failed.");
+                
+                const userResponse = await fetch("http://localhost:8080/Mega_City_Cab_Service/api/users/add", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(userData)
+                });
+                
+                if (!userResponse.ok) throw new Error("User registration failed.");
+                
+                document.getElementById("message").textContent = "Driver and user registered successfully.";
+                document.getElementById("message").className = "message success";
+                
+                setTimeout(() => {
+                    document.getElementById("driverForm").reset();
+                    document.getElementById("message").className = "message";
+                }, 2000);
             } catch (error) {
-                document.getElementById("message").textContent = "Error connecting to the server.";
-                document.getElementById("message").className = "message error show";
+                document.getElementById("message").textContent = error.message;
+                document.getElementById("message").className = "message error";
             }
+        });
+
+        document.getElementById("clearButton").addEventListener("click", function() {
+            document.getElementById("driverForm").reset();
+            document.getElementById("message").textContent = "";
+            document.getElementById("message").className = "message";
         });
     </script>
 </body>

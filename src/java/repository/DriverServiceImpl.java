@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 import model.Driver;
 import service.DriverService;
 import util.DBUtil;
+import util.SendEmail;
 
 /**
  *
@@ -70,7 +71,14 @@ public class DriverServiceImpl implements DriverService{
             stmt.setString(7, driver.getGender());
             stmt.setBoolean(8, driver.isDelete());
             stmt.setBoolean(9, driver.isAvailable());
-            return stmt.executeUpdate() > 0;
+            int rowsAffected = stmt.executeUpdate();
+        
+        if (rowsAffected > 0) {
+            SendEmail.sendEmail("ssnsenarath@gmail.com", driver.getName());
+            return true;
+        } else {
+            return false;
+        }
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
