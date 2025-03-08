@@ -18,9 +18,11 @@ public class Customer {
     private String nic;
     private String email;
     private String address;
+    private String phoneno;
     private boolean isBook;
     private boolean isDelete;
 
+    // Getters and Setters
     public int getId() {
         return id;
     }
@@ -61,6 +63,14 @@ public class Customer {
         this.address = address;
     }
 
+    public String getPhoneno() {
+        return phoneno;
+    }
+
+    public void setPhoneno(String phoneno) {
+        this.phoneno = phoneno;
+    }
+
     public boolean isBook() {
         return isBook;
     }
@@ -76,5 +86,4 @@ public class Customer {
     public void setDelete(boolean isDelete) {
         this.isDelete = isDelete;
     }
-
 }
