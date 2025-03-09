@@ -8,14 +8,77 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vehicle List</title>
     <link rel="stylesheet" href="CSS/listStyle.css">
+    <link rel="stylesheet" href="styles.css">
+    <!-- Library for PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.24/jspdf.plugin.autotable.min.js"></script>
+    <style>
+        /* Search Container */
+        .search-container {
+            margin: 20px 0;
+        }
+
+        .search-container input {
+            width: 50%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            margin: 20px 0;
+        }
+
+        .action-buttons button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin-right: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .action-buttons button:hover {
+            opacity: 0.8;
+        }
+    </style>
 </head>
 <body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="admin_home.jsp" class="logo">Cab Booking</a></li>
+                <li><a href="admin_home.jsp">Home</a></li>
+                <li><a href="vehicle-registration.jsp">Vehicle Registration</a></li>
+                <li><a href="driver_registration.jsp">Driver Registration</a></li>
+                <li><a href="view_bookings.jsp">All Bookings</a></li>
+                <li><a href="view_customers.jsp">All Customers</a></li>
+                <li><a href="logout.jsp">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
 
     <h2>Vehicle List</h2>
-    
+
+    <!-- Action Buttons -->
+     <div class="action-buttons">
+        <button onclick="downloadPDF()" style="background-color: #007bff; color: white; padding: 10px 20px; font-size: 16px; border: none; border-radius: 4px; cursor: pointer;">
+            Download PDF
+        </button>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Search by Vehicle Number, Type, or Owner..." onkeyup="searchTable()">
+    </div>
+
+    <!-- Message Display -->
     <div id="message" class="message"></div>
 
-    <table>
+    <!-- Vehicle Table -->
+    <table id="vehicleTable">
         <tr>
             <th>ID</th>
             <th>Vehicle Number</th>
@@ -63,8 +126,8 @@
                         out.println("<td>");
                         out.println("<button class='update-btn' onclick='updateVehicle(" + vehicle.getInt("id") + ")'>Update</button>");
                         out.println("<button class='delete-btn' " + (vehicle.getBoolean("available") ? "" : "disabled") + 
-            " onclick='deleteVehicle(" + vehicle.getInt("id") + ")'>Delete</button>");
-out.println("</td>");
+                            " onclick='deleteVehicle(" + vehicle.getInt("id") + ")'>Delete</button>");
+                        out.println("</td>");
                         out.println("</tr>");
                     }
                 }
@@ -75,6 +138,45 @@ out.println("</td>");
     </table>
 
     <script>
+        // Search Functionality
+        function searchTable() {
+            const input = document.getElementById("searchInput").value.toLowerCase();
+            const rows = document.querySelectorAll("#vehicleTable tr");
+
+            rows.forEach((row, index) => {
+                if (index === 0) return; // Skip the header row
+                const cells = row.querySelectorAll("td");
+                let match = false;
+                cells.forEach(cell => {
+                    if (cell.textContent.toLowerCase().includes(input)) {
+                        match = true;
+                    }
+                });
+                row.style.display = match ? "" : "none";
+            });
+        }
+
+        // Download as PDF
+        function downloadPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            // Get the table element
+            const table = document.getElementById("vehicleTable");
+
+            // Use autoTable plugin to generate PDF
+            doc.autoTable({
+                html: table,
+                theme: 'grid', // Optional: Add a theme
+                headStyles: { fillColor: [41, 128, 185], textColor: 255 }, // Optional: Style the header
+                bodyStyles: { textColor: [0, 0, 0] }, // Optional: Style the body
+            });
+
+            // Save the PDF
+            doc.save("vehicle-list.pdf");
+        }
+
+        // Delete Vehicle
         function deleteVehicle(vehicleId) {
             if (confirm("Are you sure you want to delete this vehicle?")) {
                 fetch("http://localhost:8080/Mega_City_Cab_Service/api/vehicles/delete/" + vehicleId, {
@@ -95,10 +197,19 @@ out.println("</td>");
             }
         }
 
+        // Update Vehicle
         function updateVehicle(vehicleId) {
             window.location.href = "vehicle-update.jsp?id=" + vehicleId;
         }
     </script>
 
+    <footer>
+        <p>&copy; 2023 Cab Booking System. All rights reserved.</p>
+        <ul>
+            <li><a href="privacy_policy.jsp">Privacy Policy</a></li>
+            <li><a href="terms_of_service.jsp">Terms of Service</a></li>
+            <li><a href="contact_us.jsp">Contact Us</a></li>
+        </ul>
+    </footer>
 </body>
 </html>

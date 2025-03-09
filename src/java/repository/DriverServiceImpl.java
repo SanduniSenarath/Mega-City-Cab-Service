@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package repository;
 
 import java.sql.Connection;
@@ -21,7 +17,7 @@ import util.SendEmail;
  *
  * @author Sanduni
  */
-public class DriverServiceImpl implements DriverService{
+public class DriverServiceImpl implements DriverService {
     private Connection connection;
 
     public DriverServiceImpl() {
@@ -49,7 +45,9 @@ public class DriverServiceImpl implements DriverService{
                         rs.getString("addressLine2"),
                         rs.getString("gender"),
                         rs.getBoolean("isDelete"),
-                        rs.getBoolean("isAvailable")
+                        rs.getBoolean("isAvailable"),
+                        rs.getString("email"),  // Added email field
+                        rs.getString("username")  // Added username field
                 ));
             }
         } catch (SQLException e) {
@@ -60,7 +58,7 @@ public class DriverServiceImpl implements DriverService{
 
     @Override
     public boolean addDriver(Driver driver) {
-        String query = "INSERT INTO driver (nic, name, phoneno, addressno, addressLine1, addressLine2, gender, isDelete, isAvailable) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO driver (nic, name, phoneno, addressno, addressLine1, addressLine2, gender, isDelete, isAvailable, email, username) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setString(1, driver.getNic());
             stmt.setString(2, driver.getName());
@@ -71,14 +69,17 @@ public class DriverServiceImpl implements DriverService{
             stmt.setString(7, driver.getGender());
             stmt.setBoolean(8, driver.isDelete());
             stmt.setBoolean(9, driver.isAvailable());
+            stmt.setString(10, driver.getEmail());  // Set email field
+            stmt.setString(11, driver.getUsername());  // Set username field
+            
             int rowsAffected = stmt.executeUpdate();
         
-        if (rowsAffected > 0) {
-            SendEmail.sendEmail("ssnsenarath@gmail.com", driver.getName());
-            return true;
-        } else {
-            return false;
-        }
+            if (rowsAffected > 0) {
+                SendEmail.sendEmail(driver.getEmail(), driver.getName());
+                return true;
+            } else {
+                return false;
+            }
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
@@ -102,7 +103,9 @@ public class DriverServiceImpl implements DriverService{
                             rs.getString("addressLine2"),
                             rs.getString("gender"),
                             rs.getBoolean("isDelete"),
-                            rs.getBoolean("isAvailable")
+                            rs.getBoolean("isAvailable"),
+                            rs.getString("email"),  // Get email field
+                            rs.getString("username")  // Get username field
                     );
                 }
             }
@@ -114,7 +117,7 @@ public class DriverServiceImpl implements DriverService{
 
     @Override
     public boolean updateDriver(Driver driver) {
-        String query = "UPDATE driver SET nic = ?, name = ?, phoneno = ?, addressno = ?, addressLine1 = ?, addressLine2 = ?, gender = ?, isAvailable = ? WHERE id = ?";
+        String query = "UPDATE driver SET nic = ?, name = ?, phoneno = ?, addressno = ?, addressLine1 = ?, addressLine2 = ?, gender = ?, isAvailable = ?, email = ?, username = ? WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setString(1, driver.getNic());
             stmt.setString(2, driver.getName());
@@ -124,7 +127,9 @@ public class DriverServiceImpl implements DriverService{
             stmt.setString(6, driver.getAddressLine2());
             stmt.setString(7, driver.getGender());
             stmt.setBoolean(8, driver.isAvailable());
-            stmt.setInt(9, driver.getId());
+            stmt.setString(9, driver.getEmail());  // Set email field
+            stmt.setString(10, driver.getUsername());  // Set username field
+            stmt.setInt(11, driver.getId());
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();

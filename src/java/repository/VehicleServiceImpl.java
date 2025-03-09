@@ -96,21 +96,20 @@ public class VehicleServiceImpl {
     }
 
    public boolean updateVehicle(Vehicle vehicle) {
-    String query = "UPDATE vehicle SET vehicle_number = ?, available_seats = ?, type = ?, isAvailable = ?, owner = ?, colour = ?, fuel_type = ?, chassisNumber = ?, brandName = ? WHERE id = ? AND isDelete = 0";
+    String query = "UPDATE vehicle SET vehicle_number = ?, available_seats = ?, type = ?, owner = ?, colour = ?, fuel_type = ?, chassisNumber = ?, brandName = ? WHERE id = ? AND isDelete = 0";
 
     try (Connection conn = DBUtil.getConnection();
          PreparedStatement pstmt = conn.prepareStatement(query)) {
 
         pstmt.setString(1, vehicle.getVehicleNumber());
         pstmt.setInt(2, vehicle.getAvailableSeats());
-        pstmt.setString(3, vehicle.getType());
-        pstmt.setBoolean(4, vehicle.isAvailable());  
-        pstmt.setString(5, vehicle.getOwner());
-        pstmt.setString(6, vehicle.getColour());
-        pstmt.setString(7, vehicle.getFuelType());
-        pstmt.setString(8, vehicle.getChassisNumber());
-        pstmt.setString(9, vehicle.getBrandName());
-        pstmt.setInt(10, vehicle.getId());
+        pstmt.setString(3, vehicle.getType()); 
+        pstmt.setString(4, vehicle.getOwner());
+        pstmt.setString(5, vehicle.getColour());
+        pstmt.setString(6, vehicle.getFuelType());
+        pstmt.setString(7, vehicle.getChassisNumber());
+        pstmt.setString(8, vehicle.getBrandName());
+        pstmt.setInt(9, vehicle.getId());
 
         int rowsUpdated = pstmt.executeUpdate();
         return rowsUpdated > 0;

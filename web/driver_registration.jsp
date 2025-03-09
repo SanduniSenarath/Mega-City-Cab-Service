@@ -1,10 +1,52 @@
 <!DOCTYPE html>
+<%
+    // Fetch user role and username from session
+    String userRole = (String) session.getAttribute("userRole");
+    String username = (String) session.getAttribute("username");
+    if (userRole == null) {
+        userRole = "guest"; 
+    }
+     
+%>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Driver Registration</title>
-    <link rel="stylesheet" href="CSS/styles.css">
+    <link rel="stylesheet" href="styles.css">
+     <link rel="stylesheet" href="CSS/driver.css">
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.jsp" class="logo">Cab Booking</a></li>
+                
+                <% if (userRole.equals("admin")) { %>
+                <li><a href="admin_home.jsp" class="logo">Cab Booking</a></li>
+                <li><a href="admin_home.jsp">Home</a></li>
+                <li><a href="vehicle-registration.jsp">Vehicle Registration</a></li>
+                <li><a href="driver_registration.jsp">Driver Registration</a></li>
+                <li><a href="view_bookings.jsp">All Bookings</a></li>
+                <li><a href="view_customers.jsp">All Customers</a></li>
+                <li><a href="logout.jsp">Logout</a></li>
+                <% } else if (userRole.equals("driver")) { %>
+                    <li><a href="index.jsp">Home</a></li>
+                    <li><a href="driver_dashboard.jsp">Driver Dashboard</a></li>
+                    <li><a href="view_bookings.jsp">View Bookings</a></li>
+                <% } else if (userRole.equals("customer")) { %>
+                    <li><a href="index.jsp">Home</a></li>
+                    <li><a href="AddBookings.jsp">Book a Cab</a></li>
+                    <li><a href="my_bookings.jsp">My Bookings</a></li>
+                <% } else { %>
+                    <li><a href="login.jsp">Login</a></li>
+                    <li><a href="CustomerRegistrationJSP.jsp">Register</a></li>
+                <% } %>
+                <li><a href="help.jsp">Help</a></li>
+                <% if (!userRole.equals("guest")) { %>
+                    <li><a href="logout.jsp">Logout</a></li>
+                <% } %>
+            </ul>
+        </nav>
+    </header>
     <style>
         .error-message {
             color: red;
@@ -62,6 +104,10 @@
             <input type="text" id="addressLine2" name="addressLine2" required />
         </div>
         <div>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required />
+        </div>
+        <div>
             <label for="gender">Gender:</label>
             <select id="gender" name="gender" required>
                 <option value="Male">Male</option>
@@ -83,7 +129,7 @@
             <small id="passwordError" class="error-message"></small>
         </div>
         <div>
-            <button type="submit">Register Driver</button>
+            <button type="submit">Register Driver</button><br><br>
             <button type="button" id="clearButton">Clear</button>
         </div>
     </form>
@@ -110,7 +156,9 @@
                 addressNo: document.getElementById("addressNo").value,
                 addressLine1: document.getElementById("addressLine1").value,
                 addressLine2: document.getElementById("addressLine2").value,
-                gender: document.getElementById("gender").value
+                gender: document.getElementById("gender").value,
+                username: document.getElementById("username").value,
+                email:document.getElementById("email").value
             };
 
             const userData = {
@@ -155,5 +203,13 @@
             document.getElementById("message").className = "message";
         });
     </script>
+     <footer>
+        <p>&copy; 2023 Cab Booking System. All rights reserved.</p>
+        <ul>
+            <li><a href="privacy_policy.jsp">Privacy Policy</a></li>
+            <li><a href="terms_of_service.jsp">Terms of Service</a></li>
+            <li><a href="contact_us.jsp">Contact Us</a></li>
+        </ul>
+    </footer>
 </body>
 </html>

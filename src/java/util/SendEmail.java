@@ -23,20 +23,16 @@ import javax.mail.internet.MimeMessage;
 public class SendEmail {
 
     public static void sendEmail(String toEmail, String driverName) {
-        final String fromEmail = "no.reply.megacity.cabservice@gmail.com"; // Your email
-        final String password = "pbkm acgl qsji xteq";  // Use an App Password if using Gmail
+        final String fromEmail = "no.reply.megacity.cabservice@gmail.com"; 
+        final String password = "pbkm acgl qsji xteq";  
         
-        // SMTP server configuration
         Properties props = new Properties();
 props.put("mail.smtp.host", "smtp.gmail.com");
-props.put("mail.smtp.port", "465"); // For SSL
+props.put("mail.smtp.port", "465");
 props.put("mail.smtp.auth", "true");
 props.put("mail.smtp.ssl.enable", "true");
-props.put("mail.smtp.ssl.trust", "smtp.gmail.com"); // Trust the certificate
+props.put("mail.smtp.ssl.trust", "smtp.gmail.com"); 
 
- // Trust the certificate
-
-        // Authenticate and send email
         Session session = Session.getInstance(props, new Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
                 return new PasswordAuthentication(fromEmail, password);

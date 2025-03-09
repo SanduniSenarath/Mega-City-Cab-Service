@@ -8,8 +8,9 @@ package model;
  *
  * @author Sanduni
  */
+
 public class Driver {
-        private int id;
+    private int id;
     private String nic;
     private String name;
     private String phoneNo;
@@ -19,13 +20,15 @@ public class Driver {
     private String gender;
     private boolean isDelete;
     private boolean isAvailable;
+    private String email; 
+    private String username;  
 
-    // Default constructor
+    
     public Driver() {}
 
-    // Parameterized constructor
+   
     public Driver(int id, String nic, String name, String phoneNo, String addressNo, String addressLine1,
-                  String addressLine2, String gender, boolean isDelete, boolean isAvailable) {
+                  String addressLine2, String gender, boolean isDelete, boolean isAvailable, String email, String username) {
         this.id = id;
         this.nic = nic;
         this.name = name;
@@ -36,6 +39,8 @@ public class Driver {
         this.gender = gender;
         this.isDelete = isDelete;
         this.isAvailable = isAvailable;
+        this.email = email;  
+        this.username = username;  
     }
 
     // Getters and Setters
@@ -119,6 +124,22 @@ public class Driver {
         isAvailable = available;
     }
 
+    public String getEmail() {
+        return email;  
+    }
+
+    public void setEmail(String email) {
+        this.email = email;  
+    }
+
+    public String getUsername() {
+        return username; 
+    }
+
+    public void setUsername(String username) {
+        this.username = username; 
+    }
+
     // toString method
     @Override
     public String toString() {
@@ -133,6 +154,8 @@ public class Driver {
                 ", gender='" + gender + '\'' +
                 ", isDelete=" + isDelete +
                 ", isAvailable=" + isAvailable +
+                ", email='" + email + '\'' +
+                ", username='" + username + '\'' + 
                 '}';
     }
 }

@@ -36,6 +36,7 @@ public class CustomerServiceImpl implements CustomerService {
                 customer.setEmail(rs.getString("email"));
                 customer.setAddress(rs.getString("address"));
                 customer.setPhoneno(rs.getString("phoneno"));
+                customer.setUsername(rs.getString("username"));
                 customer.setBook(rs.getBoolean("isBook"));
                 customer.setDelete(rs.getBoolean("isDelete"));
                 customers.add(customer);
@@ -46,19 +47,20 @@ public class CustomerServiceImpl implements CustomerService {
         return customers;
     }
 
-    public boolean addCustomer(Customer customer) {
-        String query = "INSERT INTO customer (name, nic, email, address, phoneno, isBook, isDelete) VALUES (?, ?, ?, ?, ?, ?, ?)";
+     public boolean addCustomer(Customer customer) {
+        String query = "INSERT INTO customer (name, username, nic, email, address, phoneno, isBook, isDelete) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
 
             pstmt.setString(1, customer.getName());
-            pstmt.setString(2, customer.getNic());
-            pstmt.setString(3, customer.getEmail());
-            pstmt.setString(4, customer.getAddress());
-            pstmt.setString(5, customer.getPhoneno());
-            pstmt.setBoolean(6, customer.isBook());
-            pstmt.setBoolean(7, customer.isDelete());
+            pstmt.setString(2, customer.getUsername());
+            pstmt.setString(3, customer.getNic());
+            pstmt.setString(4, customer.getEmail());
+            pstmt.setString(5, customer.getAddress());
+            pstmt.setString(6, customer.getPhoneno());
+            pstmt.setBoolean(7, customer.isBook());
+            pstmt.setBoolean(8, customer.isDelete());
 
             int rowsInserted = pstmt.executeUpdate();
             return rowsInserted > 0;
@@ -81,6 +83,7 @@ public class CustomerServiceImpl implements CustomerService {
                 Customer customer = new Customer();
                 customer.setId(rs.getInt("id"));
                 customer.setName(rs.getString("name"));
+                customer.setUsername(rs.getString("username"));
                 customer.setNic(rs.getString("nic"));
                 customer.setEmail(rs.getString("email"));
                 customer.setAddress(rs.getString("address"));
@@ -95,18 +98,20 @@ public class CustomerServiceImpl implements CustomerService {
         return null;
     }
 
+
     public boolean updateCustomer(Customer customer) {
-        String query = "UPDATE customer SET name = ?, nic = ?, email = ?, address = ?, phoneno = ? WHERE id = ? AND isDelete = 0";
+        String query = "UPDATE customer SET name = ?, username = ?, nic = ?, email = ?, address = ?, phoneno = ? WHERE id = ? AND isDelete = 0";
 
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
 
             pstmt.setString(1, customer.getName());
-            pstmt.setString(2, customer.getNic());
-            pstmt.setString(3, customer.getEmail());
-            pstmt.setString(4, customer.getAddress());
-            pstmt.setString(5, customer.getPhoneno());
-            pstmt.setInt(6, customer.getId());
+            pstmt.setString(2, customer.getUsername());
+            pstmt.setString(3, customer.getNic());
+            pstmt.setString(4, customer.getEmail());
+            pstmt.setString(5, customer.getAddress());
+            pstmt.setString(6, customer.getPhoneno());
+            pstmt.setInt(7, customer.getId());
 
             int rowsUpdated = pstmt.executeUpdate();
             return rowsUpdated > 0;

@@ -47,77 +47,80 @@ nav ul li a:hover {
     color: #ffcc00;
 }
 
-/* Main Content Styles */
-main {
-    padding: 20px;
+/* Login Page Styles */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+    background-color: #f4f4f4;
 }
 
-.intro-section {
-    text-align: center;
-    padding: 100px 20px;
-    background: url('cab-bg.jpg') no-repeat center center/cover;
-    color: white;
+.login-box {
+    background-color: white;
+    padding: 40px;
     border-radius: 10px;
-    animation: fadeIn 2s ease-in-out;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
 }
 
-.intro-section h1 {
-    font-size: 48px;
+.login-box h1 {
     margin-bottom: 20px;
-}
-
-.intro-section p {
-    font-size: 20px;
-    margin-bottom: 30px;
-}
-
-.cta-button {
-    background-color: #ffcc00;
+    font-size: 28px;
     color: #333;
-    padding: 10px 20px;
-    text-decoration: none;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #555;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
     border-radius: 5px;
-    font-size: 18px;
+    font-size: 16px;
+}
+
+.login-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #ffcc00;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #227B94;
+    cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
-.cta-button:hover {
+.login-button:hover {
     background-color: #e6b800;
 }
 
-.features-section {
-    text-align: center;
-    padding: 50px 20px;
-}
-
-.features-section h2 {
-    font-size: 36px;
-    margin-bottom: 40px;
-}
-
-.features-container {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-}
-
-.feature {
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    width: 30%;
-    margin-bottom: 20px;
-}
-
-.feature h3 {
-    font-size: 24px;
-    margin-bottom: 10px;
-}
-
-.feature p {
-    font-size: 16px;
+.login-box p {
+    margin-top: 20px;
+    font-size: 14px;
     color: #555;
+}
+
+.login-box a {
+    color: #ffcc00;
+    text-decoration: none;
+}
+
+.login-box a:hover {
+    text-decoration: underline;
 }
 
 /* Footer Styles */
@@ -127,8 +130,6 @@ footer {
     text-align: center;
     padding: 20px 0;
     margin-top: 40px;
-    bottom: 0;
-    position: relative;
 }
 
 footer ul {
@@ -150,14 +151,4 @@ footer ul li a {
 
 footer ul li a:hover {
     text-decoration: underline;
-}
-
-/* Animations */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
 }
