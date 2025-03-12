@@ -75,14 +75,14 @@
             <div class="admin-box">
                 <h2>All Bookings</h2>
                 <p>View and manage all bookings.</p>
-                <a href="view_bookings.jsp" class="admin-button">View All Bookings</a>
+                <a href="bookingList.jsp" class="admin-button">View All Bookings</a>
             </div>
 
             <!-- All Customer Details -->
             <div class="admin-box">
                 <h2>All Customer Details</h2>
                 <p>View and manage all customer details.</p>
-                <a href="view_customers.jsp" class="admin-button">View All Customers</a>
+                <a href="CustomerList.jsp" class="admin-button">View All Customers</a>
             </div>
         </div>
     </main>

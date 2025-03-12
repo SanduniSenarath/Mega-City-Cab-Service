@@ -87,5 +87,15 @@ if (success) {
     }
     }
     
-    
+    @GET
+@Path("/number/{vehicleNumber}")
+public Response getVehicleByNumber(@PathParam("vehicleNumber") String vehicleNumber) {
+    Vehicle vehicle = vehicleService.getVehicleByNumber(vehicleNumber);
+    if (vehicle != null) {
+        return Response.ok(vehicle, MediaType.APPLICATION_JSON).build();
+    } else {
+        return Response.status(Response.Status.NOT_FOUND).entity("Vehicle not found").build();
+    }
+}
+
 }

@@ -7,42 +7,156 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vehicle List</title>
-    <link rel="stylesheet" href="CSS/listStyle.css">
+    <!--<link rel="stylesheet" href="CSS/listStyle.css">-->
     <link rel="stylesheet" href="styles.css">
     <!-- Library for PDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.24/jspdf.plugin.autotable.min.js"></script>
     <style>
-        /* Search Container */
-        .search-container {
-            margin: 20px 0;
+        /* Center Table */
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
         }
 
-        .search-container input {
-            width: 50%;
+        /* Search & Filter */
+        .controls {
+            margin: 20px 0;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .controls input, .controls select {
             padding: 10px;
             font-size: 16px;
             border: 1px solid #ccc;
             border-radius: 4px;
         }
 
-        /* Action Buttons */
-        .action-buttons {
-            margin: 20px 0;
+        /* Table Styling */
+        table {
+    width: 90%;
+    border-collapse: collapse;
+    margin: 20px auto; /* Centers the table */
+    background-color: white;
+}
+
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: center;
         }
 
-        .action-buttons button {
-            padding: 10px 20px;
-            font-size: 16px;
-            margin-right: 10px;
+        th {
+            background-color: #17A2B8;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #FFEDFA;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 10px 15px;
+            font-size: 14px;
             border: none;
             border-radius: 4px;
             cursor: pointer;
+            transition: 0.3s;
         }
 
-        .action-buttons button:hover {
-            opacity: 0.8;
+        .btn-download {
+            background-color: #0D4715;
+            color: white;
         }
+
+        .btn-download:hover {
+            background-color: #218838;
+        }
+
+        .btn-update {
+            background-color: #ffc107;
+            color: black;
+        }
+
+        .btn-update:hover {
+            background-color: #e0a800;
+        }
+
+        .btn-delete {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .btn-delete:hover {
+            background-color: #c82333;
+        }
+
+        .btn-assign {
+            background-color: #17a2b8;
+            color: white;
+        }
+
+        .btn-assign:hover {
+            background-color: #138496;
+        }
+         /* Button Styling */
+    .update-btn {
+        background-color: #FFA000; /* Orange */
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+    .update-btn:hover {
+        background-color: #FF8F00; /* Darker Orange */
+    }
+
+    .delete-btn {
+        background-color: #E63946; /* Red */
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+    .delete-btn:hover {
+        background-color: #D62839; /* Darker Red */
+    }
+
+    .delete-btn:disabled {
+        background-color: #AAA; /* Gray */
+        cursor: not-allowed;
+    }
+
+    .assign-btn {
+        background-color: #17A2B8; /* Teal */
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+    .assign-btn:hover {
+        background-color: #138496; /* Darker Teal */
+    }
     </style>
 </head>
 <body>
@@ -59,20 +173,29 @@
             </ul>
         </nav>
     </header>
-
+<div class="controls">
     <h2>Vehicle List</h2>
+</div>
 
+    <div class="controls">
     <!-- Action Buttons -->
-     <div class="action-buttons">
-        <button onclick="downloadPDF()" style="background-color: #007bff; color: white; padding: 10px 20px; font-size: 16px; border: none; border-radius: 4px; cursor: pointer;">
+     <div class="btn-download">
+        <button onclick="downloadPDF()" style="background-color: #0D4715; color: white; padding: 10px 20px; font-size: 16px; border: none; border-radius: 4px; cursor: pointer;">
             Download PDF
         </button>
     </div>
+    </div>
 
     <!-- Search Bar -->
-    <div class="search-container">
-        <input type="text" id="searchInput" placeholder="Search by Vehicle Number, Type, or Owner..." onkeyup="searchTable()">
-    </div>
+ <div class="controls">
+        
+            <input type="text" id="searchInput" placeholder="Search by Vehicle Number, Type, or Owner..." onkeyup="searchTable()">
+            <select id="filterAvailability" onchange="filterTable()">
+                <option value="">Show All</option>
+                <option value="Yes">Available</option>
+                <option value="No">Not Available</option>
+            </select>
+        </div>
 
     <!-- Message Display -->
     <div id="message" class="message"></div>
@@ -127,6 +250,7 @@
                         out.println("<button class='update-btn' onclick='updateVehicle(" + vehicle.getInt("id") + ")'>Update</button>");
                         out.println("<button class='delete-btn' " + (vehicle.getBoolean("available") ? "" : "disabled") + 
                             " onclick='deleteVehicle(" + vehicle.getInt("id") + ")'>Delete</button>");
+                            out.println("<button class='assign-btn' onclick='assignDriver(" + vehicle.getInt("id") + ")'>Assign</button>");
                         out.println("</td>");
                         out.println("</tr>");
                     }
@@ -139,20 +263,19 @@
 
     <script>
         // Search Functionality
-        function searchTable() {
+         function searchTable() {
             const input = document.getElementById("searchInput").value.toLowerCase();
-            const rows = document.querySelectorAll("#vehicleTable tr");
+            document.querySelectorAll("#vehicleTable tr").forEach((row, index) => {
+                if (index === 0) return;
+                row.style.display = row.innerText.toLowerCase().includes(input) ? "" : "none";
+            });
+        }
 
-            rows.forEach((row, index) => {
-                if (index === 0) return; // Skip the header row
-                const cells = row.querySelectorAll("td");
-                let match = false;
-                cells.forEach(cell => {
-                    if (cell.textContent.toLowerCase().includes(input)) {
-                        match = true;
-                    }
-                });
-                row.style.display = match ? "" : "none";
+        function filterTable() {
+            const filter = document.getElementById("filterAvailability").value;
+            document.querySelectorAll("#vehicleTable tr").forEach((row, index) => {
+                if (index === 0) return;
+                row.style.display = filter === "" || row.cells[9].innerText === filter ? "" : "none";
             });
         }
 
@@ -201,6 +324,10 @@
         function updateVehicle(vehicleId) {
             window.location.href = "vehicle-update.jsp?id=" + vehicleId;
         }
+        function assignDriver(vehicleId) {
+            window.location.href = "assign_driver_process.jsp?vehicleId=" + vehicleId;
+        }
+        
     </script>
 
     <footer>

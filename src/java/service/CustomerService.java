@@ -29,4 +29,11 @@ public interface CustomerService {
 
     // Delete a customer (soft delete by setting isDelete to 1)
     boolean deleteCustomer(int id);
+    
+    // Get a customer by username
+Customer getCustomerByUsername(String username);
+
+// Update a customer by username
+boolean updateCustomerByUsername(Customer customer);
+
 }

@@ -25,6 +25,12 @@ public class Driver {
 
     
     public Driver() {}
+    
+    public Driver(String name, String email) {
+    this.name = name;
+    this.email = email;
+}
+
 
    
     public Driver(int id, String nic, String name, String phoneNo, String addressNo, String addressLine1,
@@ -42,6 +48,8 @@ public class Driver {
         this.email = email;  
         this.username = username;  
     }
+
+ 
 
     // Getters and Setters
     public int getId() {

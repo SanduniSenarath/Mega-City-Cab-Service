@@ -1,19 +1,46 @@
+/* General Page Styling */
 body {
     font-family: Arial, sans-serif;
     margin: 20px;
     padding: 20px;
-    background-color: #f4f4f4;
+    background-color: #F8F9FA; /* Light gray background */
 }
 
 h1 {
     text-align: center;
+    color: #0056B3; /* Dark Blue */
 }
 
+/* Centered Container */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+/* Search & Filter Controls */
+.controls {
+    margin: 20px 0;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.controls input, .controls select {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Table Styling */
 table {
-    width: 100%;
+    width: 90%;
     border-collapse: collapse;
-    background: #fff;
-    margin-top: 20px;
+    margin: 20px auto;
+    background-color: white;
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
@@ -26,65 +53,89 @@ th, td {
 }
 
 th {
-    background: #003092;
+    background: #0056B3; /* Dark Blue */
     color: white;
 }
 
-td {
-    background: #FFF5E4;
+tr:nth-child(even) {
+    background-color: #E3F2FD; /* Light Blue */
 }
 
-button {
-    padding: 8px 12px;
+tr:hover {
+    background-color: #D6EAF8; /* Slightly darker blue */
+}
+
+/* Buttons */
+.btn {
+    padding: 10px 15px;
+    font-size: 14px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    margin: 5px;
+    transition: 0.3s;
 }
 
-.update-btn {
-    background: #28a745;
+.btn-download {
+    background-color: #007BFF; /* Blue */
     color: white;
 }
 
-.delete-btn {
-    background: #dc3545;
+.btn-download:hover {
+    background-color: #0056B3;
+}
+
+.btn-update {
+    background-color: #FFA000; /* Orange */
     color: white;
 }
 
-.delete-btn:disabled {
-    background: #aaa;
-    cursor: not-allowed;
+.btn-update:hover {
+    background-color: #FF8F00;
 }
 
-button:hover {
-    opacity: 0.8;
+.btn-delete {
+    background-color: #E63946; /* Red */
+    color: white;
 }
 
-/* Modal background */
+.btn-delete:hover {
+    background-color: #D62839;
+}
+
+.btn-assign {
+    background-color: #17A2B8; /* Teal */
+    color: white;
+}
+
+.btn-assign:hover {
+    background-color: #138496;
+}
+
+/* Modal Styling */
 .modal {
-    display: none; /* Hidden by default */
+    display: none;
     position: fixed;
-    z-index: 1; /* Sit on top */
+    z-index: 1;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Black with transparency */
+    background-color: rgba(0, 0, 0, 0.5);
     overflow: auto;
 }
 
-/* Modal content box */
+/* Modal Content */
 .modal-content {
     background-color: white;
-    margin: 15% auto; /* Centered */
+    margin: 15% auto;
     padding: 30px;
-    border-radius: 5px;
+    border-radius: 8px;
     width: 60%;
     max-width: 700px;
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
 }
 
-/* Close button */
+/* Close Button */
 .close {
     color: #aaa;
     float: right;
@@ -92,7 +143,6 @@ button:hover {
     font-weight: bold;
 }
 
-/* Hover effect for close button */
 .close:hover,
 .close:focus {
     color: black;
@@ -100,7 +150,7 @@ button:hover {
     cursor: pointer;
 }
 
-/* Form styling */
+/* Form Styling */
 form {
     display: flex;
     flex-direction: column;
@@ -124,12 +174,12 @@ input, select {
 }
 
 input[type="number"] {
-    width: 80%; /* Adjust number inputs width */
+    width: 80%;
 }
 
 button[type="submit"] {
     padding: 10px 20px;
-    background-color: #4CAF50;
+    background-color: #28A745; /* Green */
     color: white;
     border: none;
     border-radius: 5px;
@@ -138,13 +188,12 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover {
-    background-color: #45a049;
+    background-color: #218838;
 }
 
-/* Modal content header */
+/* Modal Content Header */
 h3 {
     font-size: 24px;
     margin-bottom: 20px;
     color: #333;
 }
-

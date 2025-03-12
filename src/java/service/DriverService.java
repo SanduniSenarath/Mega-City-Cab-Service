@@ -26,4 +26,7 @@ public interface DriverService {
 
     // Soft delete a driver (set isDelete = 1)
     boolean deleteDriver(int id);
+    
+    List<Driver> getAvailableDrivers();
+
 }

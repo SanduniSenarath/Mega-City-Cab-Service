@@ -135,4 +135,54 @@ public class CustomerServiceImpl implements CustomerService {
             return false;
         }
     }
+    
+    public Customer getCustomerByUsername(String username) {
+    String query = "SELECT * FROM customer WHERE username = ? AND isDelete = 0";
+
+    try (Connection conn = DBUtil.getConnection();
+         PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+        pstmt.setString(1, username);
+        ResultSet rs = pstmt.executeQuery();
+
+        if (rs.next()) {
+            Customer customer = new Customer();
+            customer.setId(rs.getInt("id"));
+            customer.setName(rs.getString("name"));
+            customer.setUsername(rs.getString("username"));
+            customer.setNic(rs.getString("nic"));
+            customer.setEmail(rs.getString("email"));
+            customer.setAddress(rs.getString("address"));
+            customer.setPhoneno(rs.getString("phoneno"));
+            customer.setBook(rs.getBoolean("isBook"));
+            customer.setDelete(rs.getBoolean("isDelete"));
+            return customer;
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return null;
+}
+
+public boolean updateCustomerByUsername(Customer customer) {
+    String query = "UPDATE customer SET name = ?, nic = ?, email = ?, address = ?, phoneno = ? WHERE username = ? AND isDelete = 0";
+
+    try (Connection conn = DBUtil.getConnection();
+         PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+        pstmt.setString(1, customer.getName());
+        pstmt.setString(2, customer.getNic());
+        pstmt.setString(3, customer.getEmail());
+        pstmt.setString(4, customer.getAddress());
+        pstmt.setString(5, customer.getPhoneno());
+        pstmt.setString(6, customer.getUsername());
+
+        int rowsUpdated = pstmt.executeUpdate();
+        return rowsUpdated > 0;
+    } catch (Exception e) {
+        e.printStackTrace();
+        return false;
+    }
+}
+
 }

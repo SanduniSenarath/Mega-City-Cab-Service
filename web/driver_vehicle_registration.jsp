@@ -1,270 +1,138 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="java.io.BufferedReader, java.io.InputStreamReader, java.net.HttpURLConnection, java.net.URL, org.json.JSONArray, org.json.JSONObject" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vehicle and Driver Registration</title>
-    <link rel="stylesheet" href="styles.css"> <!-- External CSS file link -->
-    <style>
-        /* CSS Styling for the form layout */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            padding: 20px;
-        }
-
-        h1 {
-            color: #333;
-        }
-
-        .form-container {
-            display: flex;
-            justify-content: space-between;
-            gap: 30px;
-            flex-wrap: wrap;
-        }
-
-        .form {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            max-width: 600px;
-            width: 100%;
-            flex: 1 1 45%; /* Allow forms to shrink and grow with a base size of 45% */
-        }
-
-        form h2 {
-            margin-top: 0;
-        }
-
-        div {
-            margin-bottom: 15px;
-        }
-
-        label {
-            display: block;
-            font-weight: bold;
-        }
-
-        input, select {
-            width: 100%;
-            padding: 8px;
-            margin-top: 5px;
-            font-size: 14px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-
-        button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-            font-size: 16px;
-            border-radius: 4px;
-        }
-
-        button:hover {
-            background-color: #45a049;
-        }
-
-        .message {
-            margin-top: 20px;
-            padding: 10px;
-            border-radius: 4px;
-            color: #fff;
-            display: none; /* Hidden by default */
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80%;
-            max-width: 500px;
-            z-index: 1000;
-        }
-
-        .success {
-            background-color: #4CAF50;
-        }
-
-        .error {
-            background-color: #f44336;
-        }
-
-        .show {
-            display: block; /* Show the message */
-        }
-    </style>
+    <title>Assign Driver to Vehicle</title>
+    <link rel="stylesheet" href="CSS/listStyle.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Register a New Vehicle and Driver</h1>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="admin_home.jsp" class="logo">Cab Booking</a></li>
+                <li><a href="admin_home.jsp">Home</a></li>
+                <li><a href="vehicle-list.jsp">Vehicle List</a></li>
+                <li><a href="driver_registration.jsp">Driver Registration</a></li>
+            </ul>
+        </nav>
+    </header>
 
-    <div id="message" class="message"></div>
+    <h2>Assign Driver to Vehicle</h2>
 
-    <!-- Registration Container -->
-    <div class="form-container">
-        <!-- Vehicle Registration Form -->
-        <form id="vehicleForm" class="form">
-            <h2>Vehicle Details</h2>
-            <div>
-                <label for="vehicleNumber">Vehicle Number:</label>
-                <input type="text" id="vehicleNumber" name="vehicleNumber" required />
-            </div>
-            <div>
-                <label for="availableSeats">Available Seats:</label>
-                <input type="number" id="availableSeats" name="availableSeats" required />
-            </div>
-            <div>
-                <label for="type">Vehicle Type:</label>
-                <select id="type" name="type" required>
-                    <option value="Car">Car</option>
-                    <option value="Truck">Truck</option>
-                    <option value="Bus">Bus</option>
-                    <option value="Bike">Bike</option>
-                </select>
-            </div>
-            <div>
-                <label for="owner">Owner:</label>
-                <input type="text" id="owner" name="owner" required />
-            </div>
-            <div>
-                <label for="colour">Colour:</label>
-                <input type="text" id="colour" name="colour" required />
-            </div>
-            <div>
-                <label for="fuelType">Fuel Type:</label>
-                <select id="fuelType" name="fuelType" required>
-                    <option value="Petrol">Petrol</option>
-                    <option value="Diesel">Diesel</option>
-                    <option value="Electric">Electric</option>
-                </select>
-            </div>
-            <div>
-                <label for="chassisNumber">Chassis Number:</label>
-                <input type="text" id="chassisNumber" name="chassisNumber" required />
-            </div>
-            <div>
-                <label for="brandName">Brand Name:</label>
-                <input type="text" id="brandName" name="brandName" required />
-            </div>
+    <%
+        // Get vehicleId from URL
+        String vehicleId = request.getParameter("vehicleId");
+        JSONObject vehicle = null;
 
-            <div>
-                <button type="submit">Register Vehicle</button>
-            </div>
-        </form>
+        if (vehicleId != null && !vehicleId.isEmpty()) {
+            try {
+                // API call to get vehicle details
+                URL url = new URL("http://localhost:8080/Mega_City_Cab_Service/api/vehicles/" + vehicleId);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("GET");
+                conn.setRequestProperty("Accept", "application/json");
 
-        <!-- Driver Registration Form -->
-        <form id="driverForm" class="form">
-            <h2>Driver Details</h2>
-            <div>
-                <label for="nic">NIC:</label>
-                <input type="text" id="nic" name="nic" required />
-            </div>
-            <div>
-                <label for="driverName">Driver Name:</label>
-                <input type="text" id="driverName" name="driverName" required />
-            </div>
-            <div>
-                <label for="phoneNo">Phone Number:</label>
-                <input type="text" id="phoneNo" name="phoneNo" required />
-            </div>
-            <div>
-                <label for="addressNo">Address No:</label>
-                <input type="text" id="addressNo" name="addressNo" required />
-            </div>
-            <div>
-                <label for="addressLine1">Address Line 1:</label>
-                <input type="text" id="addressLine1" name="addressLine1" required />
-            </div>
-            <div>
-                <label for="addressLine2">Address Line 2:</label>
-                <input type="text" id="addressLine2" name="addressLine2" required />
-            </div>
-            <div>
-                <label for="gender">Gender:</label>
-                <select id="gender" name="gender" required>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                </select>
-            </div>
-            <div>
-                <label for="isAvailable">Is Available:</label>
-                <select id="isAvailable" name="isAvailable" required>
-                    <option value="true">Yes</option>
-                    <option value="false">No</option>
-                </select>
-            </div>
+                if (conn.getResponseCode() == 200) {
+                    BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    String output, jsonResponse = "";
+                    while ((output = br.readLine()) != null) {
+                        jsonResponse += output;
+                    }
+                    conn.disconnect();
+                    vehicle = new JSONObject(jsonResponse);
+                }
+            } catch (Exception e) {
+                out.println("<p style='color:red;'>Error fetching vehicle details.</p>");
+            }
+        }
+    %>
 
-            <div>
-                <button type="submit">Register Driver</button>
-            </div>
-        </form>
+    <!-- Display Selected Vehicle Details -->
+    <div class="vehicle-details">
+        <% if (vehicle != null) { %>
+            <h3>Vehicle Information</h3>
+            <p><strong>Vehicle Number:</strong> <%= vehicle.getString("vehicleNumber") %></p>
+            <p><strong>Brand:</strong> <%= vehicle.getString("brandName") %></p>
+            <p><strong>Type:</strong> <%= vehicle.getString("type") %></p>
+            <p><strong>Fuel Type:</strong> <%= vehicle.getString("fuelType") %></p>
+            <p><strong>Chassis Number:</strong> <%= vehicle.getString("chassisNumber") %></p>
+            <p><strong>Colour:</strong> <%= vehicle.getString("colour") %></p>
+            <p><strong>Available Seats:</strong> <%= vehicle.getInt("availableSeats") %></p>
+            <p><strong>Owner:</strong> <%= vehicle.getString("owner") %></p>
+        <% } else { %>
+            <p style="color:red;">No vehicle selected or vehicle not found.</p>
+        <% } %>
     </div>
 
-    <script>
-        // Handle form submissions
-        document.getElementById("vehicleForm").addEventListener("submit", function (event) {
-            event.preventDefault(); // Prevent page refresh on form submission
-            const vehicleData = {
-                vehicleNumber: document.getElementById("vehicleNumber").value,
-                availableSeats: document.getElementById("availableSeats").value,
-                type: document.getElementById("type").value,
-                owner: document.getElementById("owner").value,
-                colour: document.getElementById("colour").value,
-                fuelType: document.getElementById("fuelType").value,
-                chassisNumber: document.getElementById("chassisNumber").value,
-                brandName: document.getElementById("brandName").value
-            };
+    <h3>Select Driver</h3>
+    <form action="assign_driver_submit.jsp" method="post">
+        <input type="hidden" name="vehicleId" value="<%= vehicleId %>">
 
-            if (validateForm(vehicleData)) {
-                showMessage("Vehicle Registered Successfully!", "success");
-            } else {
-                showMessage("Please fill out all vehicle details.", "error");
-            }
-        });
+        <label for="driver">Select Driver:</label>
+        <select name="driverId" id="driver" onchange="fetchDriverDetails(this.value)">
+            <option value="">Select a Driver</option>
+            <% 
+            try {
+                // Fetch available drivers
+                URL url = new URL("http://localhost:8080/Mega_City_Cab_Service/api/drivers/available");
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("GET");
+                conn.setRequestProperty("Accept", "application/json");
 
-        document.getElementById("driverForm").addEventListener("submit", function (event) {
-            event.preventDefault(); // Prevent page refresh on form submission
-            const driverData = {
-                nic: document.getElementById("nic").value,
-                driverName: document.getElementById("driverName").value,
-                phoneNo: document.getElementById("phoneNo").value,
-                addressNo: document.getElementById("addressNo").value,
-                addressLine1: document.getElementById("addressLine1").value,
-                addressLine2: document.getElementById("addressLine2").value,
-                gender: document.getElementById("gender").value,
-                isAvailable: document.getElementById("isAvailable").value
-            };
+                if (conn.getResponseCode() == 200) {
+                    BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    String output, jsonResponse = "";
+                    while ((output = br.readLine()) != null) {
+                        jsonResponse += output;
+                    }
+                    conn.disconnect();
 
-            if (validateForm(driverData)) {
-                showMessage("Driver Registered Successfully!", "success");
-            } else {
-                showMessage("Please fill out all driver details.", "error");
-            }
-        });
-
-        // Form validation function
-        function validateForm(data) {
-            for (const key in data) {
-                if (data[key] === "") {
-                    return false;
+                    JSONArray drivers = new JSONArray(jsonResponse);
+                    for (int i = 0; i < drivers.length(); i++) {
+                        JSONObject driver = drivers.getJSONObject(i);
+                        out.println("<option value='" + driver.getInt("id") + "' data-name='" + driver.getString("name") +
+                                    "' data-phone='" + driver.getString("phoneNo") + "' data-email='" + driver.getString("email") + "'>" 
+                                    + driver.getString("name") + "</option>");
+                    }
                 }
+            } catch (Exception e) {
+                out.println("<option value=''>Error fetching drivers</option>");
             }
-            return true;
-        }
+            %>
+        </select>
 
-        // Show message function
-        function showMessage(message, type) {
-            const messageElement = document.getElementById("message");
-            messageElement.textContent = message;
-            messageElement.className = "message show " + type;
-            setTimeout(function () {
-                messageElement.className = "message"; // Hide message after 3 seconds
-            }, 3000);
+        <!-- Driver details display -->
+        <div id="driverDetails" style="display:none; margin-top:10px; border:1px solid #ccc; padding:10px;">
+            <p><strong>Name:</strong> <span id="driverName"></span></p>
+            <p><strong>Phone:</strong> <span id="driverPhone"></span></p>
+            <p><strong>Email:</strong> <span id="driverEmail"></span></p>
+        </div>
+
+        <button type="submit">Assign Driver</button>
+    </form>
+
+    <footer>
+        <p>&copy; 2025 Cab Booking System. All rights reserved.</p>
+    </footer>
+
+    <script>
+    function fetchDriverDetails(driverId) {
+        let driverSelect = document.getElementById('driver');
+        let selectedOption = driverSelect.options[driverSelect.selectedIndex];
+
+        if (driverId) {
+            document.getElementById('driverName').innerText = selectedOption.getAttribute('data-name');
+            document.getElementById('driverPhone').innerText = selectedOption.getAttribute('data-phone');
+            document.getElementById('driverEmail').innerText = selectedOption.getAttribute('data-email');
+            document.getElementById('driverDetails').style.display = 'block';
+        } else {
+            document.getElementById('driverDetails').style.display = 'none';
         }
+    }
     </script>
 </body>
 </html>

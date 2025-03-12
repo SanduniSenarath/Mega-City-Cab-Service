@@ -18,7 +18,7 @@
     <header>
         <nav>
             <ul>
-                <li><a href="index.jsp" class="logo">Cab Booking</a></li>
+                
                 
                 <% if (userRole.equals("admin")) { %>
                 <li><a href="admin_home.jsp" class="logo">Cab Booking</a></li>
@@ -27,7 +27,7 @@
                 <li><a href="driver_registration.jsp">Driver Registration</a></li>
                 <li><a href="view_bookings.jsp">All Bookings</a></li>
                 <li><a href="view_customers.jsp">All Customers</a></li>
-                <li><a href="logout.jsp">Logout</a></li>
+               
                 <% } else if (userRole.equals("driver")) { %>
                     <li><a href="index.jsp">Home</a></li>
                     <li><a href="driver_dashboard.jsp">Driver Dashboard</a></li>

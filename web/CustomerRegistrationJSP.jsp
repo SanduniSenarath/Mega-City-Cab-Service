@@ -4,6 +4,9 @@
     // Fetch user role and username from session
     String userRole = (String) session.getAttribute("userRole");
     String username = (String) session.getAttribute("username");
+    if (userRole == null) {
+        userRole = "guest"; 
+    }
 %>
 <!DOCTYPE html>
 <html lang="en">

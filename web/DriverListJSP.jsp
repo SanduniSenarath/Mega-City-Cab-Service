@@ -8,7 +8,6 @@
     if (userRole == null) {
         userRole = "guest"; 
     }
-    
 %>
 <html>
 <head> 
@@ -71,19 +70,42 @@
             border-radius: 5px;
             font-size: 14px;
         }
+        .message {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+        .message.success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .message.error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .loader {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #3498db;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+            display: none;
+        }
+        
     </style>
     <header>
         <nav>
             <ul>
                 <li><a href="index.jsp" class="logo">Cab Booking</a></li>
-                
                 <% if (userRole.equals("admin")) { %>
                 <li><a href="admin_home.jsp">Home</a></li>
                 <li><a href="vehicle-registration.jsp">Vehicle Registration</a></li>
                 <li><a href="driver_registration.jsp">Driver Registration</a></li>
                 <li><a href="view_bookings.jsp">All Bookings</a></li>
                 <li><a href="view_customers.jsp">All Customers</a></li>
-                <li><a href="logout.jsp">Logout</a></li>
                 <% } else if (userRole.equals("driver")) { %>
                     <li><a href="index.jsp">Home</a></li>
                     <li><a href="driver_dashboard.jsp">Driver Dashboard</a></li>
@@ -96,7 +118,6 @@
                     <li><a href="login.jsp">Login</a></li>
                     <li><a href="CustomerRegistrationJSP.jsp">Register</a></li>
                 <% } %>
-                <li><a href="help.jsp">Help</a></li>
                 <% if (!userRole.equals("guest")) { %>
                     <li><a href="logout.jsp">Logout</a></li>
                 <% } %>
@@ -108,6 +129,9 @@
     <div class="container">
         <h2>Driver List</h2>
 
+        <!-- Message Display -->
+        <div id="message" class="message"></div>
+
         <!-- Search Box -->
         <div class="search-container">
             <input type="text" id="searchInput" onkeyup="filterTable()" placeholder="Search for drivers...">
@@ -118,6 +142,9 @@
             <button onclick="downloadPDF()">Download PDF</button>
             <button onclick="downloadExcel()">Download Excel</button>
         </div>
+
+        <!-- Loading Spinner -->
+        <div id="loader" class="loader"></div>
 
         <!-- Driver Table -->
         <table id="driverTable">
@@ -165,10 +192,7 @@
                             out.println("<input type='hidden' name='id' value='" + driver.getInt("id") + "' />");
                             out.println("<button type='submit'>Edit</button>");
                             out.println("</form>");
-                            out.println("<form action='deleteDriver.jsp' method='POST' onsubmit='return confirm(\"Are you sure you want to delete this driver?\");'>");
-                            out.println("<input type='hidden' name='id' value='" + driver.getInt("id") + "' />");
-                            out.println("<button type='submit' class='delete'>Delete</button>");
-                            out.println("</form>");
+                            out.println("<button class='delete' onclick='deleteDriver(" + driver.getInt("id") + ")'>Delete</button>");
                             out.println("</td>");
                             out.println("</tr>");
                         }
@@ -221,6 +245,41 @@
             
             XLSX.utils.book_append_sheet(wb, ws, "Drivers");
             XLSX.writeFile(wb, "Driver_List.xlsx");
+        }
+
+        // 📌 Function to Delete Driver
+        function deleteDriver(driverId) {
+            if (confirm("Are you sure you want to delete this driver?")) {
+                document.getElementById("loader").style.display = "block";
+                fetch("http://localhost:8080/Mega_City_Cab_Service/api/drivers/delete/" + driverId, {
+                    method: "DELETE"
+                })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("loader").style.display = "none";
+                    if (data.success) {
+                        showMessage("Driver deleted successfully.", "success");
+                        location.reload();
+                    } else {
+                        showMessage("Error: " + data.message, "error");
+                    }
+                })
+                .catch(error => {
+                    document.getElementById("loader").style.display = "none";
+                    showMessage("An error occurred: " + error.message, "error");
+                });
+            }
+        }
+
+        // 📌 Function to Show Messages
+        function showMessage(message, type) {
+            const messageDiv = document.getElementById("message");
+            messageDiv.textContent = message;
+            messageDiv.className = "message " + type;
+            messageDiv.style.display = "block";
+            setTimeout(() => {
+                messageDiv.style.display = "none";
+            }, 5000);
         }
     </script>
     <footer>

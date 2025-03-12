@@ -5,12 +5,15 @@
 --%>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="java.util.UUID" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Schedule Management</title>
+    <title>Add Bookings</title>
+    <link rel="stylesheet" href="styles.css">
     <style>
         * {
             margin: 0;
@@ -22,20 +25,19 @@
             font-family: Arial, sans-serif;
             background-color: #f4f4f9;
             color: #333;
-            display: flex;
-            justify-content: center;
             align-items: center;
             height: 100vh;
         }
 
         .container {
-            width: 80%;
+            width: 60%;
             max-width: 1200px;
             margin: 20px;
             background-color: white;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-left: 320px;
         }
 
         h1 {
@@ -44,7 +46,7 @@
             color: #2c3e50;
         }
 
-        .form-section, .schedule-list {
+        .form-section {
             margin-bottom: 30px;
         }
 
@@ -61,6 +63,11 @@
             border-radius: 4px;
         }
 
+        form input[readonly] {
+            background-color: #e9ecef;
+            cursor: not-allowed;
+        }
+
         form button {
             width: 100%;
             padding: 10px;
@@ -75,45 +82,65 @@
         form button:hover {
             background-color: #27ae60;
         }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        table th, table td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-
-        table th {
-            background-color: #3498db;
-            color: white;
-        }
-
-        table td button {
-            padding: 5px 10px;
-            background-color: #f39c12;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        table td button:hover {
-            background-color: #e67e22;
-        }
     </style>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            fetchSchedules();
+            
+            let pricePerKm = 0;
+            
+            fetch('http://localhost:8080/Mega_City_Cab_Service/api/prices/1')
+        .then(response => response.json())
+        .then(data => {
+            pricePerKm = data.price; // Assign the fetched price
+        })
+        .catch(error => console.error('Error fetching price:', error));
+            // Generate a random book number
+            const bookNumber = Math.floor(Math.random() * 1000000); // Adjust range as needed
+            document.getElementById('bookNumber').value = bookNumber;
 
-            document.getElementById('scheduleForm').addEventListener('submit', function (e) {
+            // Get empSchNo from the URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const empSchNo = urlParams.get('empSchNo');
+            if (empSchNo) {
+                document.getElementById('empSchNo').value = empSchNo;
+            }
+            
+             document.getElementById('distance').addEventListener('input', function () {
+        const distance = parseFloat(this.value);
+        if (!isNaN(distance) && pricePerKm > 0) {
+            document.getElementById('amount').value = (distance * pricePerKm).toFixed(2);
+        } else {
+            document.getElementById('amount').value = '';
+        }
+        });
+          // Disable past dates and times
+    const dateInput = document.getElementById('date');
+    const timeInput = document.getElementById('time');
+
+    const now = new Date();
+    const currentDate = now.toISOString().split('T')[0]; // Get current date in YYYY-MM-DD format
+    const currentTime = now.toTimeString().split(' ')[0].substring(0, 5); // Get current time in HH:MM format
+
+    // Set min date to today
+    dateInput.setAttribute('min', currentDate);
+
+    // Set min time to current time if today's date is selected
+    dateInput.addEventListener('change', function () {
+        if (this.value === currentDate) {
+            timeInput.setAttribute('min', currentTime);
+        } else {
+            timeInput.removeAttribute('min'); // Allow any time for future dates
+        }
+        
+        
+    });
+    
+    
+
+            document.getElementById('bookingForm').addEventListener('submit', function (e) {
                 e.preventDefault();
 
-                const schedule = {
+                const booking = {
                     bookNumber: document.getElementById('bookNumber').value,
                     startLocation: document.getElementById('startLocation').value,
                     endLocation: document.getElementById('endLocation').value,
@@ -125,109 +152,121 @@
                     time: document.getElementById('time').value
                 };
 
-                if (Object.values(schedule).some(value => !value)) {
+                if (Object.values(booking).some(value => !value)) {
                     alert("Please fill in all fields.");
                     return;
                 }
 
+                // Use the provided endpoint to add the booking
                 fetch('http://localhost:8080/Mega_City_Cab_Service/api/schedules/add', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(schedule),
+                    body: JSON.stringify(booking),
                 })
                 .then(response => response.json())
                 .then(data => {
                     alert(data.message);
-                    if (data.success) fetchSchedules();
+                    if (data.success) {
+                        // Clear the form after successful submission
+                        document.getElementById('bookingForm').reset();
+                    }
                 })
-                .catch(error => alert('Error adding schedule: ' + error));
+                .catch(error => alert('Error adding booking: ' + error));
             });
         });
-
-        function fetchSchedules() {
-            fetch('http://localhost:8080/Mega_City_Cab_Service/api/schedules/getAll')
-                .then(response => response.json())
-                .then(schedules => {
-                    const tableBody = document.querySelector('#scheduleTable tbody');
-                    tableBody.innerHTML = '';
-                    schedules.forEach(schedule => {
-                        const row = document.createElement('tr');
-                        row.innerHTML = `
-                            <td>${schedule.bookNumber}</td>
-                            <td>${schedule.startLocation}</td>
-                            <td>${schedule.endLocation}</td>
-                            <td>${schedule.distance}</td>
-                            <td>${schedule.amount}</td>
-                            <td>${schedule.empSchNo}</td>
-                            <td>${schedule.username}</td>
-                            <td>${schedule.date}</td>
-                            <td>${schedule.time}</td>
-                            <td>
-                                <button onclick="updateSchedule(${schedule.id})">Update</button>
-                                <button onclick="deleteSchedule(${schedule.id})">Delete</button>
-                            </td>
-                        `;
-                        tableBody.appendChild(row);
-                    });
-                })
-                .catch(error => alert('Error fetching schedules.'));
-        }
-
-        function deleteSchedule(id) {
-            fetch(`http://localhost:8080/Mega_City_Cab_Service/api/schedules/delete/${id}`, {
-                method: 'DELETE'
-            })
-            .then(response => response.json())
-            .then(data => {
-                alert(data.message);
-                if (data.success) fetchSchedules();
-            })
-            .catch(error => alert('Error deleting schedule: ' + error));
-        }
-
-        function updateSchedule(id) {
-            alert(`Update functionality for schedule ID ${id}`);
-        }
     </script>
 </head>
 <body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.jsp" class="logo">Cab Booking</a></li>
+                <% 
+                    String userRole = (String) session.getAttribute("userRole"); 
+                    if ("admin".equals(userRole)) { 
+                %>
+                    <li><a href="admin_home.jsp">Home</a></li>
+                    <li><a href="DriverListJSP.jsp">View Driver List</a></li>
+                    <li><a href="vehicle-registration.jsp">Vehicle Registration</a></li>
+                    <li><a href="driver_vehicle_registration.jsp">Driver Vehicle Registration</a></li>
+                    <li><a href="driver_registration.jsp">Driver Registration</a></li>
+                    <li><a href="vehicleListJSP.jsp">Vehicle List</a></li>
+                    <li><a href="CustomerRegistrationJSP.jsp">Customer Registration</a></li>
+                    <li><a href="AddBookings.jsp">Add Bookings</a></li>
+                <% 
+                    } else if ("driver".equals(userRole)) { 
+                %>
+                    <li><a href="index.jsp">Home</a></li>
+                    <li><a href="driver_dashboard.jsp">Driver Dashboard</a></li>
+                    <li><a href="view_bookings.jsp">View Bookings</a></li>
+                <% 
+                    } else if ("customer".equals(userRole)) { 
+                %>
+                    <li><a href="index.jsp">Home</a></li>
+                    <li><a href="frame.jsp">Book a Cab</a></li>
+                    <li><a href="my_bookings.jsp">My Bookings</a></li>
+                <% 
+                    } else { 
+                %>
+                    <li><a href="login.jsp">Login</a></li>
+                    <li><a href="CustomerRegistrationJSP.jsp">Register</a></li>
+                <% 
+                    } 
+                %>
+                <li><a href="help.jsp">Help</a></li>
+                <% if (!"guest".equals(userRole)) { %>
+                    <li><a href="logout.jsp">Logout</a></li>
+                <% } %>
+            </ul>
+        </nav>
+    </header>
+
     <div class="container">
-        <h1>Schedule Management</h1>
+        <h1>Add Bookings</h1>
         <section class="form-section">
-            <h2>Add Schedule</h2>
-            <form id="scheduleForm">
-                <input type="text" id="bookNumber" placeholder="Book Number" required>
-                <input type="text" id="startLocation" placeholder="Start Location" required>
-                <input type="text" id="endLocation" placeholder="End Location" required>
-                <input type="number" id="distance" placeholder="Distance" required>
-                <input type="number" id="amount" placeholder="Amount" required>
-                <input type="text" id="empSchNo" placeholder="Employee Schedule Number" required>
-                <input type="text" id="username" placeholder="Username" required>
-                <input type="date" id="date" required>
-                <input type="time" id="time" required>
-                <button type="submit">Add Schedule</button>
+            
+            <h2>Add Booking</h2>
+            <form id="bookingForm">
+                <!-- Book Number (Auto-generated and read-only) -->
+                <input type="text" id="bookNumber" name="bookNumber" placeholder="Book Number" readonly>
+
+                <!-- Start Location -->
+                <input type="text" id="startLocation" name="startLocation" placeholder="Start Location" required>
+
+                <!-- End Location -->
+                <input type="text" id="endLocation" name="endLocation" placeholder="End Location" required>
+
+                <!-- Distance -->
+                <input type="number" id="distance" name="distance" placeholder="Distance" required>
+
+                <!-- Amount -->
+                <input type="number" id="amount" name="amount" placeholder="Amount" readonly>
+
+                <!-- Employee Schedule Number (Read-only, taken from URL) -->
+                <input type="text" id="empSchNo" name="empSchNo" placeholder="Employee Schedule Number" readonly>
+
+                <!-- Username (Read-only, taken from session) -->
+                <input type="text" id="username" name="username" placeholder="Username" value="<%= session.getAttribute("username") %>" readonly>
+
+                <!-- Date -->
+                <input type="date" id="date" name="date" required>
+
+                <!-- Time -->
+                <input type="time" id="time" name="time" required>
+
+                <!-- Submit Button -->
+                <button type="submit">Add Booking</button>
             </form>
         </section>
-        <section class="schedule-list">
-            <h2>All Schedules</h2>
-            <table id="scheduleTable">
-                <thead>
-                    <tr>
-                        <th>Book Number</th>
-                        <th>Start Location</th>
-                        <th>End Location</th>
-                        <th>Distance</th>
-                        <th>Amount</th>
-                        <th>Employee Schedule Number</th>
-                        <th>Username</th>
-                        <th>Date</th>
-                        <th>Time</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </section>
     </div>
+
+    <footer>
+        <p>&copy; 2023 Cab Booking System. All rights reserved.</p>
+        <ul>
+            <li><a href="privacy_policy.jsp">Privacy Policy</a></li>
+            <li><a href="terms_of_service.jsp">Terms of Service</a></li>
+            <li><a href="contact_us.jsp">Contact Us</a></li>
+        </ul>
+    </footer>
 </body>
 </html>

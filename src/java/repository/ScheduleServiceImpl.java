@@ -13,9 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.Customer;
 import model.Schedule;
+import service.CustomerService;
 import service.ScheduleService;
 import util.DBUtil;
+import util.SendEmail;
 
 public class ScheduleServiceImpl implements ScheduleService {
 
@@ -30,27 +33,57 @@ public class ScheduleServiceImpl implements ScheduleService {
     
     }
 
-    @Override
-    public boolean addSchedule(Schedule schedule) {
-        String query = "INSERT INTO schedule (bookNumber, startLocation, endLocation, distance, amount, empSchNo, username, date, time) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setString(1, schedule.getBookNumber());
-            stmt.setString(2, schedule.getStartLocation());
-            stmt.setString(3, schedule.getEndLocation());
-            stmt.setDouble(4, schedule.getDistance());
-            stmt.setDouble(5, schedule.getAmount());
-            stmt.setString(6, schedule.getEmpSchNo());
-            stmt.setString(7, schedule.getUsername());
-            stmt.setString(8, schedule.getDate());
-            stmt.setString(9, schedule.getTime());
-            
-            int result = stmt.executeUpdate();
-            return result > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
+@Override
+public boolean addSchedule(Schedule schedule) {
+    String query = "INSERT INTO schedule (bookNumber, startLocation, endLocation, distance, amount, empSchNo, username, date, time) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    
+    try (PreparedStatement stmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+        stmt.setString(1, schedule.getBookNumber());
+        stmt.setString(2, schedule.getStartLocation());
+        stmt.setString(3, schedule.getEndLocation());
+        stmt.setDouble(4, schedule.getDistance());
+        stmt.setDouble(5, schedule.getAmount());
+        stmt.setString(6, schedule.getEmpSchNo());
+        stmt.setString(7, schedule.getUsername());
+        stmt.setString(8, schedule.getDate());
+        stmt.setString(9, schedule.getTime());
+
+        int result = stmt.executeUpdate();
+
+        if (result > 0) {
+            // Get generated booking ID
+            int bookingId = -1;
+            try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    bookingId = generatedKeys.getInt(1);
+                }
+            }
+
+            // Fetch customer details dynamically
+            CustomerService customerService = new CustomerServiceImpl();
+            Customer customer = customerService.getCustomerByUsername(schedule.getUsername());
+
+            if (customer != null) {
+                // Send email with dynamic data
+                SendEmail.sendBookingConfirmationEmail(
+                    customer.getEmail(),
+                    customer.getName(),
+                    schedule.getDate(),          // Dynamic Booking date
+                    schedule.getStartLocation(), // Dynamic Pickup location
+                    schedule.getEndLocation(),   // Dynamic Drop-off location
+                    schedule.getDistance(),                     // You may replace this with a dynamic vehicle type
+                    schedule.getAmount(),        // Dynamic Fare amount
+                    schedule.getBookNumber()                     // Generated Booking ID
+                );
+            }
+            return true;
         }
-        return false;
+    } catch (SQLException e) {
+        e.printStackTrace();
     }
+    return false;
+}
+
 
     @Override
     public boolean updateSchedule(Schedule schedule) {
@@ -161,6 +194,8 @@ public List<Schedule> getSchedulesByUsername(String username) {
             schedule.setTime(rs.getString("time"));
             schedules.add(schedule);
         }
+
+
     } catch (SQLException e) {
         e.printStackTrace();
     }

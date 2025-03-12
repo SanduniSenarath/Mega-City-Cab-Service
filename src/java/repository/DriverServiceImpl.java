@@ -57,34 +57,59 @@ public class DriverServiceImpl implements DriverService {
     }
 
     @Override
-    public boolean addDriver(Driver driver) {
-        String query = "INSERT INTO driver (nic, name, phoneno, addressno, addressLine1, addressLine2, gender, isDelete, isAvailable, email, username) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setString(1, driver.getNic());
-            stmt.setString(2, driver.getName());
-            stmt.setString(3, driver.getPhoneNo());
-            stmt.setString(4, driver.getAddressNo());
-            stmt.setString(5, driver.getAddressLine1());
-            stmt.setString(6, driver.getAddressLine2());
-            stmt.setString(7, driver.getGender());
-            stmt.setBoolean(8, driver.isDelete());
-            stmt.setBoolean(9, driver.isAvailable());
-            stmt.setString(10, driver.getEmail());  // Set email field
-            stmt.setString(11, driver.getUsername());  // Set username field
-            
-            int rowsAffected = stmt.executeUpdate();
-        
-            if (rowsAffected > 0) {
-                SendEmail.sendEmail(driver.getEmail(), driver.getName());
-                return true;
-            } else {
-                return false;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+   public boolean addDriver(Driver driver) {
+    String query = "INSERT INTO driver (nic, name, phoneno, addressno, addressLine1, addressLine2, gender, isDelete, isAvailable, email, username) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 1, ?, ?)";
+    
+    try (PreparedStatement stmt = connection.prepareStatement(query)) {
+        stmt.setString(1, driver.getNic());
+        stmt.setString(2, driver.getName());
+        stmt.setString(3, driver.getPhoneNo());
+        stmt.setString(4, driver.getAddressNo());
+        stmt.setString(5, driver.getAddressLine1());
+        stmt.setString(6, driver.getAddressLine2());
+        stmt.setString(7, driver.getGender());
+        stmt.setBoolean(8, driver.isDelete());
+        // No need to set `isAvailable` since it's already `1` in the query.
+        stmt.setString(9, driver.getEmail());
+        stmt.setString(10, driver.getUsername());
+
+        int rowsAffected = stmt.executeUpdate();
+    
+        if (rowsAffected > 0) {
+            SendEmail.sendWelcomeEmail(driver.getEmail(), driver.getName());
+            return true;
+        } else {
             return false;
         }
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return false;
     }
+}
+
+   public Driver getDriverDetailsByUsername(String username) {
+    String query = "SELECT name, email FROM driver WHERE username = ?";
+    
+    try (Connection conn = DBUtil.getConnection();
+         PreparedStatement pstmt = conn.prepareStatement(query)) {
+        
+        pstmt.setString(1, username);
+        ResultSet rs = pstmt.executeQuery();
+        
+        if (rs.next()) {
+            return new Driver(
+                rs.getString("name"), 
+                rs.getString("email")
+            );
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    
+    return null; // Return null if the driver is not found
+}
+
+
 
     @Override
     public Driver getDriverById(int id) {
@@ -117,7 +142,7 @@ public class DriverServiceImpl implements DriverService {
 
     @Override
     public boolean updateDriver(Driver driver) {
-        String query = "UPDATE driver SET nic = ?, name = ?, phoneno = ?, addressno = ?, addressLine1 = ?, addressLine2 = ?, gender = ?, isAvailable = ?, email = ?, username = ? WHERE id = ?";
+        String query = "UPDATE driver SET nic = ?, name = ?, phoneno = ?, addressno = ?, addressLine1 = ?, addressLine2 = ?, gender = ?, email = ?, username = ? WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setString(1, driver.getNic());
             stmt.setString(2, driver.getName());
@@ -126,16 +151,44 @@ public class DriverServiceImpl implements DriverService {
             stmt.setString(5, driver.getAddressLine1());
             stmt.setString(6, driver.getAddressLine2());
             stmt.setString(7, driver.getGender());
-            stmt.setBoolean(8, driver.isAvailable());
-            stmt.setString(9, driver.getEmail());  // Set email field
-            stmt.setString(10, driver.getUsername());  // Set username field
-            stmt.setInt(11, driver.getId());
+            stmt.setString(8, driver.getEmail());  // Set email field
+            stmt.setString(9, driver.getUsername());  // Set username field
+            stmt.setInt(10, driver.getId());
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
     }
+
+    
+    @Override
+public List<Driver> getAvailableDrivers() {
+    List<Driver> drivers = new ArrayList<>();
+    String query = "SELECT * FROM driver WHERE isDelete = 0 AND isAvailable = 1";
+    try (PreparedStatement stmt = connection.prepareStatement(query);
+         ResultSet rs = stmt.executeQuery()) {
+        while (rs.next()) {
+            drivers.add(new Driver(
+                    rs.getInt("id"),
+                    rs.getString("nic"),
+                    rs.getString("name"),
+                    rs.getString("phoneno"),
+                    rs.getString("addressno"),
+                    rs.getString("addressLine1"),
+                    rs.getString("addressLine2"),
+                    rs.getString("gender"),
+                    rs.getBoolean("isDelete"),
+                    rs.getBoolean("isAvailable"),
+                    rs.getString("email"),
+                    rs.getString("username")
+            ));
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return drivers;
+}
 
     @Override
     public boolean deleteDriver(int id) {
@@ -148,4 +201,39 @@ public class DriverServiceImpl implements DriverService {
             return false;
         }
     }
+
+    public String getDriverEmail(String driverUsername) {
+    String query = "SELECT email FROM driver WHERE username = ?";
+    try (Connection conn = DBUtil.getConnection();
+         PreparedStatement pstmt = conn.prepareStatement(query)) {
+        
+        pstmt.setString(1, driverUsername);
+        try (ResultSet rs = pstmt.executeQuery()) {
+            if (rs.next()) {
+                return rs.getString("email"); // Return the email if found
+            }
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return null; // Return null if not found
+}
+
+public String getDriverName(String driverUsername) {
+    String query = "SELECT name FROM driver WHERE username = ?";
+    try (Connection conn = DBUtil.getConnection();
+         PreparedStatement pstmt = conn.prepareStatement(query)) {
+        
+        pstmt.setString(1, driverUsername);
+        try (ResultSet rs = pstmt.executeQuery()) {
+            if (rs.next()) {
+                return rs.getString("name"); // Return the name if found
+            }
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return null; // Return null if not found
+}
+
 }

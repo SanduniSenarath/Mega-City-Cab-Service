@@ -6,18 +6,9 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="java.sql.*" %>
-<%
-    // Fetch user role and username from session
-    String userRole = (String) session.getAttribute("userRole");
-    String username = (String) session.getAttribute("username");
-    if (userRole == null) {
-        userRole = "guest"; 
-    }
-     if (username != null && username.equals("admin")) {
-        response.sendRedirect("admin_home.jsp");
-        return; // Stop further execution
-    }
-%>
+<%@ include file="header.jsp" %>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,41 +16,124 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cab Booking System</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        /* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    /*display: flex;*/
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Main Section */
+main {
+    width: 90%;
+    max-width: 1200px;
+    text-align: center;
+    margin-top: 50px;
+    margin-left: 150px;
+}
+
+/* Introduction Section */
+.intro-section {
+   background: rgb(192,233,39);
+background: radial-gradient(circle, rgba(192,233,39,1) 0%, rgba(47,180,227,1) 100%);
+    color: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    
+}
+
+.intro-section h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.intro-section p {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 12px 25px;
+    font-size: 1.2rem;
+    color: white;
+    background-color: #FF9D23;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.cta-button:hover {
+    background-color: #FFCF50;
+}
+
+/* Features Section */
+.features-section {
+    margin-top: 50px;
+}
+
+.features-section h2 {
+    font-size: 2rem;
+    margin-bottom: 30px;
+    color: #343a40;
+}
+
+.features-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.feature {
+    flex: 1;
+    min-width: 280px;
+    max-width: 350px;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.feature h3 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: #007bff;
+}
+
+.feature p {
+    font-size: 1rem;
+    color: #6c757d;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .features-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .intro-section h1 {
+        font-size: 2rem;
+    }
+    
+    .intro-section p {
+        font-size: 1rem;
+    }
+}
+    </style>
 </head>
 <body>
     <!-- Header with Role-Based Customization -->
-    <header>
-        <nav>
-            <ul>
-                <li><a href="index.jsp" class="logo">Cab Booking</a></li>
-                
-                <% if (userRole.equals("admin")) { %>
-                <li><a href="admin_home.jsp" class="logo">Cab Booking</a></li>
-                <li><a href="admin_home.jsp">Home</a></li>
-                <li><a href="vehicle-registration.jsp">Vehicle Registration</a></li>
-                <li><a href="driver_registration.jsp">Driver Registration</a></li>
-                <li><a href="view_bookings.jsp">All Bookings</a></li>
-                <li><a href="view_customers.jsp">All Customers</a></li>
-                <li><a href="logout.jsp">Logout</a></li>
-                <% } else if (userRole.equals("driver")) { %>
-                    <li><a href="index.jsp">Home</a></li>
-                    <li><a href="driver_dashboard.jsp">Driver Dashboard</a></li>
-                    <li><a href="view_bookings.jsp">View Bookings</a></li>
-                <% } else if (userRole.equals("customer")) { %>
-                    <li><a href="index.jsp">Home</a></li>
-                    <li><a href="AddBookings.jsp">Book a Cab</a></li>
-                    <li><a href="my_bookings.jsp">My Bookings</a></li>
-                <% } else { %>
-                    <li><a href="login.jsp">Login</a></li>
-                    <li><a href="CustomerRegistrationJSP.jsp">Register</a></li>
-                <% } %>
-                <li><a href="help.jsp">Help</a></li>
-                <% if (!userRole.equals("guest")) { %>
-                    <li><a href="logout.jsp">Logout</a></li>
-                <% } %>
-            </ul>
-        </nav>
-    </header>
+    
 
     <!-- Main Content -->
     <main>
@@ -70,7 +144,7 @@
             <% if (userRole.equals("guest")) { %>
                 <a href="login.jsp" class="cta-button">Login to Book Now</a>
             <% } else { %>
-                <a href="AddBookings.jsp" class="cta-button">Book Now</a>
+                <a href="frame.jsp" class="cta-button">Book Now</a>
             <% } %>
         </section>
 

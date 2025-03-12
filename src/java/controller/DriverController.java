@@ -73,4 +73,12 @@ public class DriverController {
             return Response.status(Response.Status.BAD_REQUEST).entity("Failed to delete driver").build();
         }
     }
+    
+    @GET
+@Path("/available")
+public Response getAvailableDrivers() {
+    List<Driver> availableDrivers = driverService.getAvailableDrivers();
+    return Response.ok(availableDrivers, MediaType.APPLICATION_JSON).build();
+}
+
 }

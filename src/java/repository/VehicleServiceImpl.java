@@ -151,5 +151,37 @@ public class VehicleServiceImpl {
         return false;
     }
 }
+    
+    public Vehicle getVehicleByNumber(String vehicleNumber) {
+    String query = "SELECT * FROM vehicle WHERE vehicle_number = ? AND isDelete = 0";
+
+    try (Connection conn = DBUtil.getConnection();
+         PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+        pstmt.setString(1, vehicleNumber);
+        ResultSet rs = pstmt.executeQuery();
+
+        if (rs.next()) {
+            Vehicle vehicle = new Vehicle();
+            vehicle.setId(rs.getInt("id"));
+            vehicle.setVehicleNumber(rs.getString("vehicle_number"));
+            vehicle.setAvailableSeats(rs.getInt("available_seats"));
+            vehicle.setType(rs.getString("type"));
+            vehicle.setAvailable(rs.getBoolean("isAvailable"));
+            vehicle.setOwner(rs.getString("owner"));
+            vehicle.setColour(rs.getString("colour"));
+            vehicle.setFuelType(rs.getString("fuel_type"));
+            vehicle.setChassisNumber(rs.getString("chassisNumber"));
+            vehicle.setBrandName(rs.getString("brandName"));
+            vehicle.setDelete(rs.getBoolean("isDelete"));
+
+            return vehicle;
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return null;
+}
+
 
 }
