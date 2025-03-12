@@ -28,7 +28,7 @@ public class DriverVehicleController {
     public Response addDriverVehicle(DriverVehicle driverVehicle) {
         boolean success = service.addDriverVehicle(driverVehicle);
         return success ? Response.status(Response.Status.CREATED).entity("DriverVehicle added successfully").build()
-                        : Response.status(Response.Status.BAD_REQUEST).entity("Failed to add DriverVehicle").build();
+                : Response.status(Response.Status.BAD_REQUEST).entity("Failed to add DriverVehicle").build();
     }
 
     @GET
@@ -43,7 +43,7 @@ public class DriverVehicleController {
     public Response getDriverVehicleByEmpSchNo(@PathParam("empSchNo") int empSchNo) {
         DriverVehicle dv = service.getDriverVehicleByEmpSchNo(empSchNo);
         return dv != null ? Response.ok(dv, MediaType.APPLICATION_JSON).build()
-                          : Response.status(Response.Status.NOT_FOUND).entity("DriverVehicle not found").build();
+                : Response.status(Response.Status.NOT_FOUND).entity("DriverVehicle not found").build();
     }
 
     @PUT
@@ -52,7 +52,7 @@ public class DriverVehicleController {
         driverVehicle.setEmpSchNo(empSchNo);
         boolean success = service.updateDriverVehicle(driverVehicle);
         return success ? Response.ok("DriverVehicle updated successfully").build()
-                        : Response.status(Response.Status.BAD_REQUEST).entity("Failed to update DriverVehicle").build();
+                : Response.status(Response.Status.BAD_REQUEST).entity("Failed to update DriverVehicle").build();
     }
 
     @DELETE
@@ -60,9 +60,9 @@ public class DriverVehicleController {
     public Response deleteDriverVehicle(@PathParam("empSchNo") int empSchNo) {
         boolean success = service.deleteDriverVehicle(empSchNo);
         return success ? Response.ok("DriverVehicle deleted successfully").build()
-                        : Response.status(Response.Status.BAD_REQUEST).entity("Failed to delete DriverVehicle").build();
+                : Response.status(Response.Status.BAD_REQUEST).entity("Failed to delete DriverVehicle").build();
     }
-    
+
     @GET
     @Path("/available")
     public Response getAllAvailableDriverVehicles() {

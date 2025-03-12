@@ -2,12 +2,12 @@
 <%@ page import="java.io.BufferedReader, java.io.InputStreamReader, java.io.PrintWriter, java.net.HttpURLConnection, java.net.URL, org.json.JSONArray, org.json.JSONObject" %>
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Driver-Vehicle List</title>
-    <link rel="stylesheet" href="styles.css">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Driver-Vehicle List</title>
+        <link rel="stylesheet" href="styles.css">
     <header>
         <nav>
             <ul>
@@ -101,7 +101,7 @@
                 }
             });
 
-            let blob = new Blob([csv], { type: "text/csv" });
+            let blob = new Blob([csv], {type: "text/csv"});
             let link = document.createElement("a");
             link.href = URL.createObjectURL(blob);
             link.download = "DriverVehicleList.csv";
@@ -109,34 +109,34 @@
         }
 
         function updateEntry(empSchNo) {
-    window.location.href = "updateDriverVehicle.jsp?empSchNo=" + empSchNo;
-}
+            window.location.href = "updateDriverVehicle.jsp?empSchNo=" + empSchNo;
+        }
 
 
         function deleteEntry(empSchNo) {
-        if (confirm("Are you sure you want to delete Employee Schedule No: " + empSchNo + "?")) {
-            fetch("http://localhost:8080/Mega_City_Cab_Service/api/drivervehicle/delete/" + empSchNo, {
-                method: "DELETE"
-            })
-            .then(response => {
-                if (response.ok) {
-                    alert("Record deleted successfully.");
-                    location.reload(); // Refresh the page to update the table
-                } else {
-                    alert("Failed to delete. Please try again.");
-                }
-            })
-            .catch(error => {
-                console.error("Error:", error);
-                alert("An error occurred while deleting.");
-            });
+            if (confirm("Are you sure you want to delete Employee Schedule No: " + empSchNo + "?")) {
+                fetch("http://localhost:8080/Mega_City_Cab_Service/api/drivervehicle/delete/" + empSchNo, {
+                    method: "DELETE"
+                })
+                        .then(response => {
+                            if (response.ok) {
+                                alert("Record deleted successfully.");
+                                location.reload(); // Refresh the page to update the table
+                            } else {
+                                alert("Failed to delete. Please try again.");
+                            }
+                        })
+                        .catch(error => {
+                            console.error("Error:", error);
+                            alert("An error occurred while deleting.");
+                        });
+            }
         }
-    }
     </script>
 </head>
 <body>
     <h2 align="center">Driver-Vehicle List</h2>
-    
+
     <div class="container">
         <input type="text" id="searchInput" class="search-box" placeholder="Search by Employee Schedule No" onkeyup="searchByEmpSchNo()">
         <select id="availabilityFilter" class="filter-box" onchange="filterByAvailability()">

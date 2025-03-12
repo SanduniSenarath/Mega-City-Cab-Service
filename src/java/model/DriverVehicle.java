@@ -9,6 +9,7 @@ package model;
  * @author Sanduni
  */
 public class DriverVehicle {
+
     private int empSchNo;
     private String vehicleNo;
     private String driverUsername;

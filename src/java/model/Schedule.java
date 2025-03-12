@@ -9,6 +9,7 @@ package model;
  * @author Sanduni
  */
 public class Schedule {
+
     private int id;
     private String bookNumber;
     private String startLocation;
@@ -101,4 +102,3 @@ public class Schedule {
         this.time = time;
     }
 }
-

@@ -15,9 +15,7 @@ public class VehicleServiceImpl {
         List<Vehicle> vehicles = new ArrayList<>();
         String query = "SELECT * FROM vehicle WHERE isDelete = 0";
 
-        try (Connection conn = DBUtil.getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(query)) {
+        try (Connection conn = DBUtil.getConnection(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(query)) {
 
             while (rs.next()) {
                 Vehicle vehicle = new Vehicle();
@@ -40,35 +38,32 @@ public class VehicleServiceImpl {
         return vehicles;
     }
 
-   public boolean addVehicle(Vehicle vehicle) {
-    String query = "INSERT INTO vehicle (vehicle_number, available_seats, type, owner, colour, fuel_type, chassisNumber, brandName, isAvailable, isDelete) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 1, 0)";
+    public boolean addVehicle(Vehicle vehicle) {
+        String query = "INSERT INTO vehicle (vehicle_number, available_seats, type, owner, colour, fuel_type, chassisNumber, brandName, isAvailable, isDelete) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 1, 0)";
 
-    try (Connection conn = DBUtil.getConnection();
-         PreparedStatement pstmt = conn.prepareStatement(query)) {
+        try (Connection conn = DBUtil.getConnection(); PreparedStatement pstmt = conn.prepareStatement(query)) {
 
-        pstmt.setString(1, vehicle.getVehicleNumber());
-        pstmt.setInt(2, vehicle.getAvailableSeats());
-        pstmt.setString(3, vehicle.getType());
-        pstmt.setString(4, vehicle.getOwner());
-        pstmt.setString(5, vehicle.getColour());
-        pstmt.setString(6, vehicle.getFuelType());
-        pstmt.setString(7, vehicle.getChassisNumber());
-        pstmt.setString(8, vehicle.getBrandName());
+            pstmt.setString(1, vehicle.getVehicleNumber());
+            pstmt.setInt(2, vehicle.getAvailableSeats());
+            pstmt.setString(3, vehicle.getType());
+            pstmt.setString(4, vehicle.getOwner());
+            pstmt.setString(5, vehicle.getColour());
+            pstmt.setString(6, vehicle.getFuelType());
+            pstmt.setString(7, vehicle.getChassisNumber());
+            pstmt.setString(8, vehicle.getBrandName());
 
-        int rowsInserted = pstmt.executeUpdate();
-        return rowsInserted > 0;
-    } catch (Exception e) {
-        e.printStackTrace();
-        return false;
+            int rowsInserted = pstmt.executeUpdate();
+            return rowsInserted > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
-}
-
 
     public Vehicle getVehicleById(int id) {
         String query = "SELECT * FROM vehicle WHERE id = ? AND isDelete = 0";
 
-        try (Connection conn = DBUtil.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(query)) {
+        try (Connection conn = DBUtil.getConnection(); PreparedStatement pstmt = conn.prepareStatement(query)) {
 
             pstmt.setInt(1, id);
             ResultSet rs = pstmt.executeQuery();
@@ -95,36 +90,33 @@ public class VehicleServiceImpl {
         return null;
     }
 
-   public boolean updateVehicle(Vehicle vehicle) {
-    String query = "UPDATE vehicle SET vehicle_number = ?, available_seats = ?, type = ?, owner = ?, colour = ?, fuel_type = ?, chassisNumber = ?, brandName = ? WHERE id = ? AND isDelete = 0";
+    public boolean updateVehicle(Vehicle vehicle) {
+        String query = "UPDATE vehicle SET vehicle_number = ?, available_seats = ?, type = ?, owner = ?, colour = ?, fuel_type = ?, chassisNumber = ?, brandName = ? WHERE id = ? AND isDelete = 0";
 
-    try (Connection conn = DBUtil.getConnection();
-         PreparedStatement pstmt = conn.prepareStatement(query)) {
+        try (Connection conn = DBUtil.getConnection(); PreparedStatement pstmt = conn.prepareStatement(query)) {
 
-        pstmt.setString(1, vehicle.getVehicleNumber());
-        pstmt.setInt(2, vehicle.getAvailableSeats());
-        pstmt.setString(3, vehicle.getType()); 
-        pstmt.setString(4, vehicle.getOwner());
-        pstmt.setString(5, vehicle.getColour());
-        pstmt.setString(6, vehicle.getFuelType());
-        pstmt.setString(7, vehicle.getChassisNumber());
-        pstmt.setString(8, vehicle.getBrandName());
-        pstmt.setInt(9, vehicle.getId());
+            pstmt.setString(1, vehicle.getVehicleNumber());
+            pstmt.setInt(2, vehicle.getAvailableSeats());
+            pstmt.setString(3, vehicle.getType());
+            pstmt.setString(4, vehicle.getOwner());
+            pstmt.setString(5, vehicle.getColour());
+            pstmt.setString(6, vehicle.getFuelType());
+            pstmt.setString(7, vehicle.getChassisNumber());
+            pstmt.setString(8, vehicle.getBrandName());
+            pstmt.setInt(9, vehicle.getId());
 
-        int rowsUpdated = pstmt.executeUpdate();
-        return rowsUpdated > 0;
-    } catch (Exception e) {
-        e.printStackTrace();
-        return false;
+            int rowsUpdated = pstmt.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
-}
-
 
     public boolean deleteVehicle(int id) {
         String query = "UPDATE vehicle SET isDelete = 1 WHERE id = ?";
 
-        try (Connection conn = DBUtil.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(query)) {
+        try (Connection conn = DBUtil.getConnection(); PreparedStatement pstmt = conn.prepareStatement(query)) {
 
             pstmt.setInt(1, id);
             int rowsUpdated = pstmt.executeUpdate();
@@ -134,54 +126,51 @@ public class VehicleServiceImpl {
             return false;
         }
     }
-    
+
     public boolean updateIsAvailable(int id, boolean isAvailable) {
-    String query = "UPDATE vehicle SET isAvailable = ? WHERE id = ? AND isDelete = 0";
+        String query = "UPDATE vehicle SET isAvailable = ? WHERE id = ? AND isDelete = 0";
 
-    try (Connection conn = DBUtil.getConnection();
-         PreparedStatement pstmt = conn.prepareStatement(query)) {
+        try (Connection conn = DBUtil.getConnection(); PreparedStatement pstmt = conn.prepareStatement(query)) {
 
-        pstmt.setBoolean(1, isAvailable);
-        pstmt.setInt(2, id);
+            pstmt.setBoolean(1, isAvailable);
+            pstmt.setInt(2, id);
 
-        int rowsUpdated = pstmt.executeUpdate();
-        return rowsUpdated > 0;
-    } catch (Exception e) {
-        e.printStackTrace();
-        return false;
-    }
-}
-    
-    public Vehicle getVehicleByNumber(String vehicleNumber) {
-    String query = "SELECT * FROM vehicle WHERE vehicle_number = ? AND isDelete = 0";
-
-    try (Connection conn = DBUtil.getConnection();
-         PreparedStatement pstmt = conn.prepareStatement(query)) {
-
-        pstmt.setString(1, vehicleNumber);
-        ResultSet rs = pstmt.executeQuery();
-
-        if (rs.next()) {
-            Vehicle vehicle = new Vehicle();
-            vehicle.setId(rs.getInt("id"));
-            vehicle.setVehicleNumber(rs.getString("vehicle_number"));
-            vehicle.setAvailableSeats(rs.getInt("available_seats"));
-            vehicle.setType(rs.getString("type"));
-            vehicle.setAvailable(rs.getBoolean("isAvailable"));
-            vehicle.setOwner(rs.getString("owner"));
-            vehicle.setColour(rs.getString("colour"));
-            vehicle.setFuelType(rs.getString("fuel_type"));
-            vehicle.setChassisNumber(rs.getString("chassisNumber"));
-            vehicle.setBrandName(rs.getString("brandName"));
-            vehicle.setDelete(rs.getBoolean("isDelete"));
-
-            return vehicle;
+            int rowsUpdated = pstmt.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
         }
-    } catch (Exception e) {
-        e.printStackTrace();
     }
-    return null;
-}
 
+    public Vehicle getVehicleByNumber(String vehicleNumber) {
+        String query = "SELECT * FROM vehicle WHERE vehicle_number = ? AND isDelete = 0";
+
+        try (Connection conn = DBUtil.getConnection(); PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, vehicleNumber);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                Vehicle vehicle = new Vehicle();
+                vehicle.setId(rs.getInt("id"));
+                vehicle.setVehicleNumber(rs.getString("vehicle_number"));
+                vehicle.setAvailableSeats(rs.getInt("available_seats"));
+                vehicle.setType(rs.getString("type"));
+                vehicle.setAvailable(rs.getBoolean("isAvailable"));
+                vehicle.setOwner(rs.getString("owner"));
+                vehicle.setColour(rs.getString("colour"));
+                vehicle.setFuelType(rs.getString("fuel_type"));
+                vehicle.setChassisNumber(rs.getString("chassisNumber"));
+                vehicle.setBrandName(rs.getString("brandName"));
+                vehicle.setDelete(rs.getBoolean("isDelete"));
+
+                return vehicle;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
 }

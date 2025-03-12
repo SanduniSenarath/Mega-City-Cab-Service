@@ -9,12 +9,14 @@ package model;
  * @author Sanduni
  */
 public class UserLogin {
+
     private int id;
     private String username;
     private String password;
     private String role;
 
-    public UserLogin() {}
+    public UserLogin() {
+    }
 
     public UserLogin(int id, String username, String password, String role) {
         this.id = id;

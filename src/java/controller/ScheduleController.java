@@ -8,7 +8,6 @@ package controller;
  *
  * @author Sanduni
  */
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,8 +18,8 @@ import model.Schedule;
 import repository.ScheduleServiceImpl;
 
 @Path("/schedules")
-@Produces(MediaType.APPLICATION_JSON)  
-@Consumes(MediaType.APPLICATION_JSON)  
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 public class ScheduleController {
 
     private final ScheduleServiceImpl scheduleService = new ScheduleServiceImpl();
@@ -62,19 +61,18 @@ public class ScheduleController {
             return Response.status(Response.Status.NOT_FOUND).entity("Schedule not found").build();
         }
     }
-    
-    // In ScheduleResource.java
-@GET
-@Path("/username/{username}")
-public Response getSchedulesByUsername(@PathParam("username") String username) {
-    List<Schedule> schedules = scheduleService.getSchedulesByUsername(username);
-    if (schedules != null && !schedules.isEmpty()) {
-        return Response.ok(schedules, MediaType.APPLICATION_JSON).build();
-    } else {
-        return Response.status(Response.Status.NOT_FOUND).entity("No schedules found for the username").build();
-    }
-}
 
+    // In ScheduleResource.java
+    @GET
+    @Path("/username/{username}")
+    public Response getSchedulesByUsername(@PathParam("username") String username) {
+        List<Schedule> schedules = scheduleService.getSchedulesByUsername(username);
+        if (schedules != null && !schedules.isEmpty()) {
+            return Response.ok(schedules, MediaType.APPLICATION_JSON).build();
+        } else {
+            return Response.status(Response.Status.NOT_FOUND).entity("No schedules found for the username").build();
+        }
+    }
 
     // Update a schedule
     @PUT

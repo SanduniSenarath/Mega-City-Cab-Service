@@ -18,7 +18,8 @@ import java.util.logging.Logger;
 import util.DBUtil;
 
 public class UserLoginServiceImpl implements UserLoginService {
-        private Connection con;
+
+    private Connection con;
 
     public UserLoginServiceImpl() {
         try {
@@ -32,7 +33,7 @@ public class UserLoginServiceImpl implements UserLoginService {
     public boolean addUser(UserLogin user) {
         String query = "INSERT INTO userlogin (username, password, role) VALUES (?, ?, ?)";
         try (
-             PreparedStatement ps = con.prepareStatement(query)) {
+                PreparedStatement ps = con.prepareStatement(query)) {
             ps.setString(1, user.getUsername());
             ps.setString(2, user.getPassword());
             ps.setString(3, user.getRole());
@@ -47,7 +48,7 @@ public class UserLoginServiceImpl implements UserLoginService {
     public boolean updateUser(UserLogin user) {
         String query = "UPDATE userlogin SET username = ?, password = ?, role = ? WHERE id = ?";
         try (
-             PreparedStatement ps = con.prepareStatement(query)) {
+                PreparedStatement ps = con.prepareStatement(query)) {
             ps.setString(1, user.getUsername());
             ps.setString(2, user.getPassword());
             ps.setString(3, user.getRole());
@@ -63,7 +64,7 @@ public class UserLoginServiceImpl implements UserLoginService {
     public boolean deleteUser(int id) {
         String query = "DELETE FROM userlogin WHERE id = ?";
         try (
-             PreparedStatement ps = con.prepareStatement(query)) {
+                PreparedStatement ps = con.prepareStatement(query)) {
             ps.setInt(1, id);
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -76,7 +77,7 @@ public class UserLoginServiceImpl implements UserLoginService {
     public UserLogin getUserById(int id) {
         String query = "SELECT * FROM userlogin WHERE id = ?";
         try (
-             PreparedStatement ps = con.prepareStatement(query)) {
+                PreparedStatement ps = con.prepareStatement(query)) {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -93,8 +94,7 @@ public class UserLoginServiceImpl implements UserLoginService {
         List<UserLogin> users = new ArrayList<>();
         String query = "SELECT * FROM userlogin";
         try (
-             Statement stmt = con.createStatement();
-             ResultSet rs = stmt.executeQuery(query)) {
+                Statement stmt = con.createStatement(); ResultSet rs = stmt.executeQuery(query)) {
             while (rs.next()) {
                 users.add(new UserLogin(rs.getInt("id"), rs.getString("username"), rs.getString("password"), rs.getString("role")));
             }
@@ -104,4 +104,3 @@ public class UserLoginServiceImpl implements UserLoginService {
         return users;
     }
 }
-

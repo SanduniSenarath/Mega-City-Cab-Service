@@ -2,12 +2,12 @@
 <%@ page import="java.io.*, java.net.*, org.json.JSONObject"%>
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update Vehicle</title>
-    <link rel="stylesheet" href="CSS/updateStyle.css">
-     <link rel="stylesheet" href="styles.css">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Update Vehicle</title>
+        <link rel="stylesheet" href="CSS/updateStyle.css">
+        <link rel="stylesheet" href="styles.css">
     <header>
         <nav>
             <ul>
@@ -56,11 +56,11 @@
             }
         }
     %>
-    
+
     <%
     // Log the full JSON response for debugging
     System.out.println("API Response: " + vehicle.toString());
-%>
+    %>
 
     <% if (vehicle != null) { %>
     <form id="updateVehicleForm">
@@ -121,11 +121,11 @@
     </form>
 
     <% } else { %>
-        <p>Vehicle not found.</p>
+    <p>Vehicle not found.</p>
     <% } %>
 
     <script>
-        document.getElementById("updateVehicleForm").addEventListener("submit", function(event) {
+        document.getElementById("updateVehicleForm").addEventListener("submit", function (event) {
             event.preventDefault();
 
             const vehicleData = {
@@ -149,45 +149,45 @@
             }
 
             fetch('http://localhost:8080/Mega_City_Cab_Service/api/vehicles/update/' + vehicleData.id, {
-                  method: 'PUT',
-                  headers: {
-                      'Content-Type': 'application/json'
-                  },
-                  body: JSON.stringify(vehicleData)
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(vehicleData)
             })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok ' + response.statusText);
-                }
-                return response.json();
-            })
-            .then(data => {
-                const messageDiv = document.getElementById("message");
-                if (data.success) {
-                    messageDiv.innerHTML = data.message;
-                    messageDiv.classList.add("success", "show");
-                } else {
-                    messageDiv.innerHTML = data.message;
-                    messageDiv.classList.add("error", "show");
-                }
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok ' + response.statusText);
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        const messageDiv = document.getElementById("message");
+                        if (data.success) {
+                            messageDiv.innerHTML = data.message;
+                            messageDiv.classList.add("success", "show");
+                        } else {
+                            messageDiv.innerHTML = data.message;
+                            messageDiv.classList.add("error", "show");
+                        }
 
-                setTimeout(() => {
-                    messageDiv.classList.remove("show");
-                }, 5000);
-            })
-            .catch(error => {
-                const messageDiv = document.getElementById("message");
-                messageDiv.innerHTML = "An error occurred: " + error.message;
-                messageDiv.classList.add("error", "show");
+                        setTimeout(() => {
+                            messageDiv.classList.remove("show");
+                        }, 5000);
+                    })
+                    .catch(error => {
+                        const messageDiv = document.getElementById("message");
+                        messageDiv.innerHTML = "An error occurred: " + error.message;
+                        messageDiv.classList.add("error", "show");
 
-                setTimeout(() => {
-                    messageDiv.classList.remove("show");
-                }, 5000);
-            });
+                        setTimeout(() => {
+                            messageDiv.classList.remove("show");
+                        }, 5000);
+                    });
         });
     </script>
 
-        <footer>
+    <footer>
         <p>&copy; 2023 Cab Booking System. All rights reserved.</p>
         <ul>
             <li><a href="privacy_policy.jsp">Privacy Policy</a></li>

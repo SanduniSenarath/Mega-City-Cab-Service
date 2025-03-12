@@ -40,52 +40,52 @@
 %>
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Cab Booking System</title>
-    <link rel="stylesheet" href="CSS/stylesLogin.css">
-</head>
-<body>
-    <!-- Header -->
-    <header>
-        <nav>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Login - Cab Booking System</title>
+        <link rel="stylesheet" href="CSS/stylesLogin.css">
+    </head>
+    <body>
+        <!-- Header -->
+        <header>
+            <nav>
+                <ul>
+                    <li><a href="index.jsp" class="logo">Cab Booking</a></li>
+                    <li><a href="index.jsp">Home</a></li>
+                    <li><a href="login.jsp">Login</a></li>
+                    <li><a href="CustomerRegistrationJSP.jsp">Register</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <!-- Login Form -->
+        <main class="login-container">
+            <div class="login-box">
+                <h1>Login</h1>
+                <form action="login.jsp" method="POST">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" name="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    <button type="submit" class="login-button">Login</button>
+                </form>
+                <p>Don't have an account? <a href="CustomerRegistrationJSP.jsp">Register here</a>.</p>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer>
+            <p>&copy; 2023 Cab Booking System. All rights reserved.</p>
             <ul>
-                <li><a href="index.jsp" class="logo">Cab Booking</a></li>
-                <li><a href="index.jsp">Home</a></li>
-                <li><a href="login.jsp">Login</a></li>
-                <li><a href="CustomerRegistrationJSP.jsp">Register</a></li>
+                <li><a href="privacy_policy.jsp">Privacy Policy</a></li>
+                <li><a href="terms_of_service.jsp">Terms of Service</a></li>
+                <li><a href="contact_us.jsp">Contact Us</a></li>
             </ul>
-        </nav>
-    </header>
-
-    <!-- Login Form -->
-    <main class="login-container">
-        <div class="login-box">
-            <h1>Login</h1>
-            <form action="login.jsp" method="POST">
-                <div class="form-group">
-                    <label for="username">Username</label>
-                    <input type="text" id="username" name="username" required>
-                </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password" required>
-                </div>
-                <button type="submit" class="login-button">Login</button>
-            </form>
-            <p>Don't have an account? <a href="CustomerRegistrationJSP.jsp">Register here</a>.</p>
-        </div>
-    </main>
-
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2023 Cab Booking System. All rights reserved.</p>
-        <ul>
-            <li><a href="privacy_policy.jsp">Privacy Policy</a></li>
-            <li><a href="terms_of_service.jsp">Terms of Service</a></li>
-            <li><a href="contact_us.jsp">Contact Us</a></li>
-        </ul>
-    </footer>
-</body>
+        </footer>
+    </body>
 </html>

@@ -11,171 +11,171 @@
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cab Booking System</title>
-    <link rel="stylesheet" href="styles.css">
-    <style>
-        /* General Styles */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f8f9fa;
-    color: #333;
-    margin: 0;
-    padding: 0;
-    /*display: flex;*/
-    flex-direction: column;
-    align-items: center;
-}
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Cab Booking System</title>
+        <link rel="stylesheet" href="styles.css">
+        <style>
+            /* General Styles */
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f8f9fa;
+                color: #333;
+                margin: 0;
+                padding: 0;
+                /*display: flex;*/
+                flex-direction: column;
+                align-items: center;
+            }
 
-/* Main Section */
-main {
-    width: 90%;
-    max-width: 1200px;
-    text-align: center;
-    margin-top: 50px;
-    margin-left: 150px;
-}
+            /* Main Section */
+            main {
+                width: 90%;
+                max-width: 1200px;
+                text-align: center;
+                margin-top: 50px;
+                margin-left: 150px;
+            }
 
-/* Introduction Section */
-.intro-section {
-   background: rgb(192,233,39);
-background: radial-gradient(circle, rgba(192,233,39,1) 0%, rgba(47,180,227,1) 100%);
-    color: white;
-    padding: 40px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    
-}
+            /* Introduction Section */
+            .intro-section {
+                background: rgb(192,233,39);
+                background: radial-gradient(circle, rgba(192,233,39,1) 0%, rgba(47,180,227,1) 100%);
+                color: white;
+                padding: 40px;
+                border-radius: 10px;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 
-.intro-section h1 {
-    font-size: 2.5rem;
-    margin-bottom: 20px;
-}
+            }
 
-.intro-section p {
-    font-size: 1.2rem;
-    margin-bottom: 20px;
-}
+            .intro-section h1 {
+                font-size: 2.5rem;
+                margin-bottom: 20px;
+            }
 
-.cta-button {
-    display: inline-block;
-    padding: 12px 25px;
-    font-size: 1.2rem;
-    color: white;
-    background-color: #FF9D23;
-    border-radius: 5px;
-    text-decoration: none;
-    transition: 0.3s;
-}
+            .intro-section p {
+                font-size: 1.2rem;
+                margin-bottom: 20px;
+            }
 
-.cta-button:hover {
-    background-color: #FFCF50;
-}
+            .cta-button {
+                display: inline-block;
+                padding: 12px 25px;
+                font-size: 1.2rem;
+                color: white;
+                background-color: #FF9D23;
+                border-radius: 5px;
+                text-decoration: none;
+                transition: 0.3s;
+            }
 
-/* Features Section */
-.features-section {
-    margin-top: 50px;
-}
+            .cta-button:hover {
+                background-color: #FFCF50;
+            }
 
-.features-section h2 {
-    font-size: 2rem;
-    margin-bottom: 30px;
-    color: #343a40;
-}
+            /* Features Section */
+            .features-section {
+                margin-top: 50px;
+            }
 
-.features-container {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 20px;
-}
+            .features-section h2 {
+                font-size: 2rem;
+                margin-bottom: 30px;
+                color: #343a40;
+            }
 
-.feature {
-    flex: 1;
-    min-width: 280px;
-    max-width: 350px;
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-}
+            .features-container {
+                display: flex;
+                justify-content: space-between;
+                flex-wrap: wrap;
+                gap: 20px;
+            }
 
-.feature h3 {
-    font-size: 1.5rem;
-    margin-bottom: 15px;
-    color: #007bff;
-}
+            .feature {
+                flex: 1;
+                min-width: 280px;
+                max-width: 350px;
+                background: white;
+                padding: 20px;
+                border-radius: 10px;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+                text-align: center;
+            }
 
-.feature p {
-    font-size: 1rem;
-    color: #6c757d;
-}
+            .feature h3 {
+                font-size: 1.5rem;
+                margin-bottom: 15px;
+                color: #007bff;
+            }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-    .features-container {
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    .intro-section h1 {
-        font-size: 2rem;
-    }
-    
-    .intro-section p {
-        font-size: 1rem;
-    }
-}
-    </style>
-</head>
-<body>
-    <!-- Header with Role-Based Customization -->
-    
+            .feature p {
+                font-size: 1rem;
+                color: #6c757d;
+            }
 
-    <!-- Main Content -->
-    <main>
-        <!-- Introduction Section -->
-        <section class="intro-section">
-            <h1>Welcome to the Cab Booking System</h1>
-            <p>Book your ride with ease and convenience. Whether you're commuting to work, heading to the airport, or exploring the city, we've got you covered.</p>
-            <% if (userRole.equals("guest")) { %>
+            /* Responsive Design */
+            @media (max-width: 768px) {
+                .features-container {
+                    flex-direction: column;
+                    align-items: center;
+                }
+
+                .intro-section h1 {
+                    font-size: 2rem;
+                }
+
+                .intro-section p {
+                    font-size: 1rem;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Header with Role-Based Customization -->
+
+
+        <!-- Main Content -->
+        <main>
+            <!-- Introduction Section -->
+            <section class="intro-section">
+                <h1>Welcome to the Cab Booking System</h1>
+                <p>Book your ride with ease and convenience. Whether you're commuting to work, heading to the airport, or exploring the city, we've got you covered.</p>
+                <% if (userRole.equals("guest")) { %>
                 <a href="login.jsp" class="cta-button">Login to Book Now</a>
-            <% } else { %>
+                <% } else { %>
                 <a href="frame.jsp" class="cta-button">Book Now</a>
-            <% } %>
-        </section>
+                <% }%>
+            </section>
 
-        <!-- Features Section -->
-        <section class="features-section">
-            <h2>Why Choose Us?</h2>
-            <div class="features-container">
-                <div class="feature">
-                    <h3>Fast & Reliable</h3>
-                    <p>Get a cab in minutes with our fast and reliable service.</p>
+            <!-- Features Section -->
+            <section class="features-section">
+                <h2>Why Choose Us?</h2>
+                <div class="features-container">
+                    <div class="feature">
+                        <h3>Fast & Reliable</h3>
+                        <p>Get a cab in minutes with our fast and reliable service.</p>
+                    </div>
+                    <div class="feature">
+                        <h3>Affordable Prices</h3>
+                        <p>Enjoy competitive pricing with no hidden charges.</p>
+                    </div>
+                    <div class="feature">
+                        <h3>24/7 Support</h3>
+                        <p>We're here for you round the clock. Contact us anytime!</p>
+                    </div>
                 </div>
-                <div class="feature">
-                    <h3>Affordable Prices</h3>
-                    <p>Enjoy competitive pricing with no hidden charges.</p>
-                </div>
-                <div class="feature">
-                    <h3>24/7 Support</h3>
-                    <p>We're here for you round the clock. Contact us anytime!</p>
-                </div>
-            </div>
-        </section>
-    </main>
+            </section>
+        </main>
 
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2023 Cab Booking System. All rights reserved.</p>
-        <ul>
-            <li><a href="privacy_policy.jsp">Privacy Policy</a></li>
-            <li><a href="terms_of_service.jsp">Terms of Service</a></li>
-            <li><a href="contact_us.jsp">Contact Us</a></li>
-        </ul>
-    </footer>
-</body>
+        <!-- Footer -->
+        <footer>
+            <p>&copy; 2023 Cab Booking System. All rights reserved.</p>
+            <ul>
+                <li><a href="privacy_policy.jsp">Privacy Policy</a></li>
+                <li><a href="terms_of_service.jsp">Terms of Service</a></li>
+                <li><a href="contact_us.jsp">Contact Us</a></li>
+            </ul>
+        </footer>
+    </body>
 </html>

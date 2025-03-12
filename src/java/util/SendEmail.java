@@ -9,7 +9,7 @@ import javax.mail.internet.MimeMessage;
  * Utility class for sending emails.
  */
 public class SendEmail {
-    
+
     private static final String FROM_EMAIL = "no.reply.megacity.cabservice@gmail.com";
     private static final String PASSWORD = "pbkm acgl qsji xteq";  // Consider using environment variables for security.
     private static final String SMTP_HOST = "smtp.gmail.com";
@@ -18,8 +18,8 @@ public class SendEmail {
     /**
      * Sends an email with the specified subject and message.
      *
-     * @param toEmail  Recipient's email address
-     * @param subject  Email subject
+     * @param toEmail Recipient's email address
+     * @param subject Email subject
      * @param messageBody Email message body
      */
     public static void sendEmail(String toEmail, String subject, String messageBody) {
@@ -54,7 +54,7 @@ public class SendEmail {
     /**
      * Sends a welcome email to a new driver.
      *
-     * @param toEmail    Recipient's email
+     * @param toEmail Recipient's email
      * @param driverName Driver's name
      */
     public static void sendWelcomeEmail(String toEmail, String driverName) {
@@ -65,16 +65,16 @@ public class SendEmail {
                 + "Best regards,\nMega City Cab Service Team\n"
                 + "no.reply.megacity.cabservice@gmail.com\n"
                 + "+94 33 2246638";
-        
+
         sendEmail(toEmail, subject, message);
     }
 
     /**
      * Sends an assignment email to a driver.
      *
-     * @param toEmail    Recipient's email
+     * @param toEmail Recipient's email
      * @param driverName Driver's name
-     * @param vehicleNo  Assigned vehicle number
+     * @param vehicleNo Assigned vehicle number
      */
     public static void sendAssignmentEmail(String toEmail, String driverName, String vehicleNo) {
         String subject = "Vehicle Assignment Notification";
@@ -87,15 +87,16 @@ public class SendEmail {
                 + "Mega City Cab Service Team\n"
                 + "no.reply.megacity.cabservice@gmail.com\n"
                 + "+94 33 2246638";
-        
+
         sendEmail(toEmail, subject, message);
     }
-    
+
     /**
-     * Sends an email informing a driver that their assigned vehicle has been changed.
+     * Sends an email informing a driver that their assigned vehicle has been
+     * changed.
      *
-     * @param toEmail      Recipient's email
-     * @param driverName   Driver's name
+     * @param toEmail Recipient's email
+     * @param driverName Driver's name
      * @param oldVehicleNo Previous vehicle number
      * @param newVehicleNo New vehicle number
      */
@@ -103,7 +104,6 @@ public class SendEmail {
         String subject = "Vehicle Assignment Updated";
         String message = "Dear " + driverName + ",\n\n"
                 + "We would like to inform you that your assigned vehicle has been **updated**.\n\n"
-               
                 + " New Vehicle No: " + newVehicleNo + "\n\n"
                 + "Please check the new vehicle before starting your shift.\n"
                 + "If you have any concerns, feel free to contact the support team.\n\n"
@@ -112,44 +112,44 @@ public class SendEmail {
                 + "Mega City Cab Service Team\n"
                 + "no.reply.megacity.cabservice@gmail.com\n"
                 + "+94 33 2246638";
-        
+
         sendEmail(toEmail, subject, message);
     }
-    
-    
+
     /**
- * Sends a booking confirmation email to a customer with all booking details.
- *
- * @param toEmail       Customer's email address
- * @param customerName  Customer's name
- * @param bookingDate   Date of the booking
- * @param pickupLocation Pickup location
- * @param dropoffLocation Drop-off location
- * @param vehicleType   Vehicle type booked
- * @param fare          Total fare amount
- * @param bookingId     Unique booking ID
- */
-public static void sendBookingConfirmationEmail(String toEmail, String customerName, 
-        String bookingDate, String pickupLocation, String dropoffLocation, 
-        double distance, double fare, String bookingId) {
-    
-    String subject = "Booking Confirmation - Mega City Cab Service";
-    String message = "Dear " + customerName + ",\n\n"
-            + "We are pleased to confirm your booking with Mega City Cab Service.\n\n"
-            + "Booking Details:\n"
-            + "Booking ID: " + bookingId + "\n"
-            + "Date: " + bookingDate + "\n"
-            + "Pickup Location: " + pickupLocation + "\n"
-            + "Drop-off Location: " + dropoffLocation + "\n"
-            + "distance : " + distance + " km\n"
-            + "Total Fare: LKR " + fare + "\n\n"
-            + "Thank you for choosing Mega City Cab Service! We look forward to serving you.\n\n"
-            + "Best Regards,\n"
-            + "Mega City Cab Service Team**\n"
-            + "no.reply.megacity.cabservice@gmail.com\n"
-            + "+94 33 2246638";
-    
-    sendEmail(toEmail, subject, message);
-}
+     * Sends a booking confirmation email to a customer with all booking
+     * details.
+     *
+     * @param toEmail Customer's email address
+     * @param customerName Customer's name
+     * @param bookingDate Date of the booking
+     * @param pickupLocation Pickup location
+     * @param dropoffLocation Drop-off location
+     * @param vehicleType Vehicle type booked
+     * @param fare Total fare amount
+     * @param bookingId Unique booking ID
+     */
+    public static void sendBookingConfirmationEmail(String toEmail, String customerName,
+            String bookingDate, String pickupLocation, String dropoffLocation,
+            double distance, double fare, String bookingId) {
+
+        String subject = "Booking Confirmation - Mega City Cab Service";
+        String message = "Dear " + customerName + ",\n\n"
+                + "We are pleased to confirm your booking with Mega City Cab Service.\n\n"
+                + "Booking Details:\n"
+                + "Booking ID: " + bookingId + "\n"
+                + "Date: " + bookingDate + "\n"
+                + "Pickup Location: " + pickupLocation + "\n"
+                + "Drop-off Location: " + dropoffLocation + "\n"
+                + "distance : " + distance + " km\n"
+                + "Total Fare: LKR " + fare + "\n\n"
+                + "Thank you for choosing Mega City Cab Service! We look forward to serving you.\n\n"
+                + "Best Regards,\n"
+                + "Mega City Cab Service Team**\n"
+                + "no.reply.megacity.cabservice@gmail.com\n"
+                + "+94 33 2246638";
+
+        sendEmail(toEmail, subject, message);
+    }
 
 }

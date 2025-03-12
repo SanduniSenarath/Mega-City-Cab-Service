@@ -8,11 +8,11 @@
 <%@ page import="java.io.BufferedReader, java.io.InputStreamReader, java.io.OutputStreamWriter, java.net.HttpURLConnection, java.net.URL, org.json.JSONObject, org.json.JSONArray" %>
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update Driver-Vehicle</title>
-    <link rel="stylesheet" href="styles.css">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Update Driver-Vehicle</title>
+        <link rel="stylesheet" href="styles.css">
     <header>
         <nav>
             <ul>
@@ -79,7 +79,7 @@
                     var data = JSON.parse(xhr.responseText);
                     var select = document.getElementsByName("driverUsername")[0];
                     select.innerHTML = "";
-                    data.forEach(function(driver) {
+                    data.forEach(function (driver) {
                         var option = document.createElement("option");
                         option.value = driver.username;
                         option.text = driver.username;
@@ -90,7 +90,7 @@
             xhr.send();
         }
 
-        window.onload = function() {
+        window.onload = function () {
             fetchDriverVehicleDetails();
             fetchAvailableDrivers();
         };
@@ -98,65 +98,65 @@
 </head>
 <body>
 
-<h2>Update Driver-Vehicle Record</h2>
+    <h2>Update Driver-Vehicle Record</h2>
 
-<div class="form-container">
-    <form method="post">
-        <label>Employee Schedule No:</label>
-        <input type="text" name="empSchNo" value="<%= request.getParameter("empSchNo") %>" readonly>
+    <div class="form-container">
+        <form method="post">
+            <label>Employee Schedule No:</label>
+            <input type="text" name="empSchNo" value="<%= request.getParameter("empSchNo") %>" readonly>
 
-        <label>Driver Username:</label>
-        <select name="driverUsername" required></select>
+            <label>Driver Username:</label>
+            <select name="driverUsername" required></select>
 
-        <label>Vehicle No:</label>
-        <input type="text" name="vehicleNo" readonly>
+            <label>Vehicle No:</label>
+            <input type="text" name="vehicleNo" readonly>
 
-        <label>Availability:</label>
-        <select name="available">
-            <option value="Yes">Yes</option>
-            <option value="No">No</option>
-        </select>
+            <label>Availability:</label>
+            <select name="available">
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
 
-        <button type="submit">Update</button>
-    </form>
-</div>
+            <button type="submit">Update</button>
+        </form>
+    </div>
 
-<%
-if ("POST".equalsIgnoreCase(request.getMethod())) {
-    String empSchNo = request.getParameter("empSchNo");
-    String driverUsername = request.getParameter("driverUsername");
-    String vehicleNo = request.getParameter("vehicleNo");
-    String available = request.getParameter("available");
+    <%
+    if ("POST".equalsIgnoreCase(request.getMethod())) {
+        String empSchNo = request.getParameter("empSchNo");
+        String driverUsername = request.getParameter("driverUsername");
+        String vehicleNo = request.getParameter("vehicleNo");
+        String available = request.getParameter("available");
 
-    try {
-        // Pass empSchNo in the URL
-        URL url = new URL("http://localhost:8080/Mega_City_Cab_Service/api/drivervehicle/update/" + empSchNo);
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("PUT");
-        conn.setRequestProperty("Content-Type", "application/json");
-        conn.setDoOutput(true);
+        try {
+            // Pass empSchNo in the URL
+            URL url = new URL("http://localhost:8080/Mega_City_Cab_Service/api/drivervehicle/update/" + empSchNo);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("PUT");
+            conn.setRequestProperty("Content-Type", "application/json");
+            conn.setDoOutput(true);
 
-        JSONObject json = new JSONObject();
-        json.put("driverUsername", driverUsername);
-        json.put("vehicleNo", vehicleNo);
-        json.put("available", "Yes".equals(available));
+            JSONObject json = new JSONObject();
+            json.put("driverUsername", driverUsername);
+            json.put("vehicleNo", vehicleNo);
+            json.put("available", "Yes".equals(available));
 
-        OutputStreamWriter writer = new OutputStreamWriter(conn.getOutputStream());
-        writer.write(json.toString());
-        writer.flush();
-        writer.close();
+            OutputStreamWriter writer = new OutputStreamWriter(conn.getOutputStream());
+            writer.write(json.toString());
+            writer.flush();
+            writer.close();
 
-        int responseCode = conn.getResponseCode();
-        if (responseCode == 200) {
-            out.println("<p style='color:green;'>Record updated successfully!</p>");
-        } else {
-            out.println("<p style='color:red;'>Failed to update. Error code: " + responseCode + "</p>");
+            int responseCode = conn.getResponseCode();
+            if (responseCode == 200) {
+                out.println("<p style='color:green;'>Record updated successfully!</p>");
+            } else {
+                out.println("<p style='color:red;'>Failed to update. Error code: " + responseCode + "</p>");
+            }
+        } catch (Exception e) {
+            out.println("<p style='color:red;'>Error: " + e.getMessage() + "</p>");
         }
-    } catch (Exception e) {
-        out.println("<p style='color:red;'>Error: " + e.getMessage() + "</p>");
     }
-}
-%>
+    %>
 
 
 </body>

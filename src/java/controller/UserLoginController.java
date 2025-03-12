@@ -19,12 +19,11 @@ import java.util.Map;
  *
  * @author Sanduni
  */
-
-
 @Path("/users")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class UserLoginController {
+
     private final UserLoginService userService = new UserLoginServiceImpl();
 
     @GET
@@ -97,4 +96,3 @@ public class UserLoginController {
         }
     }
 }
-

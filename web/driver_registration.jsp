@@ -4,22 +4,22 @@
     String userRole = (String) session.getAttribute("userRole");
     String username = (String) session.getAttribute("username");
     if (userRole == null) {
-        userRole = "guest"; 
+        userRole = "guest";
     }
-     
+
 %>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Driver Registration</title>
-    <link rel="stylesheet" href="styles.css">
-     <link rel="stylesheet" href="CSS/driver.css">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Driver Registration</title>
+        <link rel="stylesheet" href="styles.css">
+        <link rel="stylesheet" href="CSS/driver.css">
     <header>
         <nav>
             <ul>
-                
-                
+
+
                 <% if (userRole.equals("admin")) { %>
                 <li><a href="admin_home.jsp" class="logo">Cab Booking</a></li>
                 <li><a href="admin_home.jsp">Home</a></li>
@@ -27,23 +27,23 @@
                 <li><a href="driver_registration.jsp">Driver Registration</a></li>
                 <li><a href="view_bookings.jsp">All Bookings</a></li>
                 <li><a href="view_customers.jsp">All Customers</a></li>
-               
+
                 <% } else if (userRole.equals("driver")) { %>
-                    <li><a href="index.jsp">Home</a></li>
-                    <li><a href="driver_dashboard.jsp">Driver Dashboard</a></li>
-                    <li><a href="view_bookings.jsp">View Bookings</a></li>
-                <% } else if (userRole.equals("customer")) { %>
-                    <li><a href="index.jsp">Home</a></li>
-                    <li><a href="AddBookings.jsp">Book a Cab</a></li>
-                    <li><a href="my_bookings.jsp">My Bookings</a></li>
-                <% } else { %>
-                    <li><a href="login.jsp">Login</a></li>
-                    <li><a href="CustomerRegistrationJSP.jsp">Register</a></li>
-                <% } %>
+                <li><a href="index.jsp">Home</a></li>
+                <li><a href="driver_dashboard.jsp">Driver Dashboard</a></li>
+                <li><a href="view_bookings.jsp">View Bookings</a></li>
+                    <% } else if (userRole.equals("customer")) { %>
+                <li><a href="index.jsp">Home</a></li>
+                <li><a href="AddBookings.jsp">Book a Cab</a></li>
+                <li><a href="my_bookings.jsp">My Bookings</a></li>
+                    <% } else { %>
+                <li><a href="login.jsp">Login</a></li>
+                <li><a href="CustomerRegistrationJSP.jsp">Register</a></li>
+                    <% } %>
                 <li><a href="help.jsp">Help</a></li>
-                <% if (!userRole.equals("guest")) { %>
-                    <li><a href="logout.jsp">Logout</a></li>
-                <% } %>
+                    <% if (!userRole.equals("guest")) { %>
+                <li><a href="logout.jsp">Logout</a></li>
+                    <% }%>
             </ul>
         </nav>
     </header>
@@ -135,12 +135,12 @@
     </form>
 
     <script>
-        document.getElementById("driverForm").addEventListener("submit", async function(e) {
+        document.getElementById("driverForm").addEventListener("submit", async function (e) {
             e.preventDefault();
-            
+
             const password = document.getElementById("password").value;
             const confirmPassword = document.getElementById("confirmPassword").value;
-            
+
             if (password !== confirmPassword) {
                 document.getElementById("passwordError").textContent = "Passwords do not match.";
                 document.getElementById("passwordError").style.display = "block";
@@ -158,7 +158,7 @@
                 addressLine2: document.getElementById("addressLine2").value,
                 gender: document.getElementById("gender").value,
                 username: document.getElementById("username").value,
-                email:document.getElementById("email").value
+                email: document.getElementById("email").value
             };
 
             const userData = {
@@ -166,27 +166,29 @@
                 password: password,
                 role: "driver"
             };
-            
+
             try {
                 const driverResponse = await fetch("http://localhost:8080/Mega_City_Cab_Service/api/drivers/add", {
                     method: "POST",
-                    headers: { "Content-Type": "application/json" },
+                    headers: {"Content-Type": "application/json"},
                     body: JSON.stringify(driverData)
                 });
-                
-                if (!driverResponse.ok) throw new Error("Driver registration failed.");
-                
+
+                if (!driverResponse.ok)
+                    throw new Error("Driver registration failed.");
+
                 const userResponse = await fetch("http://localhost:8080/Mega_City_Cab_Service/api/users/add", {
                     method: "POST",
-                    headers: { "Content-Type": "application/json" },
+                    headers: {"Content-Type": "application/json"},
                     body: JSON.stringify(userData)
                 });
-                
-                if (!userResponse.ok) throw new Error("User registration failed.");
-                
+
+                if (!userResponse.ok)
+                    throw new Error("User registration failed.");
+
                 document.getElementById("message").textContent = "Driver and user registered successfully.";
                 document.getElementById("message").className = "message success";
-                
+
                 setTimeout(() => {
                     document.getElementById("driverForm").reset();
                     document.getElementById("message").className = "message";
@@ -197,13 +199,13 @@
             }
         });
 
-        document.getElementById("clearButton").addEventListener("click", function() {
+        document.getElementById("clearButton").addEventListener("click", function () {
             document.getElementById("driverForm").reset();
             document.getElementById("message").textContent = "";
             document.getElementById("message").className = "message";
         });
     </script>
-     <footer>
+    <footer>
         <p>&copy; 2023 Cab Booking System. All rights reserved.</p>
         <ul>
             <li><a href="privacy_policy.jsp">Privacy Policy</a></li>

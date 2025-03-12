@@ -12,7 +12,10 @@ import java.util.List;
 import model.Price;
 
 public interface PriceService {
+
     List<Price> getAllPrices();
+
     Price getPriceById(int id);
+
     boolean updatePrice(Price price);
 }

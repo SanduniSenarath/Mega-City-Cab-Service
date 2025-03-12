@@ -12,10 +12,16 @@ import model.DriverVehicle;
 import java.util.List;
 
 public interface DriverVehicleService {
+
     boolean addDriverVehicle(DriverVehicle driverVehicle);
+
     List<DriverVehicle> getAllDriverVehicles();
+
     DriverVehicle getDriverVehicleByEmpSchNo(int empSchNo);
+
     boolean updateDriverVehicle(DriverVehicle driverVehicle);
+
     boolean deleteDriverVehicle(int empSchNo);
+
     List<DriverVehicle> getAllAvailableDriverVehicles();
 }

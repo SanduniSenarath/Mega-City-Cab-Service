@@ -10,9 +10,8 @@ import java.util.Date;
  *
  * @author Sanduni
  */
-
-
 public class Customer {
+
     private int id;
     private String name;
     private String username;
@@ -39,7 +38,7 @@ public class Customer {
     public void setName(String name) {
         this.name = name;
     }
-    
+
     public String getUsername() {
         return username;
     }

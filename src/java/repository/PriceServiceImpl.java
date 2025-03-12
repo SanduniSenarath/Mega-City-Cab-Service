@@ -19,6 +19,7 @@ import service.PriceService;
 import util.DBUtil;
 
 public class PriceServiceImpl implements PriceService {
+
     private Connection connection;
 
     public PriceServiceImpl() {
@@ -33,8 +34,7 @@ public class PriceServiceImpl implements PriceService {
     public List<Price> getAllPrices() {
         List<Price> prices = new ArrayList<>();
         String query = "SELECT id, price FROM price";
-        try (PreparedStatement stmt = connection.prepareStatement(query);
-             ResultSet rs = stmt.executeQuery()) {
+        try (PreparedStatement stmt = connection.prepareStatement(query); ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
                 prices.add(new Price(rs.getInt("id"), rs.getDouble("price")));
             }

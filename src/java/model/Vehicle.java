@@ -10,6 +10,7 @@ package model;
  * @author Sanduni
  */
 public class Vehicle {
+
     private int id;
     private String vehicleNumber;
     private int availableSeats;
@@ -26,9 +27,9 @@ public class Vehicle {
     public Vehicle() {
     }
 
-    public Vehicle(int id, String vehicleNumber, int availableSeats, String type, boolean isAvailable, 
-                   String owner, String colour, String fuelType, String chassisNumber, 
-                   String brandName, boolean isDelete) {
+    public Vehicle(int id, String vehicleNumber, int availableSeats, String type, boolean isAvailable,
+            String owner, String colour, String fuelType, String chassisNumber,
+            String brandName, boolean isDelete) {
         this.id = id;
         this.vehicleNumber = vehicleNumber;
         this.availableSeats = availableSeats;
@@ -132,18 +133,18 @@ public class Vehicle {
 
     @Override
     public String toString() {
-        return "Vehicle{" +
-                "id=" + id +
-                ", vehicleNumber='" + vehicleNumber + '\'' +
-                ", availableSeats=" + availableSeats +
-                ", type='" + type + '\'' +
-                ", isAvailable=" + isAvailable +
-                ", owner='" + owner + '\'' +
-                ", colour='" + colour + '\'' +
-                ", fuelType='" + fuelType + '\'' +
-                ", chassisNumber='" + chassisNumber + '\'' +
-                ", brandName='" + brandName + '\'' +
-                ", isDelete=" + isDelete +
-                '}';
+        return "Vehicle{"
+                + "id=" + id
+                + ", vehicleNumber='" + vehicleNumber + '\''
+                + ", availableSeats=" + availableSeats
+                + ", type='" + type + '\''
+                + ", isAvailable=" + isAvailable
+                + ", owner='" + owner + '\''
+                + ", colour='" + colour + '\''
+                + ", fuelType='" + fuelType + '\''
+                + ", chassisNumber='" + chassisNumber + '\''
+                + ", brandName='" + brandName + '\''
+                + ", isDelete=" + isDelete
+                + '}';
     }
 }

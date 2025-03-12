@@ -9,8 +9,6 @@
 <%@ include file="header.jsp" %>
 
 <%
-    
-
     if (userRole == null || username == null) {
         response.sendRedirect("login.jsp"); // Redirect to login if not authenticated
         return;
@@ -35,129 +33,129 @@
 
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Update Customer Details</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    <head>
+        <title>Update Customer Details</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
 
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            color: #333;
-            align-items: center;
-            height: 100vh;
-        }
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f4f4f9;
+                color: #333;
+                align-items: center;
+                height: 100vh;
+            }
 
-        .container {
-            width: 60%;
-            max-width: 1200px;
-            margin: 20px;
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            margin-left: 320px;
-        }
+            .container {
+                width: 60%;
+                max-width: 1200px;
+                margin: 20px;
+                background-color: white;
+                padding: 20px;
+                border-radius: 8px;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                margin-left: 320px;
+            }
 
-        h1 {
-            text-align: center;
-            font-size: 2rem;
-            color: #2c3e50;
-        }
+            h1 {
+                text-align: center;
+                font-size: 2rem;
+                color: #2c3e50;
+            }
 
-        .form-section {
-            margin-bottom: 30px;
-        }
+            .form-section {
+                margin-bottom: 30px;
+            }
 
-        h2 {
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-        }
+            h2 {
+                font-size: 1.5rem;
+                margin-bottom: 10px;
+            }
 
-        form input {
-            width: 100%;
-            padding: 10px;
-            margin: 5px 0;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
+            form input {
+                width: 100%;
+                padding: 10px;
+                margin: 5px 0;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+            }
 
-        form input[readonly] {
-            background-color: #e9ecef;
-            cursor: not-allowed;
-        }
+            form input[readonly] {
+                background-color: #e9ecef;
+                cursor: not-allowed;
+            }
 
-        form button {
-            width: 100%;
-            padding: 10px;
-            background-color: #2ecc71;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 1rem;
-        }
+            form button {
+                width: 100%;
+                padding: 10px;
+                background-color: #2ecc71;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                font-size: 1rem;
+            }
 
-        form button:hover {
-            background-color: #27ae60;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h2>Update Your Details</h2>
-        <form id="updateForm">
-            <label>Name:</label>
-            <input type="text" id="name" value="<%= customer.getString("name") %>" required>
+            form button:hover {
+                background-color: #27ae60;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h2>Update Your Details</h2>
+            <form id="updateForm">
+                <label>Name:</label>
+                <input type="text" id="name" value="<%= customer.getString("name")%>" required>
 
-            <label>NIC:</label>
-            <input type="text" id="nic" value="<%= customer.getString("nic") %>" required>
+                <label>NIC:</label>
+                <input type="text" id="nic" value="<%= customer.getString("nic")%>" required>
 
-            <label>Email:</label>
-            <input type="email" id="email" value="<%= customer.getString("email") %>" required>
+                <label>Email:</label>
+                <input type="email" id="email" value="<%= customer.getString("email")%>" required>
 
-            <label>Address:</label>
-            <input type="text" id="address" value="<%= customer.getString("address") %>" required>
+                <label>Address:</label>
+                <input type="text" id="address" value="<%= customer.getString("address")%>" required>
 
-            <label>Phone Number:</label>
-            <input type="text" id="phoneno" value="<%= customer.getString("phoneno") %>" required>
+                <label>Phone Number:</label>
+                <input type="text" id="phoneno" value="<%= customer.getString("phoneno")%>" required>
 
-            <button type="button" onclick="updateCustomer()">Update</button>
-        </form>
-    </div>
+                <button type="button" onclick="updateCustomer()">Update</button>
+            </form>
+        </div>
 
-    <script>
-        function updateCustomer() {
-            const username = "<%= username %>"; // Fetching from session
-            const apiUrl = "http://localhost:8080/Mega_City_Cab_Service/api/customers/update/username/" + username;
+        <script>
+            function updateCustomer() {
+                const username = "<%= username%>"; // Fetching from session
+                const apiUrl = "http://localhost:8080/Mega_City_Cab_Service/api/customers/update/username/" + username;
 
-            const customerData = {
-                name: document.getElementById("name").value,
-                nic: document.getElementById("nic").value,
-                email: document.getElementById("email").value,
-                address: document.getElementById("address").value,
-                phoneno: document.getElementById("phoneno").value
-            };
+                const customerData = {
+                    name: document.getElementById("name").value,
+                    nic: document.getElementById("nic").value,
+                    email: document.getElementById("email").value,
+                    address: document.getElementById("address").value,
+                    phoneno: document.getElementById("phoneno").value
+                };
 
-            fetch(apiUrl, {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(customerData)
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert("Customer updated successfully!");
-                } else {
-                    alert("Update failed: " + data.message);
-                }
-            })
-            .catch(error => console.error("Error:", error));
-        }
-    </script>
-</body>
+                fetch(apiUrl, {
+                    method: "PUT",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify(customerData)
+                })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                alert("Customer updated successfully!");
+                            } else {
+                                alert("Update failed: " + data.message);
+                            }
+                        })
+                        .catch(error => console.error("Error:", error));
+            }
+        </script>
+    </body>
 </html>

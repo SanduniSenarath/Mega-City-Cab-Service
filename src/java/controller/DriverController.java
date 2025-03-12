@@ -10,34 +10,34 @@ import model.Driver;
 import repository.DriverServiceImpl;
 
 @Path("/drivers")
-@Produces(MediaType.APPLICATION_JSON)  
-@Consumes(MediaType.APPLICATION_JSON)  
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 public class DriverController {
-    
+
     private final DriverServiceImpl driverService = new DriverServiceImpl();
-    
+
     @GET
     @Path("/getAll")
     public Response getAllDrivers() {
         List<Driver> drivers = driverService.getAllDrivers();
         return Response.ok(drivers, MediaType.APPLICATION_JSON).build();
     }
-    
+
     @POST
     @Path("/add")
     public Response addDriver(Driver driver) {
         boolean success = driverService.addDriver(driver);
-         Map<String, Object> response = new HashMap<>();
+        Map<String, Object> response = new HashMap<>();
 
-    if (success) {
-        response.put("success", true);
-        response.put("message", "Driver added successfully");
-        return Response.status(Response.Status.CREATED).entity(response).build();
-    } else {
-        response.put("success", false);
-        response.put("message", "Failed to add driver");
-        return Response.status(Response.Status.BAD_REQUEST).entity(response).build();
-    }
+        if (success) {
+            response.put("success", true);
+            response.put("message", "Driver added successfully");
+            return Response.status(Response.Status.CREATED).entity(response).build();
+        } else {
+            response.put("success", false);
+            response.put("message", "Failed to add driver");
+            return Response.status(Response.Status.BAD_REQUEST).entity(response).build();
+        }
     }
 
     @GET
@@ -73,12 +73,12 @@ public class DriverController {
             return Response.status(Response.Status.BAD_REQUEST).entity("Failed to delete driver").build();
         }
     }
-    
+
     @GET
-@Path("/available")
-public Response getAvailableDrivers() {
-    List<Driver> availableDrivers = driverService.getAvailableDrivers();
-    return Response.ok(availableDrivers, MediaType.APPLICATION_JSON).build();
-}
+    @Path("/available")
+    public Response getAvailableDrivers() {
+        List<Driver> availableDrivers = driverService.getAvailableDrivers();
+        return Response.ok(availableDrivers, MediaType.APPLICATION_JSON).build();
+    }
 
 }

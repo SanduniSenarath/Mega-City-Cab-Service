@@ -10,16 +10,16 @@
     }
 %>
 <html>
-<head>
-    <title>Available Vehicles</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <head>
+        <title>Available Vehicles</title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="styles.css">
     <header>
         <nav>
             <ul>
                 <li><a href="index.jsp" class="logo">Cab Booking</a></li>
-                
+
                 <% if (userRole.equals("admin")) { %>
                 <li><a href="admin_home.jsp" class="logo">Cab Booking</a></li>
                 <li><a href="admin_home.jsp">Home</a></li>
@@ -28,22 +28,22 @@
                 <li><a href="view_bookings.jsp">All Bookings</a></li>
                 <li><a href="view_customers.jsp">All Customers</a></li>
                 <li><a href="logout.jsp">Logout</a></li>
-                <% } else if (userRole.equals("driver")) { %>
-                    <li><a href="index.jsp">Home</a></li>
-                    <li><a href="driver_dashboard.jsp">Driver Dashboard</a></li>
-                    <li><a href="view_bookings.jsp">View Bookings</a></li>
-                <% } else if (userRole.equals("customer")) { %>
-                    <li><a href="index.jsp">Home</a></li>
-                    <li><a href="frame.jsp">Book a Cab</a></li>
-                    <li><a href="my_bookings.jsp">My Bookings</a></li>
-                <% } else { %>
-                    <li><a href="login.jsp">Login</a></li>
-                    <li><a href="CustomerRegistrationJSP.jsp">Register</a></li>
-                <% } %>
+                    <% } else if (userRole.equals("driver")) { %>
+                <li><a href="index.jsp">Home</a></li>
+                <li><a href="driver_dashboard.jsp">Driver Dashboard</a></li>
+                <li><a href="view_bookings.jsp">View Bookings</a></li>
+                    <% } else if (userRole.equals("customer")) { %>
+                <li><a href="index.jsp">Home</a></li>
+                <li><a href="frame.jsp">Book a Cab</a></li>
+                <li><a href="my_bookings.jsp">My Bookings</a></li>
+                    <% } else { %>
+                <li><a href="login.jsp">Login</a></li>
+                <li><a href="CustomerRegistrationJSP.jsp">Register</a></li>
+                    <% } %>
                 <li><a href="help.jsp">Help</a></li>
-                <% if (!userRole.equals("guest")) { %>
-                    <li><a href="logout.jsp">Logout</a></li>
-                <% } %>
+                    <% if (!userRole.equals("guest")) { %>
+                <li><a href="logout.jsp">Logout</a></li>
+                    <% } %>
             </ul>
         </nav>
     </header>
@@ -116,97 +116,97 @@
 </head>
 <body>
 
-<div class="container">
-    <h2>Available Vehicles</h2>
-    <div class="error-message" id="error-message" style="display: none;"></div>
-    <div class="vehicle-container" id="vehicle-list">
-    
-    <%
-        String apiUrl = "http://localhost:8080/Mega_City_Cab_Service/api/drivervehicle/available";
-        StringBuilder jsonResponse = new StringBuilder();
-        try {
-            URL url = new URL(apiUrl);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
-            conn.setRequestProperty("Accept", "application/json");
+    <div class="container">
+        <h2>Available Vehicles</h2>
+        <div class="error-message" id="error-message" style="display: none;"></div>
+        <div class="vehicle-container" id="vehicle-list">
 
-            if (conn.getResponseCode() != 200) {
-                out.println("<p class='error-message'>Failed to fetch vehicles. Please try again later.</p>");
-            } else {
-                BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
-                String output;
-                while ((output = br.readLine()) != null) {
-                    jsonResponse.append(output);
-                }
-                conn.disconnect();
+            <%
+                String apiUrl = "http://localhost:8080/Mega_City_Cab_Service/api/drivervehicle/available";
+                StringBuilder jsonResponse = new StringBuilder();
+                try {
+                    URL url = new URL(apiUrl);
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    conn.setRequestMethod("GET");
+                    conn.setRequestProperty("Accept", "application/json");
 
-                JSONArray vehicles = new JSONArray(jsonResponse.toString());
+                    if (conn.getResponseCode() != 200) {
+                        out.println("<p class='error-message'>Failed to fetch vehicles. Please try again later.</p>");
+                    } else {
+                        BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
+                        String output;
+                        while ((output = br.readLine()) != null) {
+                            jsonResponse.append(output);
+                        }
+                        conn.disconnect();
 
-                if (vehicles.length() == 0) {
-                    out.println("<p>No vehicles available at the moment.</p>");
-                } else {
-                    for (int i = 0; i < vehicles.length(); i++) {
-                        JSONObject vehicle = vehicles.getJSONObject(i);
-                        String vehicleNo = vehicle.optString("vehicleNo", "N/A");
-                        String empschNo = vehicle.optString("empSchNo", "N/A"); 
+                        JSONArray vehicles = new JSONArray(jsonResponse.toString());
+
+                        if (vehicles.length() == 0) {
+                            out.println("<p>No vehicles available at the moment.</p>");
+                        } else {
+                            for (int i = 0; i < vehicles.length(); i++) {
+                                JSONObject vehicle = vehicles.getJSONObject(i);
+                                String vehicleNo = vehicle.optString("vehicleNo", "N/A");
+                                String empschNo = vehicle.optString("empSchNo", "N/A"); 
 
 
-                        // Fetch vehicle details based on vehicleNo
-                        String detailsApiUrl = "http://localhost:8080/Mega_City_Cab_Service/api/vehicles/number/" + vehicleNo;
-                        StringBuilder detailsResponse = new StringBuilder();
-                        try {
-                            URL detailsUrl = new URL(detailsApiUrl);
-                            HttpURLConnection detailsConn = (HttpURLConnection) detailsUrl.openConnection();
-                            detailsConn.setRequestMethod("GET");
-                            detailsConn.setRequestProperty("Accept", "application/json");
+                                // Fetch vehicle details based on vehicleNo
+                                String detailsApiUrl = "http://localhost:8080/Mega_City_Cab_Service/api/vehicles/number/" + vehicleNo;
+                                StringBuilder detailsResponse = new StringBuilder();
+                                try {
+                                    URL detailsUrl = new URL(detailsApiUrl);
+                                    HttpURLConnection detailsConn = (HttpURLConnection) detailsUrl.openConnection();
+                                    detailsConn.setRequestMethod("GET");
+                                    detailsConn.setRequestProperty("Accept", "application/json");
 
-                            if (detailsConn.getResponseCode() == 200) {
-                                BufferedReader detailsBr = new BufferedReader(new InputStreamReader((detailsConn.getInputStream())));
-                                String detailsOutput;
-                                while ((detailsOutput = detailsBr.readLine()) != null) {
-                                    detailsResponse.append(detailsOutput);
+                                    if (detailsConn.getResponseCode() == 200) {
+                                        BufferedReader detailsBr = new BufferedReader(new InputStreamReader((detailsConn.getInputStream())));
+                                        String detailsOutput;
+                                        while ((detailsOutput = detailsBr.readLine()) != null) {
+                                            detailsResponse.append(detailsOutput);
+                                        }
+                                        detailsBr.close();
+                                    }
+                                    detailsConn.disconnect();
+
+                                    // Parse vehicle details
+                                    JSONObject vehicleDetails = new JSONObject(detailsResponse.toString());
+                                    String brand = vehicleDetails.optString("brandName", "Unknown");
+                                    String type = vehicleDetails.optString("type", "Unknown");
+                                    int availableSeats = vehicleDetails.optInt("availableSeats", 0);
+                                    String imageUrl = vehicleDetails.optString("imageUrl", "https://via.placeholder.com/250x150?text=No+Image");
+
+            %>
+            <div class="vehicle-box"  onclick="redirectToBooking('<%= empschNo %>')">
+                <h3><img src="download (1)_1.png" alt="Car Icon" > Vehicle Details</h3>
+                <p><strong>Vehicle No:</strong> <%= vehicleNo %></p>
+                <p><strong>Brand:</strong> <%= brand %></p>
+                <p><strong>Type:</strong> <%= type %></p>
+                <p><strong>Available Seats:</strong> <%= availableSeats %></p>
+            </div>
+            <%
+                                } catch (Exception detailsEx) {
+                                    out.println("<p class='error-message'>Error fetching details for Vehicle No: " + vehicleNo + "</p>");
                                 }
-                                detailsBr.close();
                             }
-                            detailsConn.disconnect();
-
-                            // Parse vehicle details
-                            JSONObject vehicleDetails = new JSONObject(detailsResponse.toString());
-                            String brand = vehicleDetails.optString("brandName", "Unknown");
-                            String type = vehicleDetails.optString("type", "Unknown");
-                            int availableSeats = vehicleDetails.optInt("availableSeats", 0);
-                            String imageUrl = vehicleDetails.optString("imageUrl", "https://via.placeholder.com/250x150?text=No+Image");
-
-    %>
-                            <div class="vehicle-box"  onclick="redirectToBooking('<%= empschNo %>')">
-                                <h3><img src="download (1)_1.png" alt="Car Icon" > Vehicle Details</h3>
-                                <p><strong>Vehicle No:</strong> <%= vehicleNo %></p>
-                                <p><strong>Brand:</strong> <%= brand %></p>
-                                <p><strong>Type:</strong> <%= type %></p>
-                                <p><strong>Available Seats:</strong> <%= availableSeats %></p>
-                            </div>
-    <%
-                        } catch (Exception detailsEx) {
-                            out.println("<p class='error-message'>Error fetching details for Vehicle No: " + vehicleNo + "</p>");
                         }
                     }
+                } catch (Exception e) {
+                    out.println("<p class='error-message'>Error: " + e.getMessage() + "</p>");
                 }
-            }
-        } catch (Exception e) {
-            out.println("<p class='error-message'>Error: " + e.getMessage() + "</p>");
-        }
-    %>
-    
-    
+            %>
 
+
+
+        </div>
     </div>
-</div>
-<script>
-    function redirectToBooking(empschNo) {
-        window.location.href = "AddBookings.jsp?empSchNo=" + encodeURIComponent(empschNo);
-    }
+    <script>
+        function redirectToBooking(empschNo) {
+            window.location.href = "AddBookings.jsp?empSchNo=" + encodeURIComponent(empschNo);
+        }
     </script>
-    
+
     <footer>
         <p>&copy; 2023 Cab Booking System. All rights reserved.</p>
         <ul>

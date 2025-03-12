@@ -7,7 +7,7 @@
         <meta charset="UTF-8">
         <title>Schedule Data</title>
         <style>
-           
+
             body {
                 font-family: 'Arial', sans-serif;
                 background-color: #f4f4f9;
@@ -33,7 +33,7 @@
                 font-weight: bold;
             }
 
-           
+
             .filter-section {
                 display: flex;
                 justify-content: center;

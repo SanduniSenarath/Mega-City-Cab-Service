@@ -22,7 +22,6 @@ public interface ScheduleService {
     List<Schedule> getAllSchedules();
 
     Schedule getScheduleById(int id);
-    
+
     List<Schedule> getSchedulesByUsername(String username);
 }
-

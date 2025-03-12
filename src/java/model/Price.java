@@ -8,8 +8,8 @@ package model;
  *
  * @author Sanduni
  */
-
 public class Price {
+
     private int id;
     private double price;
 

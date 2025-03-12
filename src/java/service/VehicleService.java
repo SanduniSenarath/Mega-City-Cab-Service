@@ -12,6 +12,7 @@ import model.Vehicle;
  * @author Sanduni
  */
 public interface VehicleService {
+
     // Retrieve all active vehicles (where isDelete = 0)
     List<Vehicle> getAllVehicles();
 

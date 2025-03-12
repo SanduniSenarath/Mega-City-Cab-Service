@@ -8,7 +8,6 @@ package controller;
  *
  * @author Sanduni
  */
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,16 +21,16 @@ import repository.PriceServiceImpl;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class PriceController {
-    
+
     private final PriceServiceImpl priceService = new PriceServiceImpl();
-    
+
     @GET
     @Path("/getAll")
     public Response getAllPrices() {
         List<Price> prices = priceService.getAllPrices();
         return Response.ok(prices, MediaType.APPLICATION_JSON).build();
     }
-    
+
     @GET
     @Path("/{id}")
     public Response getPriceById(@PathParam("id") int id) {
@@ -42,7 +41,7 @@ public class PriceController {
             return Response.status(Response.Status.NOT_FOUND).entity("Price not found").build();
         }
     }
-    
+
     @PUT
     @Path("/update/{id}")
     public Response updatePrice(@PathParam("id") int id, Price price) {
