@@ -4,9 +4,8 @@
     Author     : Sanduni
 --%>
 
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.UUID" %>
-
+<%@ include file="header.jsp" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -177,50 +176,7 @@
         </script>
     </head>
     <body>
-        <header>
-            <nav>
-                <ul>
-                    <li><a href="index.jsp" class="logo">Cab Booking</a></li>
-                        <%
-                            String userRole = (String) session.getAttribute("userRole");
-                            if ("admin".equals(userRole)) {
-                        %>
-                    <li><a href="admin_home.jsp">Home</a></li>
-                    <li><a href="DriverListJSP.jsp">View Driver List</a></li>
-                    <li><a href="vehicle-registration.jsp">Vehicle Registration</a></li>
-                    <li><a href="driver_vehicle_registration.jsp">Driver Vehicle Registration</a></li>
-                    <li><a href="driver_registration.jsp">Driver Registration</a></li>
-                    <li><a href="vehicleListJSP.jsp">Vehicle List</a></li>
-                    <li><a href="CustomerRegistrationJSP.jsp">Customer Registration</a></li>
-                    <li><a href="AddBookings.jsp">Add Bookings</a></li>
-                        <%
-                        } else if ("driver".equals(userRole)) {
-                        %>
-                    <li><a href="index.jsp">Home</a></li>
-                    <li><a href="driver_dashboard.jsp">Driver Dashboard</a></li>
-                    <li><a href="view_bookings.jsp">View Bookings</a></li>
-                        <%
-                        } else if ("customer".equals(userRole)) {
-                        %>
-                    <li><a href="index.jsp">Home</a></li>
-                    <li><a href="frame.jsp">Book a Cab</a></li>
-                    <li><a href="my_bookings.jsp">My Bookings</a></li>
-                        <%
-                        } else {
-                        %>
-                    <li><a href="login.jsp">Login</a></li>
-                    <li><a href="CustomerRegistrationJSP.jsp">Register</a></li>
-                        <%
-                            }
-                        %>
-                    <li><a href="help.jsp">Help</a></li>
-                        <% if (!"guest".equals(userRole)) { %>
-                    <li><a href="logout.jsp">Logout</a></li>
-                        <% }%>
-                </ul>
-            </nav>
-        </header>
-
+     
         <div class="container">
             <h1>Add Bookings</h1>
             <section class="form-section">

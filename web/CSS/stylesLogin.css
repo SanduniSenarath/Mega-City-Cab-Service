@@ -7,45 +7,7 @@ body {
     color: #333;
 }
 
-/* Header Styles */
-header {
-    background-color: #227B94;
-    color: white;
-    padding: 10px 0;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
 
-nav ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-nav ul li {
-    margin: 0 15px;
-}
-
-nav ul li a {
-    color: white;
-    text-decoration: none;
-    font-size: 16px;
-    padding: 8px 16px;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-}
-
-nav ul li a:hover {
-    background-color: #555;
-}
-
-.logo {
-    font-size: 24px;
-    font-weight: bold;
-    color: #ffcc00;
-}
 
 /* Login Page Styles */
 .login-container {
@@ -123,32 +85,3 @@ nav ul li a:hover {
     text-decoration: underline;
 }
 
-/* Footer Styles */
-footer {
-    background-color: #227B94;
-    color: white;
-    text-align: center;
-    padding: 20px 0;
-    margin-top: 40px;
-}
-
-footer ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 10px 0 0;
-}
-
-footer ul li {
-    display: inline;
-    margin: 0 10px;
-}
-
-footer ul li a {
-    color: white;
-    text-decoration: none;
-    font-size: 14px;
-}
-
-footer ul li a:hover {
-    text-decoration: underline;
-}

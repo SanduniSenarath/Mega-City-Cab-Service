@@ -1,5 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
 <%@ page import="java.io.BufferedReader, java.io.InputStreamReader, java.net.HttpURLConnection, java.net.URL, org.json.JSONArray, org.json.JSONObject" %>
+   <%@ include file="header.jsp" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -139,6 +140,7 @@
                 background-color: #D62839; /* Darker Red */
             }
 
+            .assign-btn:disabled,
             .delete-btn:disabled {
                 background-color: #AAA; /* Gray */
                 cursor: not-allowed;
@@ -160,19 +162,7 @@
         </style>
     </head>
     <body>
-        <header>
-            <nav>
-                <ul>
-                    <li><a href="admin_home.jsp" class="logo">Cab Booking</a></li>
-                    <li><a href="admin_home.jsp">Home</a></li>
-                    <li><a href="vehicle-registration.jsp">Vehicle Registration</a></li>
-                    <li><a href="driver_registration.jsp">Driver Registration</a></li>
-                    <li><a href="view_bookings.jsp">All Bookings</a></li>
-                    <li><a href="view_customers.jsp">All Customers</a></li>
-                    <li><a href="logout.jsp">Logout</a></li>
-                </ul>
-            </nav>
-        </header>
+       
         <div class="controls">
             <h2>Vehicle List</h2>
         </div>
@@ -250,7 +240,7 @@
                             out.println("<button class='update-btn' onclick='updateVehicle(" + vehicle.getInt("id") + ")'>Update</button>");
                             out.println("<button class='delete-btn' " + (vehicle.getBoolean("available") ? "" : "disabled") + 
                                 " onclick='deleteVehicle(" + vehicle.getInt("id") + ")'>Delete</button>");
-                                out.println("<button class='assign-btn' onclick='assignDriver(" + vehicle.getInt("id") + ")'>Assign</button>");
+                                out.println("<button class='assign-btn' "+ (vehicle.getBoolean("available") ? "" : "disabled") +" onclick='assignDriver(" + vehicle.getInt("id") + ")'>Assign</button>");
                             out.println("</td>");
                             out.println("</tr>");
                         }
@@ -332,13 +322,14 @@
 
         </script>
 
-        <footer>
+       <footer >
             <p>&copy; 2023 Cab Booking System. All rights reserved.</p>
             <ul>
-                <li><a href="privacy_policy.jsp">Privacy Policy</a></li>
-                <li><a href="terms_of_service.jsp">Terms of Service</a></li>
-                <li><a href="contact_us.jsp">Contact Us</a></li>
+                <li><strong>Phone:</strong> 0332246638</li>
+                <li><strong>Address:</strong> Maradana, Colombo 10</li>
+                <li><strong>Email:</strong> no.reply.megacity.cabservice@gmail.com</li>
             </ul>
+
         </footer>
     </body>
 </html>

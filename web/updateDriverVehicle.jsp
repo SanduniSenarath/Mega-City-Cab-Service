@@ -4,8 +4,8 @@
     Author     : Sanduni
 --%>
 
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.io.BufferedReader, java.io.InputStreamReader, java.io.OutputStreamWriter, java.net.HttpURLConnection, java.net.URL, org.json.JSONObject, org.json.JSONArray" %>
+   <%@ include file="header.jsp" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -13,19 +13,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Update Driver-Vehicle</title>
         <link rel="stylesheet" href="styles.css">
-    <header>
-        <nav>
-            <ul>
-                <li><a href="admin_home.jsp" class="logo">Cab Booking</a></li>
-                <li><a href="admin_home.jsp">Home</a></li>
-                <li><a href="vehicle-registration.jsp">Vehicle Registration</a></li>
-                <li><a href="driver_registration.jsp">Driver Registration</a></li>
-                <li><a href="view_bookings.jsp">All Bookings</a></li>
-                <li><a href="view_customers.jsp">All Customers</a></li>
-                <li><a href="logout.jsp">Logout</a></li>
-            </ul>
-        </nav>
-    </header>
+   
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -111,11 +99,11 @@
             <label>Vehicle No:</label>
             <input type="text" name="vehicleNo" readonly>
 
-            <label>Availability:</label>
-            <select name="available">
+<!--            <label>Availability:</label>
+            <select name="available" hide>
                 <option value="Yes">Yes</option>
                 <option value="No">No</option>
-            </select>
+            </select>-->
 
             <button type="submit">Update</button>
         </form>
@@ -157,7 +145,14 @@
         }
     }
     %>
-
+ <footer style="position: fixed;">
+            <p>&copy; 2023 Cab Booking System. All rights reserved.</p>
+            <ul>
+                <li><strong>Phone:</strong> 0332246638</li>
+                <li><strong>Address:</strong> Maradana, Colombo 10</li>
+                <li><strong>Email:</strong> no.reply.megacity.cabservice@gmail.com</li>
+            </ul>
+        </footer>
 
 </body>
 </html>

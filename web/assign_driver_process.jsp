@@ -1,5 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+
 <%@ page import="java.io.BufferedReader, java.io.InputStreamReader, java.net.HttpURLConnection, java.net.URL, org.json.JSONArray, org.json.JSONObject" %>
+   <%@ include file="header.jsp" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -11,16 +12,7 @@
     </head>
     <body>
 
-        <header>
-            <nav>
-                <ul>
-                    <li><a href="admin_home.jsp" class="logo">Cab Booking</a></li>
-                    <li><a href="admin_home.jsp">Home</a></li>
-                    <li><a href="vehicle-list.jsp">Vehicle List</a></li>
-                    <li><a href="driver_registration.jsp">Driver Registration</a></li>
-                </ul>
-            </nav>
-        </header>
+        
 
         <h2>Assign Driver to Vehicle</h2>
 
@@ -127,10 +119,15 @@
             </div>
         </div>
 
-        <footer>
-            <p>&copy; 2025 Cab Booking System. All rights reserved.</p>
-        </footer>
+       <footer>
+            <p>&copy; 2023 Cab Booking System. All rights reserved.</p>
+            <ul>
+                <li><strong>Phone:</strong> 0332246638</li>
+                <li><strong>Address:</strong> Maradana, Colombo 10</li>
+                <li><strong>Email:</strong> no.reply.megacity.cabservice@gmail.com</li>
+            </ul>
 
+        </footer>
         <script>
             function generateRandomEmpSchNo() {
                 return Math.floor(1000 + Math.random() * 9000);

@@ -35,7 +35,7 @@
 <html>
     <head>
         <title>Update Customer Details</title>
-        <style>
+      <style>
             * {
                 margin: 0;
                 padding: 0;
@@ -46,6 +46,7 @@
                 font-family: Arial, sans-serif;
                 background-color: #f4f4f9;
                 color: #333;
+                justify-content: center;
                 align-items: center;
                 height: 100vh;
             }
@@ -55,7 +56,7 @@
                 max-width: 1200px;
                 margin: 20px;
                 background-color: white;
-                padding: 20px;
+                padding: 50px;
                 border-radius: 8px;
                 box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
                 margin-left: 320px;
@@ -67,18 +68,9 @@
                 color: #2c3e50;
             }
 
-            .form-section {
-                margin-bottom: 30px;
-            }
-
-            h2 {
-                font-size: 1.5rem;
-                margin-bottom: 10px;
-            }
-
             form input {
                 width: 100%;
-                padding: 10px;
+                padding: 15px;
                 margin: 5px 0;
                 border: 1px solid #ccc;
                 border-radius: 4px;
@@ -92,7 +84,7 @@
             form button {
                 width: 100%;
                 padding: 10px;
-                background-color: #2ecc71;
+                background-color: #3498db;
                 color: white;
                 border: none;
                 border-radius: 4px;
@@ -101,13 +93,14 @@
             }
 
             form button:hover {
-                background-color: #27ae60;
+                background-color: #2980b9;
             }
         </style>
     </head>
     <body>
+        <h1>Update Your Details</h1>
         <div class="container">
-            <h2>Update Your Details</h2>
+            
             <form id="updateForm">
                 <label>Name:</label>
                 <input type="text" id="name" value="<%= customer.getString("name")%>" required>
@@ -157,5 +150,14 @@
                         .catch(error => console.error("Error:", error));
             }
         </script>
+         <footer>
+            <p>&copy; 2023 Cab Booking System. All rights reserved.</p>
+            <ul>
+                <li><strong>Phone:</strong> 0332246638</li>
+                <li><strong>Address:</strong> Maradana, Colombo 10</li>
+                <li><strong>Email:</strong> no.reply.megacity.cabservice@gmail.com</li>
+            </ul>
+
+        </footer>
     </body>
 </html>

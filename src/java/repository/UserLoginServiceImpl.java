@@ -46,13 +46,12 @@ public class UserLoginServiceImpl implements UserLoginService {
 
     @Override
     public boolean updateUser(UserLogin user) {
-        String query = "UPDATE userlogin SET username = ?, password = ?, role = ? WHERE id = ?";
+        String query = "UPDATE userlogin SET password = ?, role = ? WHERE useranme = ?";
         try (
                 PreparedStatement ps = con.prepareStatement(query)) {
-            ps.setString(1, user.getUsername());
-            ps.setString(2, user.getPassword());
-            ps.setString(3, user.getRole());
-            ps.setInt(4, user.getId());
+            ps.setString(1, user.getPassword());
+            ps.setString(2, user.getRole());
+            ps.setString(3, user.getUsername());
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();

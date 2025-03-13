@@ -9,7 +9,7 @@ import javax.mail.internet.MimeMessage;
 public class SendEmail {
 
     private static final String FROM_EMAIL = "no.reply.megacity.cabservice@gmail.com";
-    private static final String PASSWORD = "pbkm acgl qsji xteq";  // Consider using environment variables for security.
+    private static final String PASSWORD = "pbkm acgl qsji xteq";  
     private static final String SMTP_HOST = "smtp.gmail.com";
     private static final String SMTP_PORT = "465";
 

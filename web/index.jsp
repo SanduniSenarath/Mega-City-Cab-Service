@@ -40,8 +40,8 @@
 
             /* Introduction Section */
             .intro-section {
-                background: rgb(192,233,39);
-                background: radial-gradient(circle, rgba(192,233,39,1) 0%, rgba(47,180,227,1) 100%);
+                 background: rgb(22, 50, 91);
+                background: linear-gradient(135deg, rgba(22, 50, 91, 1) 0%, rgba(34, 123, 148, 1) 100%);
                 color: white;
                 padding: 40px;
                 border-radius: 10px;
@@ -172,10 +172,11 @@
         <footer>
             <p>&copy; 2023 Cab Booking System. All rights reserved.</p>
             <ul>
-                <li><a href="privacy_policy.jsp">Privacy Policy</a></li>
-                <li><a href="terms_of_service.jsp">Terms of Service</a></li>
-                <li><a href="contact_us.jsp">Contact Us</a></li>
+                <li><strong>Phone:</strong> 0332246638</li>
+                <li><strong>Address:</strong> Maradana, Colombo 10</li>
+                <li><strong>Email:</strong> no.reply.megacity.cabservice@gmail.com</li>
             </ul>
+
         </footer>
     </body>
 </html>

@@ -5,6 +5,7 @@
 --%>
 
 <%@ page import="java.sql.*" %>
+
 <%
     // Handle login form submission
     if ("POST".equalsIgnoreCase(request.getMethod())) {
@@ -45,6 +46,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Login - Cab Booking System</title>
         <link rel="stylesheet" href="CSS/stylesLogin.css">
+        <link rel="stylesheet" href="styles.css">
     </head>
     <body>
         <!-- Header -->
@@ -79,13 +81,14 @@
         </main>
 
         <!-- Footer -->
-        <footer>
+         <footer style=" position: fixed; width: 100%">
             <p>&copy; 2023 Cab Booking System. All rights reserved.</p>
             <ul>
-                <li><a href="privacy_policy.jsp">Privacy Policy</a></li>
-                <li><a href="terms_of_service.jsp">Terms of Service</a></li>
-                <li><a href="contact_us.jsp">Contact Us</a></li>
+                <li><strong>Phone:</strong> 0332246638</li>
+                <li><strong>Address:</strong> Maradana, Colombo 10</li>
+                <li><strong>Email:</strong> no.reply.megacity.cabservice@gmail.com</li>
             </ul>
+
         </footer>
     </body>
 </html>

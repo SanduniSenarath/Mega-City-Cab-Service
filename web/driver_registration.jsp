@@ -1,13 +1,6 @@
+   <%@ include file="header.jsp" %>
 <!DOCTYPE html>
-<%
-    // Fetch user role and username from session
-    String userRole = (String) session.getAttribute("userRole");
-    String username = (String) session.getAttribute("username");
-    if (userRole == null) {
-        userRole = "guest";
-    }
 
-%>
 <html lang="en">
     <head>
         <meta charset="UTF-8">
@@ -15,38 +8,7 @@
         <title>Driver Registration</title>
         <link rel="stylesheet" href="styles.css">
         <link rel="stylesheet" href="CSS/driver.css">
-    <header>
-        <nav>
-            <ul>
-
-
-                <% if (userRole.equals("admin")) { %>
-                <li><a href="admin_home.jsp" class="logo">Cab Booking</a></li>
-                <li><a href="admin_home.jsp">Home</a></li>
-                <li><a href="vehicle-registration.jsp">Vehicle Registration</a></li>
-                <li><a href="driver_registration.jsp">Driver Registration</a></li>
-                <li><a href="view_bookings.jsp">All Bookings</a></li>
-                <li><a href="view_customers.jsp">All Customers</a></li>
-
-                <% } else if (userRole.equals("driver")) { %>
-                <li><a href="index.jsp">Home</a></li>
-                <li><a href="driver_dashboard.jsp">Driver Dashboard</a></li>
-                <li><a href="view_bookings.jsp">View Bookings</a></li>
-                    <% } else if (userRole.equals("customer")) { %>
-                <li><a href="index.jsp">Home</a></li>
-                <li><a href="AddBookings.jsp">Book a Cab</a></li>
-                <li><a href="my_bookings.jsp">My Bookings</a></li>
-                    <% } else { %>
-                <li><a href="login.jsp">Login</a></li>
-                <li><a href="CustomerRegistrationJSP.jsp">Register</a></li>
-                    <% } %>
-                <li><a href="help.jsp">Help</a></li>
-                    <% if (!userRole.equals("guest")) { %>
-                <li><a href="logout.jsp">Logout</a></li>
-                    <% }%>
-            </ul>
-        </nav>
-    </header>
+    
     <style>
         .error-message {
             color: red;
@@ -188,6 +150,7 @@
 
                 document.getElementById("message").textContent = "Driver and user registered successfully.";
                 document.getElementById("message").className = "message success";
+                alert("Driver registration successful!");
 
                 setTimeout(() => {
                     document.getElementById("driverForm").reset();
@@ -196,6 +159,7 @@
             } catch (error) {
                 document.getElementById("message").textContent = error.message;
                 document.getElementById("message").className = "message error";
+                alert("Driver registration unsuccessful! Try Again");
             }
         });
 
@@ -206,12 +170,13 @@
         });
     </script>
     <footer>
-        <p>&copy; 2023 Cab Booking System. All rights reserved.</p>
-        <ul>
-            <li><a href="privacy_policy.jsp">Privacy Policy</a></li>
-            <li><a href="terms_of_service.jsp">Terms of Service</a></li>
-            <li><a href="contact_us.jsp">Contact Us</a></li>
-        </ul>
-    </footer>
+            <p>&copy; 2023 Cab Booking System. All rights reserved.</p>
+            <ul>
+                <li><strong>Phone:</strong> 0332246638</li>
+                <li><strong>Address:</strong> Maradana, Colombo 10</li>
+                <li><strong>Email:</strong> no.reply.megacity.cabservice@gmail.com</li>
+            </ul>
+
+        </footer>
 </body>
 </html>

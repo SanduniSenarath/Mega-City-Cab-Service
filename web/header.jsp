@@ -14,6 +14,14 @@
     if (userRole == null) {
         userRole = "guest"; // Default role if not logged in
     }
+
+    Boolean isFirstLogin = (Boolean) session.getAttribute("isFirstLogin");
+
+    if ("admin".equals(userRole) && (isFirstLogin == null || isFirstLogin)) {
+        session.setAttribute("isFirstLogin", false); // Set flag to false after first redirect
+        response.sendRedirect("admin_home.jsp");
+        return;
+    }
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -70,14 +78,34 @@
         <header>
             <nav>
                 <ul>
+
+                    <% if (!userRole.equals("admin")) {%>
+
                     <li><a href="index.jsp" class="logo">Cab Booking</a></li>
+                        <% }%>
+
 
                     <% if (userRole.equals("admin")) { %>
+                    <li><a href="admin_home.jsp" class="logo">Cab Booking</a></li>
                     <li><a href="admin_home.jsp">Home</a></li>
-                    <li><a href="vehicle-registration.jsp">Vehicle Registration</a></li>
-                    <li><a href="driver_registration.jsp">Driver Registration</a></li>
-                    <li><a href="view_bookings.jsp">All Bookings</a></li>
-                    <li><a href="view_customers.jsp">All Customers</a></li>
+                     <li class="dropdown">
+                        <a href="#">Vehicle <i class="fas fa-caret-down"></i></a>
+                        <div class="dropdown-content">
+                            <a href="vehicle-registration.jsp">Vehicle Registration</a>
+                            <a href="vehicleListJSP.jsp">Vehicle List</a>
+                        </div>
+                    </li>
+
+                    <!-- Driver Dropdown -->
+                    <li class="dropdown">
+                        <a href="#">Driver <i class="fas fa-caret-down"></i></a>
+                        <div class="dropdown-content">
+                            <a href="driver_registration.jsp">Driver Registration</a>
+                            <a href="DriverListJSP.jsp">Driver List</a>
+                        </div>
+                    </li>
+                    <li><a href="bookingList.jsp">All Bookings</a></li>
+                    <li><a href="CustomerList.jsp">All Customers</a></li>
                     <li><a href="logout.jsp"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
                         <% } else if (userRole.equals("driver")) { %>
                     <li><a href="index.jsp">Home</a></li>

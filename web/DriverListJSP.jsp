@@ -17,6 +17,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
         <link rel="stylesheet" href="styles.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
         <style>
             body {
                 font-family: Arial, sans-serif;
@@ -94,36 +95,96 @@
                 margin: 20px auto;
                 display: none;
             }
+            .dropdown {
+                position: relative;
+                display: inline-block;
+            }
+            .dropdown-content {
+                display: none;
+                position: absolute;
+                right: 0;
+                background-color: #fff;
+                min-width: 150px;
+                box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
+                z-index: 10;
+            }
+            .dropdown:hover .dropdown-content {
+                display: block;
+            }
+            .dropdown-content a {
+                color: black;
+                padding: 8px 12px;
+                text-decoration: none;
+                display: block;
+            }
+            .dropdown-content a:hover {
+                background-color: #f1f1f1;
+            }
 
         </style>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="index.jsp" class="logo">Cab Booking</a></li>
+     <header>
+            <nav>
+                <ul>
+
+                    <% if (!userRole.equals("admin")) {%>
+
+                    <li><a href="index.jsp" class="logo">Cab Booking</a></li>
+                        <% }%>
+
+
                     <% if (userRole.equals("admin")) { %>
-                <li><a href="admin_home.jsp">Home</a></li>
-                <li><a href="vehicle-registration.jsp">Vehicle Registration</a></li>
-                <li><a href="driver_registration.jsp">Driver Registration</a></li>
-                <li><a href="view_bookings.jsp">All Bookings</a></li>
-                <li><a href="view_customers.jsp">All Customers</a></li>
-                    <% } else if (userRole.equals("driver")) { %>
-                <li><a href="index.jsp">Home</a></li>
-                <li><a href="driver_dashboard.jsp">Driver Dashboard</a></li>
-                <li><a href="view_bookings.jsp">View Bookings</a></li>
-                    <% } else if (userRole.equals("customer")) { %>
-                <li><a href="index.jsp">Home</a></li>
-                <li><a href="AddBookings.jsp">Book a Cab</a></li>
-                <li><a href="my_bookings.jsp">My Bookings</a></li>
-                    <% } else { %>
-                <li><a href="login.jsp">Login</a></li>
-                <li><a href="CustomerRegistrationJSP.jsp">Register</a></li>
-                    <% } %>
-                    <% if (!userRole.equals("guest")) { %>
-                <li><a href="logout.jsp">Logout</a></li>
-                    <% } %>
-            </ul>
-        </nav>
-    </header>
+                    <li><a href="admin_home.jsp" class="logo">Cab Booking</a></li>
+                    <li><a href="admin_home.jsp">Home</a></li>
+                     <li class="dropdown">
+                        <a href="#">Vehicle <i class="fas fa-caret-down"></i></a>
+                        <div class="dropdown-content">
+                            <a href="vehicle-registration.jsp">Vehicle Registration</a>
+                            <a href="vehicleListJSP.jsp">Vehicle List</a>
+                        </div>
+                    </li>
+
+                    <!-- Driver Dropdown -->
+                    <li class="dropdown">
+                        <a href="#">Driver <i class="fas fa-caret-down"></i></a>
+                        <div class="dropdown-content">
+                            <a href="driver_registration.jsp">Driver Registration</a>
+                            <a href="DriverListJSP.jsp">Driver List</a>
+                        </div>
+                    </li>
+                    <li><a href="bookingList.jsp">All Bookings</a></li>
+                    <li><a href="CustomerList.jsp">All Customers</a></li>
+                    <li><a href="logout.jsp"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                        <% } else if (userRole.equals("driver")) { %>
+                    <li><a href="index.jsp">Home</a></li>
+                    <li><a href="driver_dashboard.jsp">Driver Dashboard</a></li>
+                    <li><a href="view_bookings.jsp">View Bookings</a></li>
+                        <% } else if (userRole.equals("customer")) { %>
+                    <li><a href="index.jsp">Home</a></li>
+                    <li><a href="frame.jsp">Book a Cab</a></li>
+                    <li><a href="my_bookings.jsp">My Bookings</a></li>
+                        <% } else { %>
+                    <li><a href="login.jsp">Login</a></li>
+                    <li><a href="CustomerRegistrationJSP.jsp">Register</a></li>
+                        <% } %>
+
+                    <li><a href="help.jsp">Help</a></li>
+
+                    <% if (!userRole.equals("guest") && !userRole.equals("admin")) {%>
+
+                    <!-- User Profile Section -->
+                    <li class="user-info dropdown">
+                        <i class="fas fa-user-circle"></i>
+
+                        <div class="dropdown-content">
+                            <span><%= username%></span>
+                            <a href="edit_profile.jsp"><i class="fas fa-user-edit"></i> Edit Profile</a>
+                            <a href="logout.jsp"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                        </div>
+                    </li>
+                    <% }%>
+                </ul>
+            </nav>
+        </header>
 </head>
 <body>
     <div class="container">
@@ -282,13 +343,14 @@
             }, 5000);
         }
     </script>
-    <footer>
-        <p>&copy; 2023 Cab Booking System. All rights reserved.</p>
-        <ul>
-            <li><a href="privacy_policy.jsp">Privacy Policy</a></li>
-            <li><a href="terms_of_service.jsp">Terms of Service</a></li>
-            <li><a href="contact_us.jsp">Contact Us</a></li>
-        </ul>
-    </footer>
+    <footer >
+            <p>&copy; 2023 Cab Booking System. All rights reserved.</p>
+            <ul>
+                <li><strong>Phone:</strong> 0332246638</li>
+                <li><strong>Address:</strong> Maradana, Colombo 10</li>
+                <li><strong>Email:</strong> no.reply.megacity.cabservice@gmail.com</li>
+            </ul>
+
+        </footer>
 </body>
 </html>

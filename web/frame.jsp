@@ -1,52 +1,15 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <%@ page import="java.io.BufferedReader, java.io.InputStreamReader, java.net.HttpURLConnection, java.net.URL" %>
 <%@ page import="org.json.JSONArray, org.json.JSONObject" %>
-<%
-    // Fetch user role and username from session
-    String userRole = (String) session.getAttribute("userRole");
-    String username = (String) session.getAttribute("username");
-    if (userRole == null) {
-        userRole = "guest"; 
-    }
-%>
+   <%@ include file="header.jsp" %>
+
 <html>
     <head>
         <title>Available Vehicles</title>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="styles.css">
-    <header>
-        <nav>
-            <ul>
-                <li><a href="index.jsp" class="logo">Cab Booking</a></li>
-
-                <% if (userRole.equals("admin")) { %>
-                <li><a href="admin_home.jsp" class="logo">Cab Booking</a></li>
-                <li><a href="admin_home.jsp">Home</a></li>
-                <li><a href="vehicle-registration.jsp">Vehicle Registration</a></li>
-                <li><a href="driver_registration.jsp">Driver Registration</a></li>
-                <li><a href="view_bookings.jsp">All Bookings</a></li>
-                <li><a href="view_customers.jsp">All Customers</a></li>
-                <li><a href="logout.jsp">Logout</a></li>
-                    <% } else if (userRole.equals("driver")) { %>
-                <li><a href="index.jsp">Home</a></li>
-                <li><a href="driver_dashboard.jsp">Driver Dashboard</a></li>
-                <li><a href="view_bookings.jsp">View Bookings</a></li>
-                    <% } else if (userRole.equals("customer")) { %>
-                <li><a href="index.jsp">Home</a></li>
-                <li><a href="frame.jsp">Book a Cab</a></li>
-                <li><a href="my_bookings.jsp">My Bookings</a></li>
-                    <% } else { %>
-                <li><a href="login.jsp">Login</a></li>
-                <li><a href="CustomerRegistrationJSP.jsp">Register</a></li>
-                    <% } %>
-                <li><a href="help.jsp">Help</a></li>
-                    <% if (!userRole.equals("guest")) { %>
-                <li><a href="logout.jsp">Logout</a></li>
-                    <% } %>
-            </ul>
-        </nav>
-    </header>
+    
     <style>
         body {
             font-family: 'Poppins', sans-serif;

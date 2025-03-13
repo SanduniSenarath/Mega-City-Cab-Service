@@ -13,6 +13,7 @@ public class Price {
     private int id;
     private double price;
 
+
     public Price() {
     }
 

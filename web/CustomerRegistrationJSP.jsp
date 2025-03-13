@@ -1,13 +1,6 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <%@ page import="java.sql.*" %>
-<%
-    // Fetch user role and username from session
-    String userRole = (String) session.getAttribute("userRole");
-    String username = (String) session.getAttribute("username");
-    if (userRole == null) {
-        userRole = "guest";
-    }
-%>
+<%@ include file="header.jsp" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -43,39 +36,7 @@
         </style>
     </head>
     <body>
-        <!-- Header -->
-        <header>
-            <nav>
-                <ul>
-                    <li><a href="index.jsp" class="logo">Cab Booking</a></li>
-
-                    <% if (userRole.equals("admin")) { %>
-                    <li><a href="admin_home.jsp">Home</a></li>
-                    <li><a href="vehicle-registration.jsp">Vehicle Registration</a></li>
-                    <li><a href="driver_registration.jsp">Driver Registration</a></li>
-                    <li><a href="view_bookings.jsp">All Bookings</a></li>
-                    <li><a href="view_customers.jsp">All Customers</a></li>
-                    <li><a href="logout.jsp">Logout</a></li>
-                        <% } else if (userRole.equals("driver")) { %>
-                    <li><a href="index.jsp">Home</a></li>
-                    <li><a href="driver_dashboard.jsp">Driver Dashboard</a></li>
-                    <li><a href="view_bookings.jsp">View Bookings</a></li>
-                        <% } else if (userRole.equals("customer")) { %>
-                    <li><a href="index.jsp">Home</a></li>
-                    <li><a href="AddBookings.jsp">Book a Cab</a></li>
-                    <li><a href="my_bookings.jsp">My Bookings</a></li>
-                        <% } else { %>
-                    <li><a href="login.jsp">Login</a></li>
-                    <li><a href="CustomerRegistrationJSP.jsp">Register</a></li>
-                        <% } %>
-                    <li><a href="help.jsp">Help</a></li>
-                        <% if (!userRole.equals("guest")) { %>
-                    <li><a href="logout.jsp">Logout</a></li>
-                        <% }%>
-                </ul>
-            </nav>
-        </header>
-
+        
         <!-- Main Content -->
         <main>
             <h1>Register a New Customer</h1>
@@ -87,7 +48,7 @@
 
                     <!-- Contact Details and Address Box -->
                     <tr>
-                        <td colspan="2"><h2>Contact Details</h2></td>
+                        <td colspan="2"><h2>Customer Details</h2></td>
                     </tr>
                     <tr>
                         <td><label for="name">Name:</label></td>
@@ -126,7 +87,7 @@
 
                     <!-- User Credentials Box -->
                     <tr>
-                        <td colspan="2"><h2>Customer Details</h2></td>
+                        <td colspan="2"><h2>Customer Credentials</h2></td>
                     </tr>
                     <tr>
                         <td><label for="username">Username:</label></td>
@@ -275,6 +236,7 @@
                             messageDiv.textContent = "Registration successful!";
                             messageDiv.className = "message success";
                             messageDiv.style.display = 'block';
+                             alert("Customer registration successful!");
                             setTimeout(() => {
                                 document.getElementById("customerForm").reset();
                                 messageDiv.style.display = 'none';
@@ -283,6 +245,7 @@
                             messageDiv.textContent = "Registration failed.";
                             messageDiv.className = "message error";
                             messageDiv.style.display = 'block';
+                            alert("Customer registration failed. Please try again.");
                         }
                     } catch (error) {
                         messageDiv.textContent = "Error connecting to the server.";

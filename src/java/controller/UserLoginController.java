@@ -62,9 +62,9 @@ public class UserLoginController {
     }
 
     @PUT
-    @Path("/update/{id}")
-    public Response updateUser(@PathParam("id") int id, UserLogin user) {
-        user.setId(id);
+    @Path("/update/{username}")
+    public Response updateUser(@PathParam("useranme") String useranme, UserLogin user) {
+        user.setUsername(useranme);
         boolean success = userService.updateUser(user);
         Map<String, Object> response = new HashMap<>();
 
