@@ -21,7 +21,7 @@ public class Schedule {
     private String date;
     private String time;
 
-    // Getters and Setters
+   
     public int getId() {
         return id;
     }

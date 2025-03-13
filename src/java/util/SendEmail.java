@@ -5,9 +5,7 @@ import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-/**
- * Utility class for sending emails.
- */
+
 public class SendEmail {
 
     private static final String FROM_EMAIL = "no.reply.megacity.cabservice@gmail.com";
@@ -15,13 +13,6 @@ public class SendEmail {
     private static final String SMTP_HOST = "smtp.gmail.com";
     private static final String SMTP_PORT = "465";
 
-    /**
-     * Sends an email with the specified subject and message.
-     *
-     * @param toEmail Recipient's email address
-     * @param subject Email subject
-     * @param messageBody Email message body
-     */
     public static void sendEmail(String toEmail, String subject, String messageBody) {
         Properties props = new Properties();
         props.put("mail.smtp.host", SMTP_HOST);
@@ -51,12 +42,6 @@ public class SendEmail {
         }
     }
 
-    /**
-     * Sends a welcome email to a new driver.
-     *
-     * @param toEmail Recipient's email
-     * @param driverName Driver's name
-     */
     public static void sendWelcomeEmail(String toEmail, String driverName) {
         String subject = "Welcome to Mega City Cab Service!";
         String message = "Dear " + driverName + ",\n\n"
@@ -69,13 +54,6 @@ public class SendEmail {
         sendEmail(toEmail, subject, message);
     }
 
-    /**
-     * Sends an assignment email to a driver.
-     *
-     * @param toEmail Recipient's email
-     * @param driverName Driver's name
-     * @param vehicleNo Assigned vehicle number
-     */
     public static void sendAssignmentEmail(String toEmail, String driverName, String vehicleNo) {
         String subject = "Vehicle Assignment Notification";
         String message = "Dear " + driverName + ",\n\n"
@@ -91,15 +69,6 @@ public class SendEmail {
         sendEmail(toEmail, subject, message);
     }
 
-    /**
-     * Sends an email informing a driver that their assigned vehicle has been
-     * changed.
-     *
-     * @param toEmail Recipient's email
-     * @param driverName Driver's name
-     * @param oldVehicleNo Previous vehicle number
-     * @param newVehicleNo New vehicle number
-     */
     public static void sendVehicleChangeEmail(String toEmail, String driverName, String newVehicleNo) {
         String subject = "Vehicle Assignment Updated";
         String message = "Dear " + driverName + ",\n\n"
@@ -116,19 +85,6 @@ public class SendEmail {
         sendEmail(toEmail, subject, message);
     }
 
-    /**
-     * Sends a booking confirmation email to a customer with all booking
-     * details.
-     *
-     * @param toEmail Customer's email address
-     * @param customerName Customer's name
-     * @param bookingDate Date of the booking
-     * @param pickupLocation Pickup location
-     * @param dropoffLocation Drop-off location
-     * @param vehicleType Vehicle type booked
-     * @param fare Total fare amount
-     * @param bookingId Unique booking ID
-     */
     public static void sendBookingConfirmationEmail(String toEmail, String customerName,
             String bookingDate, String pickupLocation, String dropoffLocation,
             double distance, double fare, String bookingId) {

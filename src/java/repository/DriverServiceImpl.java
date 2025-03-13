@@ -46,8 +46,8 @@ public class DriverServiceImpl implements DriverService {
                         rs.getString("gender"),
                         rs.getBoolean("isDelete"),
                         rs.getBoolean("isAvailable"),
-                        rs.getString("email"), // Added email field
-                        rs.getString("username") // Added username field
+                        rs.getString("email"),
+                        rs.getString("username") 
                 ));
             }
         } catch (SQLException e) {
@@ -69,7 +69,7 @@ public class DriverServiceImpl implements DriverService {
             stmt.setString(6, driver.getAddressLine2());
             stmt.setString(7, driver.getGender());
             stmt.setBoolean(8, driver.isDelete());
-            // No need to set `isAvailable` since it's already `1` in the query.
+            
             stmt.setString(9, driver.getEmail());
             stmt.setString(10, driver.getUsername());
 
@@ -105,7 +105,7 @@ public class DriverServiceImpl implements DriverService {
             e.printStackTrace();
         }
 
-        return null; // Return null if the driver is not found
+        return null; 
     }
 
     @Override
@@ -126,8 +126,8 @@ public class DriverServiceImpl implements DriverService {
                             rs.getString("gender"),
                             rs.getBoolean("isDelete"),
                             rs.getBoolean("isAvailable"),
-                            rs.getString("email"), // Get email field
-                            rs.getString("username") // Get username field
+                            rs.getString("email"), 
+                            rs.getString("username") 
                     );
                 }
             }
@@ -148,8 +148,8 @@ public class DriverServiceImpl implements DriverService {
             stmt.setString(5, driver.getAddressLine1());
             stmt.setString(6, driver.getAddressLine2());
             stmt.setString(7, driver.getGender());
-            stmt.setString(8, driver.getEmail());  // Set email field
-            stmt.setString(9, driver.getUsername());  // Set username field
+            stmt.setString(8, driver.getEmail()); 
+            stmt.setString(9, driver.getUsername()); 
             stmt.setInt(10, driver.getId());
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -204,13 +204,13 @@ public class DriverServiceImpl implements DriverService {
             pstmt.setString(1, driverUsername);
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
-                    return rs.getString("email"); // Return the email if found
+                    return rs.getString("email"); 
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null; // Return null if not found
+        return null;
     }
 
     public String getDriverName(String driverUsername) {
@@ -220,13 +220,13 @@ public class DriverServiceImpl implements DriverService {
             pstmt.setString(1, driverUsername);
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
-                    return rs.getString("name"); // Return the name if found
+                    return rs.getString("name");
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null; // Return null if not found
+        return null; 
     }
 
 }

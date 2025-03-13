@@ -47,7 +47,7 @@ public class Driver {
         this.username = username;
     }
 
-    // Getters and Setters
+   
     public int getId() {
         return id;
     }
@@ -144,7 +144,7 @@ public class Driver {
         this.username = username;
     }
 
-    // toString method
+   
     @Override
     public String toString() {
         return "Driver{"

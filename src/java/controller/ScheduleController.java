@@ -24,7 +24,7 @@ public class ScheduleController {
 
     private final ScheduleServiceImpl scheduleService = new ScheduleServiceImpl();
 
-    // Get all schedules
+ 
     @GET
     @Path("/getAll")
     public Response getAllSchedules() {
@@ -32,7 +32,7 @@ public class ScheduleController {
         return Response.ok(schedules, MediaType.APPLICATION_JSON).build();
     }
 
-    // Add a new schedule
+ 
     @POST
     @Path("/add")
     public Response addSchedule(Schedule schedule) {
@@ -50,7 +50,7 @@ public class ScheduleController {
         }
     }
 
-    // Get a schedule by ID
+  
     @GET
     @Path("/{id}")
     public Response getScheduleById(@PathParam("id") int id) {
@@ -62,7 +62,7 @@ public class ScheduleController {
         }
     }
 
-    // In ScheduleResource.java
+ 
     @GET
     @Path("/username/{username}")
     public Response getSchedulesByUsername(@PathParam("username") String username) {
@@ -74,7 +74,7 @@ public class ScheduleController {
         }
     }
 
-    // Update a schedule
+ 
     @PUT
     @Path("/update/{id}")
     public Response updateSchedule(@PathParam("id") int id, Schedule schedule) {
@@ -87,7 +87,7 @@ public class ScheduleController {
         }
     }
 
-    // Delete a schedule (soft delete)
+    
     @DELETE
     @Path("/delete/{id}")
     public Response deleteSchedule(@PathParam("id") int id) {

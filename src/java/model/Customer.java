@@ -22,7 +22,7 @@ public class Customer {
     private boolean isBook;
     private boolean isDelete;
 
-    // Getters and Setters
+   
     public int getId() {
         return id;
     }

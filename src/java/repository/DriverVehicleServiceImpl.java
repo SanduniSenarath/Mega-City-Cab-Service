@@ -25,11 +25,10 @@ public class DriverVehicleServiceImpl implements DriverVehicleService {
         String updateVehicleQuery = "UPDATE vehicle SET isAvailable = 0 WHERE vehicle_number = ?";
 
         try (Connection conn = DBUtil.getConnection()) {
-            conn.setAutoCommit(false); // Start transaction
-
+            conn.setAutoCommit(false); 
             try (PreparedStatement pstmt1 = conn.prepareStatement(insertQuery); PreparedStatement pstmt2 = conn.prepareStatement(updateDriverQuery); PreparedStatement pstmt3 = conn.prepareStatement(updateVehicleQuery)) {
 
-                // Insert into drivervehicle table
+               
                 pstmt1.setInt(1, driverVehicle.getEmpSchNo());
                 pstmt1.setString(2, driverVehicle.getVehicleNo());
                 pstmt1.setString(3, driverVehicle.getDriverUsername());
@@ -37,25 +36,25 @@ public class DriverVehicleServiceImpl implements DriverVehicleService {
                 int insertResult = pstmt1.executeUpdate();
 
                 if (insertResult > 0) {
-                    // Update driver availability
+                    
                     pstmt2.setString(1, driverVehicle.getDriverUsername());
                     int updateDriverResult = pstmt2.executeUpdate();
 
-                    // Update vehicle availability
+                    
                     pstmt3.setString(1, driverVehicle.getVehicleNo());
                     int updateVehicleResult = pstmt3.executeUpdate();
 
-                    // Ensure both updates were successful
+                    
                     if (updateDriverResult > 0 && updateVehicleResult > 0) {
-                        conn.commit(); // Commit transaction
+                        conn.commit(); 
 
-                        // Fetch email and name for notification
+                        
                         DriverServiceImpl driverService = new DriverServiceImpl();
                         String driverEmail = driverService.getDriverEmail(driverVehicle.getDriverUsername());
-                        String driverName = driverService.getDriverName(driverVehicle.getDriverUsername()); // Fetch driver name
-                        String vehicleNo = driverVehicle.getVehicleNo(); // Get vehicle number
+                        String driverName = driverService.getDriverName(driverVehicle.getDriverUsername()); 
+                        String vehicleNo = driverVehicle.getVehicleNo(); 
 
-                        // Send assignment email
+                        
                         if (driverEmail != null && driverName != null) {
                             SendEmail.sendAssignmentEmail(driverEmail, driverName, vehicleNo);
                         } else {
@@ -64,12 +63,12 @@ public class DriverVehicleServiceImpl implements DriverVehicleService {
 
                         return true;
                     } else {
-                        conn.rollback(); // Rollback if updates fail
+                        conn.rollback(); 
                         System.err.println("Failed to update driver or vehicle availability.");
                         return false;
                     }
                 } else {
-                    conn.rollback(); // Rollback if insert fails
+                    conn.rollback(); 
                     System.err.println("Failed to insert into drivervehicle table.");
                     return false;
                 }
@@ -129,9 +128,9 @@ public class DriverVehicleServiceImpl implements DriverVehicleService {
 
         try {
             conn = DBUtil.getConnection();
-            conn.setAutoCommit(false); // Start transaction
+            conn.setAutoCommit(false); 
 
-            // Step 1: Get the current driver username for the given empSchNo
+          
             String getCurrentDriverQuery = "SELECT driverUsername FROM drivervehicle WHERE empSchNo = ?";
             pstmt1 = conn.prepareStatement(getCurrentDriverQuery);
             pstmt1.setInt(1, driverVehicle.getEmpSchNo());
@@ -142,7 +141,7 @@ public class DriverVehicleServiceImpl implements DriverVehicleService {
                 oldDriverUsername = rs.getString("driverUsername");
             }
 
-            // Step 2: Update the drivervehicle record
+           
             String updateVehicleQuery = "UPDATE drivervehicle SET vehicleno = ?, driverUsername = ?, isavailable = ? WHERE empSchNo = ?";
             pstmt2 = conn.prepareStatement(updateVehicleQuery);
             pstmt2.setString(1, driverVehicle.getVehicleNo());
@@ -151,13 +150,13 @@ public class DriverVehicleServiceImpl implements DriverVehicleService {
             pstmt2.setInt(4, driverVehicle.getEmpSchNo());
             int updateCount = pstmt2.executeUpdate();
 
-            // Step 3: Set the new driver's availability to false
+          
             String updateNewDriverQuery = "UPDATE driver SET isAvailable = 0 WHERE username = ?";
             pstmt3 = conn.prepareStatement(updateNewDriverQuery);
             pstmt3.setString(1, driverVehicle.getDriverUsername());
             pstmt3.executeUpdate();
 
-            // Step 4: Set the old driver's availability to true if it exists
+           
             if (oldDriverUsername != null) {
                 String updateOldDriverQuery = "UPDATE driver SET isAvailable = 1 WHERE username = ?";
                 pstmt3 = conn.prepareStatement(updateOldDriverQuery);
@@ -167,23 +166,23 @@ public class DriverVehicleServiceImpl implements DriverVehicleService {
 
             DriverServiceImpl driverService = new DriverServiceImpl();
             String driverEmail = driverService.getDriverEmail(driverVehicle.getDriverUsername());
-            String driverName = driverService.getDriverName(driverVehicle.getDriverUsername()); // Fetch driver name
-            String vehicleNo = driverVehicle.getVehicleNo(); // Get vehicle number
+            String driverName = driverService.getDriverName(driverVehicle.getDriverUsername()); 
+            String vehicleNo = driverVehicle.getVehicleNo(); 
 
-            // Send assignment email
+            
             if (driverEmail != null && driverName != null) {
                 SendEmail.sendAssignmentEmail(driverEmail, driverName, vehicleNo);
             } else {
                 System.out.println("Email or name not found for driver: " + driverVehicle.getDriverUsername());
             }
 
-            conn.commit(); // Commit transaction
+            conn.commit(); 
             return updateCount > 0;
         } catch (SQLException e) {
             e.printStackTrace();
             if (conn != null) {
                 try {
-                    conn.rollback(); // Rollback in case of an error
+                    conn.rollback(); 
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
@@ -227,7 +226,7 @@ public class DriverVehicleServiceImpl implements DriverVehicleService {
     @Override
     public List<DriverVehicle> getAllAvailableDriverVehicles() {
         List<DriverVehicle> list = new ArrayList<>();
-        String query = "SELECT * FROM drivervehicle WHERE isavailable = 1"; // Fetch only available vehicles
+        String query = "SELECT * FROM drivervehicle WHERE isavailable = 1";
 
         try (Connection conn = DBUtil.getConnection(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(query)) {
             while (rs.next()) {

@@ -23,7 +23,7 @@ public class Vehicle {
     private String brandName;
     private boolean isDelete;
 
-    // Constructor
+    
     public Vehicle() {
     }
 

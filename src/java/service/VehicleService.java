@@ -13,18 +13,18 @@ import model.Vehicle;
  */
 public interface VehicleService {
 
-    // Retrieve all active vehicles (where isDelete = 0)
+    
     List<Vehicle> getAllVehicles();
 
-    // Add a new vehicle
+    
     boolean addVehicle(Vehicle vehicle);
 
-    // Retrieve a vehicle by ID (excluding deleted ones)
+   
     Vehicle getVehicleById(int id);
 
-    // Update vehicle details
+    
     boolean updateVehicle(Vehicle vehicle);
 
-    // Soft delete a vehicle (set isDelete = 1)
+    
     boolean deleteVehicle(int id);
 }

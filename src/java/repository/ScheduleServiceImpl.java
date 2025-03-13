@@ -51,29 +51,21 @@ public class ScheduleServiceImpl implements ScheduleService {
             int result = stmt.executeUpdate();
 
             if (result > 0) {
-                // Get generated booking ID
-                int bookingId = -1;
-                try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
-                    if (generatedKeys.next()) {
-                        bookingId = generatedKeys.getInt(1);
-                    }
-                }
-
-                // Fetch customer details dynamically
+                
                 CustomerService customerService = new CustomerServiceImpl();
                 Customer customer = customerService.getCustomerByUsername(schedule.getUsername());
 
                 if (customer != null) {
-                    // Send email with dynamic data
+                    
                     SendEmail.sendBookingConfirmationEmail(
                             customer.getEmail(),
                             customer.getName(),
-                            schedule.getDate(), // Dynamic Booking date
-                            schedule.getStartLocation(), // Dynamic Pickup location
-                            schedule.getEndLocation(), // Dynamic Drop-off location
-                            schedule.getDistance(), // You may replace this with a dynamic vehicle type
-                            schedule.getAmount(), // Dynamic Fare amount
-                            schedule.getBookNumber() // Generated Booking ID
+                            schedule.getDate(), 
+                            schedule.getStartLocation(), 
+                            schedule.getEndLocation(), 
+                            schedule.getDistance(), 
+                            schedule.getAmount(), 
+                            schedule.getBookNumber() 
                     );
                 }
                 return true;
@@ -171,7 +163,6 @@ public class ScheduleServiceImpl implements ScheduleService {
         return schedule;
     }
 
-    // In ScheduleServiceImpl.java
     @Override
     public List<Schedule> getSchedulesByUsername(String username) {
         List<Schedule> schedules = new ArrayList<>();
